@@ -612,7 +612,7 @@ private:
 	CNetworkVar( int, m_nForceTauntCam );
 	CNetworkVar( bool, m_bTyping );
 
-	CAttributeManager	m_AttributeManager;
+	CNetworkVarEmbedded( CAttributeManager, m_AttributeManager );
 
 	COutputEvent		m_OnDeath;
 
