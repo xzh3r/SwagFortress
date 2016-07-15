@@ -25,25 +25,17 @@ class CTFSMG : public CTFWeaponBaseGun
 public:
 
 	DECLARE_CLASS( CTFSMG, CTFWeaponBaseGun );
-	DECLARE_NETWORKCLASS(); 
+	DECLARE_NETWORKCLASS();
 	DECLARE_PREDICTABLE();
 
 	CTFSMG() {}
 	~CTFSMG() {}
 
-	virtual int		GetWeaponID( void ) const			{ return TF_WEAPON_SMG; }
+	virtual int		GetWeaponID( void ) const { return TF_WEAPON_SMG; }
 
 private:
 
 	CTFSMG( const CTFSMG & ) {}
-};
-
-class CTFSMG_Primary : public CTFSMG
-{
-public:
-	DECLARE_CLASS( CTFSMG_Primary, CTFSMG );
-	DECLARE_NETWORKCLASS();
-	DECLARE_PREDICTABLE();
 };
 
 #endif // TF_WEAPON_SMG_H
