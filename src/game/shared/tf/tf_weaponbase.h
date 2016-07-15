@@ -144,10 +144,6 @@ class CTFWeaponBase : public CBaseCombatWeapon
 	virtual void UpdateViewModel( void );
 #endif
 
-#ifdef DM_WEAPON_BUCKET
-	virtual int	 GetSlot( void ) const;
-	virtual int	 GetPosition( void ) const;
-#endif
 	virtual void Drop( const Vector &vecVelocity );
 	virtual bool CanHolster( void ) const;
 	virtual bool Holster( CBaseCombatWeapon *pSwitchingTo = NULL );

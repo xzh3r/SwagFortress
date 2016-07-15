@@ -107,7 +107,6 @@ bool CTFDroppedWeapon::MyTouch( CBasePlayer *pPlayer )
 		// Don't remove weapon while a player is standing over it.
 		SetThink( NULL );
 
-#ifndef DM_WEAPON_BUCKET
 		int iSlot = m_Item.GetStaticData()->GetLoadoutSlot( TF_CLASS_MERCENARY );
 		CTFWeaponBase *pWeapon = (CTFWeaponBase *)pTFPlayer->GetEntityForLoadoutSlot( iSlot );
 
@@ -132,14 +131,6 @@ bool CTFDroppedWeapon::MyTouch( CBasePlayer *pPlayer )
 				pTFPlayer->m_Shared.SetDesiredWeaponIndex( m_Item.GetItemDefIndex() );
 			}
 		}
-#else
-		CTFWeaponBase *pWeapon = pTFPlayer->Weapon_OwnsThisID( m_nWeaponID );
-		if ( pWeapon )
-		{
-			if ( pTFPlayer->GiveAmmo( 999, GetTFWeaponInfo( m_nWeaponID )->iAmmoType ) );
-			bSuccess = true;
-		}
-#endif
 
 		if ( !pWeapon )
 		{

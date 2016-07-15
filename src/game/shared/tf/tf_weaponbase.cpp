@@ -547,30 +547,6 @@ const char *CTFWeaponBase::GetWorldModel( void ) const
 	return BaseClass::GetWorldModel();
 }
 
-#ifdef DM_WEAPON_BUCKET
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-int CTFWeaponBase::GetSlot( void ) const
-{
-	if ( TFGameRules()->IsDeathmatch() )
-		return GetTFWpnData().m_iSlotDM;
-
-	return GetWpnData().iSlot;
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-int CTFWeaponBase::GetPosition( void ) const
-{
-	if ( TFGameRules()->IsDeathmatch() )
-		return GetTFWpnData().m_iPositionDM;
-
-	return GetWpnData().iPosition;
-}
-#endif
-
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------

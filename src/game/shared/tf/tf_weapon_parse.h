@@ -118,12 +118,6 @@ public:
 	// DM specific things
 	int		m_iMaxAmmo;
 	int		m_iSpawnAmmo;
-
-#ifdef DM_WEAPON_BUCKET
-	// DM Weapon menu slot overrides
-	int		m_iSlotDM;
-	int		m_iPositionDM;
-#endif
 };
 
 #endif // TF_WEAPON_PARSE_H
