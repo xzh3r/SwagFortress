@@ -2977,7 +2977,7 @@ void CTFPlayer::FireBullet( const FireBulletsInfo_t &info, bool bDoEffects, int 
 							pszTracerEffect = szTracerEffect;
 						}
 
-						FX_TFTracer( pszTracerEffect, vecStart, vecEnd, entindex(), true );
+						FX_TFTracer( pszTracerEffect, vecStart, trace.endpos, entindex(), true );
 					}
 				}
 				else

@@ -220,15 +220,7 @@ CON_COMMAND_F( bot, "Add a bot.", FCVAR_CHEAT )
 
 			vecColor /= 255.0f;
 
-			pVal = args.FindArg( "-respawn" );
-			if ( pVal )
-			{
-				iRespawnParticle = atoi( pVal );
-			}
-			else
-			{
-				iRespawnParticle = RandomInt( 1, 42 );
-			}
+			iRespawnParticle = args.FindArgInt( "-respawn", RandomInt( 1, 42 ) );
 		}
 
 		BotPutInServer( bFrozen, iTeam, iClass, pName, vecColor, iRespawnParticle );

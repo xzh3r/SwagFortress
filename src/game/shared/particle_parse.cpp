@@ -18,11 +18,6 @@
 #include "networkstringtable_clientdll.h"
 #endif
 
-#if defined ( TF_CLASSIC_CLIENT )
-#include "tf_gamerules.h"
-#include "c_tf_playerresource.h"
-#endif
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
