@@ -17,6 +17,7 @@
 #include "in_buttons.h"
 #include "tf_viewmodel.h"
 #include "econ_wearable.h"
+#include "tf_fx_shared.h"
 
 // Client specific.
 #ifdef CLIENT_DLL
@@ -2976,7 +2977,7 @@ void CTFPlayer::FireBullet( const FireBulletsInfo_t &info, bool bDoEffects, int 
 							pszTracerEffect = szTracerEffect;
 						}
 
-						UTIL_ParticleTracer( pszTracerEffect, vecStart, trace.endpos, entindex(), iUseAttachment, true );
+						FX_TFTracer( pszTracerEffect, vecStart, vecEnd, entindex(), true );
 					}
 				}
 				else
