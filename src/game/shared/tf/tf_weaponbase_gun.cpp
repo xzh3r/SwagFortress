@@ -503,7 +503,7 @@ CBaseEntity *CTFWeaponBaseGun::FireRocket( CTFPlayer *pPlayer, int iType )
 
 	bool bUseHitboxes = ( iType == TF_PROJECTILE_ARROW || iType == TF_PROJECTILE_FESTITIVE_ARROW );
 
-	GetProjectileFireSetup( pPlayer, vecOffset, &vecSrc, &angForward, bUseHitboxes );
+	GetProjectileFireSetup( pPlayer, vecOffset, &vecSrc, &angForward, false, bUseHitboxes );
 
 	CTFBaseRocket *pProjectile = NULL;
 
