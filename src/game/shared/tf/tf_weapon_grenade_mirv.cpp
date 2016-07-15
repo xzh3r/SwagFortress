@@ -161,6 +161,7 @@ void CTFGrenadeMirvProjectile::Explode( trace_t *pTrace, int bitsDamageType )
 		CTFGrenadeMirvBomb *pBomb = CTFGrenadeMirvBomb::Create( vecSrc, GetAbsAngles(), vecVelocity, vecZero, pPlayer, flTime );
 		pBomb->SetDamage( GetDamage() * 0.5f );
 		pBomb->SetDamageRadius( GetDamageRadius() );
+		pBomb->SetCritical( m_bCritical );
 	}
 }
 
