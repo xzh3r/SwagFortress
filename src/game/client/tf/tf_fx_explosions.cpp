@@ -30,6 +30,9 @@ void TFExplosionCallback( const Vector &vecOrigin, const Vector &vecNormal, int 
 	case TF_WEAPON_GRENADE_DEMOMAN:
 		pWeaponInfo = GetTFWeaponInfo( TF_WEAPON_PIPEBOMBLAUNCHER );
 		break;
+	case TF_WEAPON_GRENADE_MIRVBOMB:
+		pWeaponInfo = GetTFWeaponInfo( TF_WEAPON_GRENADE_MIRV );
+		break;
 	default:
 		pWeaponInfo = GetTFWeaponInfo( iWeaponID );
 		break;
