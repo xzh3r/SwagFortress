@@ -53,6 +53,7 @@ CTFWeaponInfo::CTFWeaponInfo()
 	m_szExplosionEffect_Crit[0] = '\0';
 	m_szExplosionPlayerEffect_Crit[0] = '\0';
 	m_szExplosionWaterEffect_Crit[0] = '\0';
+	m_bHasTeamColoredExplosions = false;
 
 	m_iWeaponType = TF_WPN_TYPE_PRIMARY;
 
@@ -231,6 +232,8 @@ void CTFWeaponInfo::Parse( KeyValues *pKeyValuesData, const char *szWeaponName )
 	{
 		Q_strncpy( m_szExplosionWaterEffect_Crit, pszEffect, sizeof( m_szExplosionWaterEffect_Crit ) );
 	}
+
+	m_bHasTeamColoredExplosions = pKeyValuesData->GetBool( "HasTeamColoredExplosions" );
 
 	m_bDontDrop = ( pKeyValuesData->GetInt( "DontDrop", 0 ) > 0 );
 

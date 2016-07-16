@@ -60,10 +60,9 @@ CTFWeaponDisplacer::CTFWeaponDisplacer()
 //-----------------------------------------------------------------------------
 void CTFWeaponDisplacer::Precache( void )
 {
-	// TEMP!!!
-	PrecacheTeamParticles( "teleported_%s" );
-	PrecacheTeamParticles( "teleportedin_%s" );
-	PrecacheTeamParticles( "player_sparkles_%s" );
+#ifdef GAME_DLL
+	PrecacheParticleSystem( "mlg_chargeup" );
+#endif
 
 	BaseClass::Precache();
 }
@@ -282,3 +281,36 @@ void CTFWeaponDisplacer::FinishTeleport( void )
 	m_bLockedOn = false;
 	m_flNextSecondaryAttack = gpGlobals->curtime + m_pWeaponInfo->GetWeaponData( m_iWeaponMode ).m_flTimeFireDelay;
 }
+
+#ifdef CLIENT_DLL
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
+void CTFWeaponDisplacer::PreDataUpdate( DataUpdateType_t updateType )
+{
+	BaseClass::PreDataUpdate( updateType );
+
+	m_bWasChargingBlast = ( m_flBlastTime != 0.0f );
+	m_bWasChargingTeleport = ( m_flTeleportTime != 0.0f );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
+void CTFWeaponDisplacer::OnDataChanged( DataUpdateType_t updateType )
+{
+	BaseClass::OnDataChanged( updateType );
+
+	if ( !m_bWasChargingBlast && m_flBlastTime != 0.0f )
+	{
+		CreateWarmupEffect( false );
+	}
+}
+
+void CTFWeaponDisplacer::CreateWarmupEffect( bool bSecondary )
+{
+	C_BaseEntity *pEntity = GetWeaponForEffect();
+	pEntity->ParticleProp()->Create( "mlg_chargeup", PATTACH_POINT_FOLLOW, "muzzle" );
+}
+
+#endif
