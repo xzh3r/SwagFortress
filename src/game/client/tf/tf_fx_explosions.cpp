@@ -68,6 +68,16 @@ void TFExplosionCallback( const Vector &vecOrigin, const Vector &vecNormal, int 
 		bInAir = false;
 	}
 
+	// Cheating here but I don't want to add another bunch of keyvalues just for Displacer.
+	if ( iWeaponID == TF_WEAPON_DISPLACER_BOMB )
+	{
+		bIsWater = true;
+	}
+	else if ( iWeaponID == TF_WEAPON_DISPLACER )
+	{
+		bIsWater = false;
+	}
+
 	// Base explosion effect and sound.
 	const char *pszFormat = "explosion";
 	const char *pszSound = "BaseExplosionEffect.Sound";
@@ -76,8 +86,7 @@ void TFExplosionCallback( const Vector &vecOrigin, const Vector &vecNormal, int 
 	if ( pWeaponInfo )
 	{
 		// Explosions.
-		// Cheating here but this is the best way to get custom explosions on bomblets.
-		if ( bIsWater || iWeaponID == TF_WEAPON_DISPLACER_BOMB )
+		if ( bIsWater )
 		{
 			if ( bCrit && pWeaponInfo->m_szExplosionWaterEffect_Crit[0] )
 			{
