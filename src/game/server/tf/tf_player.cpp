@@ -1770,16 +1770,18 @@ bool CTFPlayer::SelectSpawnSpot( const char *pEntClassName, CBaseEntity* &pSpot 
 				if ( bIgnorePlayers && TFGameRules()->IsDeathmatch() )
 				{
 					// We're spawning on a busy spawn point so kill off anyone occupying it.
-					edict_t	*edPlayer;
-					edPlayer = edict();
-					CBaseEntity *ent = NULL;
-					for ( CEntitySphereQuery sphere( pSpot->GetAbsOrigin(), 128 ); ( ent = sphere.GetCurrentEntity() ) != NULL; sphere.NextEntity() )
+					CBaseEntity *pList[MAX_PLAYERS];
+					Vector vecMins = pSpot->GetAbsOrigin() + VEC_HULL_MIN;
+					Vector vecMaxs = pSpot->GetAbsOrigin() + VEC_HULL_MAX;
+					int count = UTIL_EntitiesInBox( pList, MAX_PLAYERS, vecMins, vecMaxs, FL_CLIENT );
+
+					for ( int i = 0; i < count; i++ )
 					{
-						// if ent is a client, telefrag 'em (unless they are ourselves)
-						if ( ent->IsPlayer() && !( ent->edict() == edPlayer ) )
+						CBaseEntity *pEntity = pList[i];
+						if ( pEntity != this )
 						{
 							CTakeDamageInfo info( this, this, 1000, DMG_CRUSH, TF_DMG_TELEFRAG );
-							ent->TakeDamage( info );
+							pEntity->TakeDamage( info );
 						}
 					}
 				}
@@ -1904,14 +1906,18 @@ bool CTFPlayer::SelectFurthestSpawnSpot( const char *pEntClassName, CBaseEntity*
 		if ( bTelefrag )
 		{
 			// Kill off anyone occupying this spot if it's somehow busy.
-			CBaseEntity *ent = NULL;
-			for ( CEntitySphereQuery sphere( pFurthest->GetAbsOrigin(), 128 ); ( ent = sphere.GetCurrentEntity() ) != NULL; sphere.NextEntity() )
+			CBaseEntity *pList[MAX_PLAYERS];
+			Vector vecMins = pSpot->GetAbsOrigin() + VEC_HULL_MIN;
+			Vector vecMaxs = pSpot->GetAbsOrigin() + VEC_HULL_MAX;
+			int count = UTIL_EntitiesInBox( pList, MAX_PLAYERS, vecMins, vecMaxs, FL_CLIENT );
+
+			for ( int i = 0; i < count; i++ )
 			{
-				// if ent is a client, telefrag 'em (unless they are ourselves)
-				if ( ent->IsPlayer() && ent != this && ( !InSameTeam( ent ) || TFGameRules()->IsDeathmatch() ) )
+				CBaseEntity *pEntity = pList[i];
+				if ( pEntity != this && ( !InSameTeam( pEntity ) || TFGameRules()->IsDeathmatch() ) )
 				{
 					CTakeDamageInfo info( this, this, 1000, DMG_CRUSH, TF_DMG_TELEFRAG );
-					ent->TakeDamage( info );
+					pEntity->TakeDamage( info );
 				}
 			}
 		}

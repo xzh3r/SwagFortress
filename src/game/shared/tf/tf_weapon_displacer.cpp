@@ -241,14 +241,19 @@ void CTFWeaponDisplacer::FinishTeleport( void )
 			// Gotta remove prediction filtering since this code runs on server side only.
 			CDisablePredictionFiltering *pDisabler = new CDisablePredictionFiltering();
 
-			CBaseEntity *ent = NULL;
-			for ( CEntitySphereQuery sphere( m_hTeleportSpot->GetAbsOrigin(), 128 ); ( ent = sphere.GetCurrentEntity() ) != NULL; sphere.NextEntity() )
+			// Telelefrag anyone in the way.
+			CBaseEntity *pList[MAX_PLAYERS];
+			Vector vecMins = m_hTeleportSpot->GetAbsOrigin() + VEC_HULL_MIN_SCALED( pPlayer );
+			Vector vecMaxs = m_hTeleportSpot->GetAbsOrigin() + VEC_HULL_MAX_SCALED( pPlayer );
+			int count = UTIL_EntitiesInBox( pList, MAX_PLAYERS, vecMins, vecMaxs, FL_CLIENT );
+
+			for ( int i = 0; i < count; i++ )
 			{
-				// if ent is a client, telefrag 'em (unless they are ourselves)
-				if ( ent->IsPlayer() && ent != pPlayer && ( !ent->InSameTeam( pPlayer ) || TFGameRules()->IsDeathmatch() ) )
+				CBaseEntity *pEntity = pList[i];
+				if ( pEntity != this && ( !InSameTeam( pEntity ) || TFGameRules()->IsDeathmatch() ) )
 				{
-					CTakeDamageInfo info( pPlayer, pPlayer, 1000, DMG_CRUSH, TF_DMG_TELEFRAG );
-					ent->TakeDamage( info );
+					CTakeDamageInfo info( this, this, 1000, DMG_CRUSH, TF_DMG_TELEFRAG );
+					pEntity->TakeDamage( info );
 				}
 			}
 
