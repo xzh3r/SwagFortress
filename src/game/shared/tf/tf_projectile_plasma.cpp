@@ -97,6 +97,11 @@ void CTFProjectile_Plasma::Explode( trace_t *pTrace, CBaseEntity *pOther )
 		QAngle angles( -45.0f, (float)i * flStep, 0.0f );
 		AngleVectors( angles, &vecDir );
 
+		// Correct the rotation
+		VMatrix matAdjust;
+		MatrixBuildRotation(matAdjust, Vector(0, 0, 1), pTrace->plane.normal);
+		vecDir = matAdjust * vecDir;
+		
 		// Pull it out a bit so it doesn't collide with other bomblets.
 		pBomb->SetAbsOrigin( GetAbsOrigin() + vecDir * 1.0f );
 		pBomb->SetAbsVelocity( vecDir * RandomFloat( 250, 750 ) );
