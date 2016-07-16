@@ -3991,7 +3991,7 @@ int CTFPlayer::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 		return 0;
 
 	// Self-damage modifiers.
-	if ( info.GetAttacker() == this )
+	if ( pAttacker == this )
 	{
 		if ( ( info.GetDamageType() & DMG_BLAST ) && !info.GetDamagedOtherPlayers() )
 		{
@@ -4028,6 +4028,13 @@ int CTFPlayer::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 	{
 		// Start burning if we took ignition damage
 		bIgniting = ( ( info.GetDamageType() & DMG_IGNITE ) && ( GetWaterLevel() < WL_Waist ) );
+
+		if ( !bIgniting )
+		{
+			int iIgniting = 0;
+			CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( pWeapon, iIgniting, set_dmgtype_ignite );
+			bIgniting = ( iIgniting != 0 );
+		}
 
 		// Take damage - round to the nearest integer.
 		m_iHealth -= ( flDamage + 0.5f );
