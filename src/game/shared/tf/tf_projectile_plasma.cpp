@@ -92,9 +92,9 @@ void CTFProjectile_Plasma::Explode( trace_t *pTrace, CBaseEntity *pOther )
 	{
 		CTFProjectile_PlasmaBomblet *pBomb = CTFProjectile_PlasmaBomblet::Create( m_hLauncher.Get(), GetAbsOrigin(), GetAbsAngles(), GetOwnerEntity(), GetScorer() );
 
-		// FIXME: Need to throw them outwards related to impact plane.
+		// Get direction and apply deviation
 		Vector vecDir;
-		QAngle angles( -45.0f, (float)i * flStep, 0.0f );
+		QAngle angles( RandomFloat( -20.f, -70.f ), (float)i * flStep + RandomFloat( -flStep / 2, flStep / 2 ), 0.0f );
 		AngleVectors( angles, &vecDir );
 
 		// Correct the rotation
