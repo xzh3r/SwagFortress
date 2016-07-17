@@ -2520,6 +2520,7 @@ void C_TFPlayer::HandleTaunting( void )
 	if ( ( !m_bWasTaunting || m_flTauntOffTime != 0.0f ) && (
 		m_Shared.InCond( TF_COND_TAUNTING ) ||
 		m_Shared.IsLoser() ||
+		m_Shared.InCond( TF_COND_STUNNED ) ||
 		m_nForceTauntCam || 
 		m_Shared.InCond( TF_COND_HALLOWEEN_BOMB_HEAD ) ||
 		m_Shared.InCond( TF_COND_HALLOWEEN_GIANT ) ||
@@ -2538,7 +2539,8 @@ void C_TFPlayer::HandleTaunting( void )
 
 	if ( m_bWasTaunting && m_flTauntOffTime == 0.0f && (
 		!m_Shared.InCond( TF_COND_TAUNTING ) &&
-		!m_Shared.IsLoser() && 
+		!m_Shared.IsLoser() &&
+		!m_Shared.InCond( TF_COND_STUNNED ) &&
 		!m_nForceTauntCam &&
 		!m_Shared.InCond( TF_COND_PHASE ) &&
 		!m_Shared.InCond( TF_COND_HALLOWEEN_BOMB_HEAD ) &&
@@ -4360,6 +4362,9 @@ int C_TFPlayer::GetNumActivePipebombs( void )
 bool C_TFPlayer::IsAllowedToSwitchWeapons( void )
 {
 	if ( IsWeaponLowered() == true )
+		return false;
+
+	if ( m_Shared.InCond( TF_COND_STUNNED ) )
 		return false;
 
 	return BaseClass::IsAllowedToSwitchWeapons();

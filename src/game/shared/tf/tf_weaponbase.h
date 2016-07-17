@@ -255,6 +255,8 @@ class CTFWeaponBase : public CBaseCombatWeapon
 	virtual float		GetEffectBarProgress( void );
 	virtual const char	*GetEffectLabelText( void ) { return ""; }
 
+	void				OnControlStunned( void );
+
 // Server specific.
 #if !defined( CLIENT_DLL )
 

@@ -1839,6 +1839,15 @@ float CTFWeaponBase::GetEffectBarProgress( void )
 	return 1.0f;
 }
 
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFWeaponBase::OnControlStunned( void )
+{
+	AbortReload();
+	SetWeaponVisible( false );
+}
+
 //=============================================================================
 //
 // TFWeaponBase functions (Server specific).
@@ -2132,6 +2141,9 @@ bool CTFWeaponBase::ShouldDraw( void )
 	{
 		if ( pOwner->m_Shared.IsLoser() )
 			return false;
+
+		if  ( pOwner->m_Shared.InCond( TF_COND_STUNNED ) )
+			return false;
 	}
 
 	return BaseClass::ShouldDraw();
@@ -2243,7 +2255,8 @@ void CTFWeaponBase::OnDataChanged( DataUpdateType_t type )
 	{
 		//And he is NOT taunting
 		if ( pOwner->m_Shared.InCond( TF_COND_TAUNTING ) == false &&
-			pOwner->m_Shared.IsLoser() == false )
+			pOwner->m_Shared.IsLoser() == false &&
+			pOwner->m_Shared.InCond( TF_COND_STUNNED ) == false )
 		{
 			//Then why the hell am I NODRAW?
 			if ( pOwner->GetActiveWeapon() == this && IsEffectActive( EF_NODRAW ) )
