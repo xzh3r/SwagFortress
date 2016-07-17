@@ -2261,7 +2261,7 @@ bool CTFPlayerShared::SetParticleToMercColor( CNewParticleEffect *pParticle )
 {
 	if ( pParticle && TFGameRules() && TFGameRules()->IsDeathmatch() )
 	{
-		pParticle->SetControlPoint( 9, m_pOuter->m_vecPlayerColor );
+		pParticle->SetControlPoint( CUSTOM_COLOR_CP1, m_pOuter->m_vecPlayerColor );
 		return true;
 	}
 

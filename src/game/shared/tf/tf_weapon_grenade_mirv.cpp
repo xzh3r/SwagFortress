@@ -202,7 +202,8 @@ void CTFGrenadeMirvProjectile::OnDataChanged( DataUpdateType_t updateType )
 
 void CTFGrenadeMirvProjectile::CreateTrails( void )
 {
-	const char *pszParticle = ConstructTeamParticle( "MIRV_trail_%s", GetTeamNumber(), false );
+	const char *pszFormat = m_bCritical ? "MIRV_trail_%s_crit" : "MIRV_trail_%s";
+	const char *pszParticle = ConstructTeamParticle( pszFormat, GetTeamNumber(), false );
 	ParticleProp()->Create( pszParticle, PATTACH_ABSORIGIN_FOLLOW );
 }
 

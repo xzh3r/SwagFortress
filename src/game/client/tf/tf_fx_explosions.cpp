@@ -33,6 +33,9 @@ void TFExplosionCallback( const Vector &vecOrigin, const Vector &vecNormal, int 
 	case TF_WEAPON_GRENADE_MIRVBOMB:
 		pWeaponInfo = GetTFWeaponInfo( TF_WEAPON_GRENADE_MIRV );
 		break;
+	case TF_WEAPON_DISPLACER_BOMB:
+		pWeaponInfo = GetTFWeaponInfo( TF_WEAPON_DISPLACER );
+		break;
 	default:
 		pWeaponInfo = GetTFWeaponInfo( iWeaponID );
 		break;
@@ -65,11 +68,20 @@ void TFExplosionCallback( const Vector &vecOrigin, const Vector &vecNormal, int 
 		bInAir = false;
 	}
 
-	bool bDeathmatchOverride = ( pPlayer && TFGameRules()->IsDeathmatch() );
+	// Cheating here but I don't want to add another bunch of keyvalues just for Displacer.
+	if ( iWeaponID == TF_WEAPON_DISPLACER_BOMB )
+	{
+		bIsWater = true;
+	}
+	else if ( iWeaponID == TF_WEAPON_DISPLACER )
+	{
+		bIsWater = false;
+	}
 
 	// Base explosion effect and sound.
-	const char *pszEffect = "explosion";
+	const char *pszFormat = "explosion";
 	const char *pszSound = "BaseExplosionEffect.Sound";
+	bool bColored = pWeaponInfo->m_bHasTeamColoredExplosions;
 
 	if ( pWeaponInfo )
 	{
@@ -78,11 +90,12 @@ void TFExplosionCallback( const Vector &vecOrigin, const Vector &vecNormal, int 
 		{
 			if ( bCrit && pWeaponInfo->m_szExplosionWaterEffect_Crit[0] )
 			{
-				pszEffect = ConstructTeamParticle( pWeaponInfo->m_szExplosionWaterEffect_Crit, iTeam, bDeathmatchOverride );
+				pszFormat = pWeaponInfo->m_szExplosionEffect_Crit;
+				bColored = true;
 			}
 			else if ( pWeaponInfo->m_szExplosionWaterEffect[0] )
 			{
-				pszEffect = pWeaponInfo->m_szExplosionWaterEffect;
+				pszFormat = pWeaponInfo->m_szExplosionWaterEffect;
 			}
 		}
 		else
@@ -91,22 +104,24 @@ void TFExplosionCallback( const Vector &vecOrigin, const Vector &vecNormal, int 
 			{
 				if ( bCrit && pWeaponInfo->m_szExplosionPlayerEffect_Crit[0] )
 				{
-					pszEffect = ConstructTeamParticle( pWeaponInfo->m_szExplosionPlayerEffect_Crit, iTeam, bDeathmatchOverride );
+					pszFormat = pWeaponInfo->m_szExplosionPlayerEffect_Crit;
+					bColored = true;
 				}
 				else if ( pWeaponInfo->m_szExplosionPlayerEffect[0] )
 				{
-					pszEffect = pWeaponInfo->m_szExplosionPlayerEffect;
+					pszFormat = pWeaponInfo->m_szExplosionPlayerEffect;
 				}
 			}
 			else
 			{
 				if ( bCrit && pWeaponInfo->m_szExplosionEffect_Crit[0] )
 				{
-					pszEffect = ConstructTeamParticle( pWeaponInfo->m_szExplosionEffect_Crit, iTeam, bDeathmatchOverride );
+					pszFormat = pWeaponInfo->m_szExplosionEffect_Crit;
+					bColored = true;
 				}
 				else if ( pWeaponInfo->m_szExplosionEffect[0] )
 				{
-					pszEffect = pWeaponInfo->m_szExplosionEffect;
+					pszFormat = pWeaponInfo->m_szExplosionEffect;
 				}
 			}
 		}
@@ -118,6 +133,7 @@ void TFExplosionCallback( const Vector &vecOrigin, const Vector &vecNormal, int 
 		}
 	}
 
+
 	// Allow schema to override explosion sound.
 	if ( iItemID >= 0 )
 	{
@@ -127,11 +143,24 @@ void TFExplosionCallback( const Vector &vecOrigin, const Vector &vecNormal, int 
 			pszSound = pItemDef->GetVisuals()->aWeaponSounds[SPECIAL1];
 		}
 	}
+
+	bool bDeathmatchOverride = ( TFGameRules()->IsDeathmatch() && pPlayer );
+	const char *pszEffect = NULL;
+	if ( bColored )
+	{
+		// Assuming it's a formatted string.
+		pszEffect = ConstructTeamParticle( pszFormat, iTeam, bDeathmatchOverride );
+	}
+	else
+	{
+		// Just take the name as it is.
+		pszEffect = pszFormat;
+	}
 	
 	CLocalPlayerFilter filter;
 	C_BaseEntity::EmitSound( filter, SOUND_FROM_WORLD, pszSound, &vecOrigin );
 
-	if ( bDeathmatchOverride )
+	if ( bDeathmatchOverride && bColored )
 	{
 		DispatchParticleEffect( pszEffect, vecOrigin, angExplosion, pPlayer->m_vecPlayerColor, vec3_origin, true );
 	}

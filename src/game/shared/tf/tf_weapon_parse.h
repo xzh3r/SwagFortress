@@ -112,6 +112,7 @@ public:
 	char	m_szExplosionEffect_Crit[128];
 	char	m_szExplosionPlayerEffect_Crit[128];
 	char	m_szExplosionWaterEffect_Crit[128];
+	bool	m_bHasTeamColoredExplosions;
 
 	bool	m_bDontDrop;
 

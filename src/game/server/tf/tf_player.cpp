@@ -181,6 +181,7 @@ public:
 		m_iPlayerIndex.Set( TF_PLAYER_INDEX_NONE );
 		m_bGib = false;
 		m_bBurning = false;
+		m_flInvisibilityLevel = 0.0f;
 		m_iDamageCustom = 0;
 		m_vecRagdollOrigin.Init();
 		m_vecRagdollVelocity.Init();
@@ -198,6 +199,7 @@ public:
 	CNetworkVector( m_vecRagdollOrigin );
 	CNetworkVar( bool, m_bGib );
 	CNetworkVar( bool, m_bBurning );
+	CNetworkVar( float, m_flInvisibilityLevel );
 	CNetworkVar( int, m_iDamageCustom );
 	CNetworkVar( int, m_iTeam );
 	CNetworkVar( int, m_iClass );
@@ -213,6 +215,7 @@ IMPLEMENT_SERVERCLASS_ST_NOBASE( CTFRagdoll, DT_TFRagdoll )
 	SendPropInt( SENDINFO( m_nForceBone ) ),
 	SendPropBool( SENDINFO( m_bGib ) ),
 	SendPropBool( SENDINFO( m_bBurning ) ),
+	SendPropFloat( SENDINFO( m_flInvisibilityLevel ), 8, 0, 0.0f, 1.0f ),
 	SendPropInt( SENDINFO( m_iDamageCustom ) ),
 	SendPropInt( SENDINFO( m_iTeam ), 3, SPROP_UNSIGNED ),
 	SendPropInt( SENDINFO( m_iClass ), 4, SPROP_UNSIGNED ),
@@ -1770,16 +1773,18 @@ bool CTFPlayer::SelectSpawnSpot( const char *pEntClassName, CBaseEntity* &pSpot 
 				if ( bIgnorePlayers && TFGameRules()->IsDeathmatch() )
 				{
 					// We're spawning on a busy spawn point so kill off anyone occupying it.
-					edict_t	*edPlayer;
-					edPlayer = edict();
-					CBaseEntity *ent = NULL;
-					for ( CEntitySphereQuery sphere( pSpot->GetAbsOrigin(), 128 ); ( ent = sphere.GetCurrentEntity() ) != NULL; sphere.NextEntity() )
+					CBaseEntity *pList[MAX_PLAYERS];
+					Vector vecMins = pSpot->GetAbsOrigin() + VEC_HULL_MIN;
+					Vector vecMaxs = pSpot->GetAbsOrigin() + VEC_HULL_MAX;
+					int count = UTIL_EntitiesInBox( pList, MAX_PLAYERS, vecMins, vecMaxs, FL_CLIENT );
+
+					for ( int i = 0; i < count; i++ )
 					{
-						// if ent is a client, telefrag 'em (unless they are ourselves)
-						if ( ent->IsPlayer() && !( ent->edict() == edPlayer ) )
+						CBaseEntity *pEntity = pList[i];
+						if ( pEntity != this )
 						{
 							CTakeDamageInfo info( this, this, 1000, DMG_CRUSH, TF_DMG_TELEFRAG );
-							ent->TakeDamage( info );
+							pEntity->TakeDamage( info );
 						}
 					}
 				}
@@ -1904,14 +1909,18 @@ bool CTFPlayer::SelectFurthestSpawnSpot( const char *pEntClassName, CBaseEntity*
 		if ( bTelefrag )
 		{
 			// Kill off anyone occupying this spot if it's somehow busy.
-			CBaseEntity *ent = NULL;
-			for ( CEntitySphereQuery sphere( pFurthest->GetAbsOrigin(), 128 ); ( ent = sphere.GetCurrentEntity() ) != NULL; sphere.NextEntity() )
+			CBaseEntity *pList[MAX_PLAYERS];
+			Vector vecMins = pSpot->GetAbsOrigin() + VEC_HULL_MIN;
+			Vector vecMaxs = pSpot->GetAbsOrigin() + VEC_HULL_MAX;
+			int count = UTIL_EntitiesInBox( pList, MAX_PLAYERS, vecMins, vecMaxs, FL_CLIENT );
+
+			for ( int i = 0; i < count; i++ )
 			{
-				// if ent is a client, telefrag 'em (unless they are ourselves)
-				if ( ent->IsPlayer() && ent != this && ( !InSameTeam( ent ) || TFGameRules()->IsDeathmatch() ) )
+				CBaseEntity *pEntity = pList[i];
+				if ( pEntity != this && ( !InSameTeam( pEntity ) || TFGameRules()->IsDeathmatch() ) )
 				{
 					CTakeDamageInfo info( this, this, 1000, DMG_CRUSH, TF_DMG_TELEFRAG );
-					ent->TakeDamage( info );
+					pEntity->TakeDamage( info );
 				}
 			}
 		}
@@ -3985,7 +3994,7 @@ int CTFPlayer::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 		return 0;
 
 	// Self-damage modifiers.
-	if ( info.GetAttacker() == this )
+	if ( pAttacker == this )
 	{
 		if ( ( info.GetDamageType() & DMG_BLAST ) && !info.GetDamagedOtherPlayers() )
 		{
@@ -4022,6 +4031,13 @@ int CTFPlayer::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 	{
 		// Start burning if we took ignition damage
 		bIgniting = ( ( info.GetDamageType() & DMG_IGNITE ) && ( GetWaterLevel() < WL_Waist ) );
+
+		if ( !bIgniting )
+		{
+			int iIgniting = 0;
+			CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( pWeapon, iIgniting, set_dmgtype_ignite );
+			bIgniting = ( iIgniting != 0 );
+		}
 
 		// Take damage - round to the nearest integer.
 		m_iHealth -= ( flDamage + 0.5f );
@@ -4400,6 +4416,7 @@ void CTFPlayer::Event_Killed( const CTakeDamageInfo &info )
 	bool bDisguised = m_Shared.InCond( TF_COND_DISGUISED );
 	// we want the rag doll to burn if the player was burning and was not a pryo (who only burns momentarily)
 	bool bBurning = m_Shared.InCond( TF_COND_BURNING ) && ( TF_CLASS_PYRO != GetPlayerClass()->GetClassIndex() );
+	float flInvis = m_Shared.m_flInvisibility;
 
 	if( TFGameRules()->IsDeathmatch() )
 	{
@@ -4581,7 +4598,7 @@ void CTFPlayer::Event_Killed( const CTakeDamageInfo &info )
 	// Create the ragdoll entity.
 	if ( bGib || bRagdoll )
 	{
-		CreateRagdollEntity( bGib, bBurning, info.GetDamageCustom() );
+		CreateRagdollEntity( bGib, bBurning, flInvis, info.GetDamageCustom() );
 	}
 
 	// Don't overflow the value for this.
@@ -6505,13 +6522,13 @@ void CTFPlayer::PlayerUse( void )
 //-----------------------------------------------------------------------------
 void CTFPlayer::CreateRagdollEntity( void )
 {
-	CreateRagdollEntity( false, false, 0 );
+	CreateRagdollEntity( false, false, 0.0f, 0 );
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: Create a ragdoll entity to pass to the client.
 //-----------------------------------------------------------------------------
-void CTFPlayer::CreateRagdollEntity( bool bGib, bool bBurning, int iDamageCustom )
+void CTFPlayer::CreateRagdollEntity( bool bGib, bool bBurning, float flInvisLevel, int iDamageCustom )
 {
 	// If we already have a ragdoll destroy it.
 	CTFRagdoll *pRagdoll = dynamic_cast<CTFRagdoll*>( m_hRagdoll.Get() );
@@ -6534,6 +6551,7 @@ void CTFPlayer::CreateRagdollEntity( bool bGib, bool bBurning, int iDamageCustom
 		pRagdoll->m_iPlayerIndex.Set( entindex() );
 		pRagdoll->m_bGib = bGib;
 		pRagdoll->m_bBurning = bBurning;
+		pRagdoll->m_flInvisibilityLevel = flInvisLevel;
 		pRagdoll->m_iDamageCustom = iDamageCustom;
 		pRagdoll->m_iTeam = GetTeamNumber();
 		pRagdoll->m_iClass = GetPlayerClass()->GetClassIndex();
