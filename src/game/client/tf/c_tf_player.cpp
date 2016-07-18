@@ -1810,14 +1810,14 @@ void C_TFPlayer::SetDormant( bool bDormant )
 		{
 			ShowNemesisIcon( false );
 		}
-		// Kill crit effects.
-		m_Shared.UpdateCritBoostEffect( true );
 	}
 
 	if ( IsDormant() && !bDormant )
 	{
 		m_bUpdatePartyHat = true;
 	}
+
+	m_Shared.UpdateCritBoostEffect();
 
 	// Deliberately skip base combat weapon
 	C_BaseEntity::SetDormant( bDormant );

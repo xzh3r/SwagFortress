@@ -2257,7 +2257,11 @@ void CTFPlayerShared::UpdateCritBoostEffect( bool bForceHide /*= false*/ )
 
 	if ( bShouldShow )
 	{
-		if ( !IsCritBoosted() )
+		if ( m_pOuter->IsDormant() )
+		{
+			bShouldShow = false;
+		}
+		else if ( !IsCritBoosted() )
 		{
 			bShouldShow = false;
 		}
