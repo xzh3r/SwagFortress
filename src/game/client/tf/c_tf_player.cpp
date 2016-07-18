@@ -260,13 +260,14 @@ private:
 	bool  m_bFadingOut;
 	bool  m_bGib;
 	bool  m_bBurning;
+	bool  m_bOnGround;
 	float m_flInvisibilityLevel;
 	float m_flUncloakCompleteTime;
 	int   m_iDamageCustom;
 	int	  m_iTeam;
 	int	  m_iClass;
 	float m_flBurnEffectStartTime;	// start time of burning, or 0 if not burning
-	float m_flDeathAnimEndTIme;
+	float m_flDeathAnimEndTime;
 };
 
 IMPLEMENT_CLIENTCLASS_DT_NOBASE( C_TFRagdoll, DT_TFRagdoll, CTFRagdoll )
@@ -277,6 +278,7 @@ IMPLEMENT_CLIENTCLASS_DT_NOBASE( C_TFRagdoll, DT_TFRagdoll, CTFRagdoll )
 	RecvPropInt( RECVINFO( m_nForceBone ) ),
 	RecvPropBool( RECVINFO( m_bGib ) ),
 	RecvPropBool( RECVINFO( m_bBurning ) ),
+	RecvPropBool( RECVINFO( m_bOnGround ) ),
 	RecvPropFloat( RECVINFO( m_flInvisibilityLevel ) ),
 	RecvPropInt( RECVINFO( m_iDamageCustom ) ),
 	RecvPropInt( RECVINFO( m_iTeam ) ),
@@ -294,6 +296,7 @@ C_TFRagdoll::C_TFRagdoll()
 	m_bFadingOut = false;
 	m_bGib = false;
 	m_bBurning = false;
+	m_bOnGround = false;
 	m_flInvisibilityLevel = 0.0f;
 	m_flUncloakCompleteTime = 0.0f;
 	m_iDamageCustom = 0;
@@ -301,7 +304,7 @@ C_TFRagdoll::C_TFRagdoll()
 	m_iTeam = -1;
 	m_iClass = -1;
 	m_nForceBone = -1;
-	m_flDeathAnimEndTIme = 0.0f;
+	m_flDeathAnimEndTime = 0.0f;
 }
 
 //-----------------------------------------------------------------------------
@@ -406,22 +409,22 @@ float C_TFRagdoll::FrameAdvance( float flInterval )
 	float flRet = BaseClass::FrameAdvance( flInterval );
 
 	// Turn into a ragdoll once animation is over.
-	if ( m_flDeathAnimEndTIme != 0.0f && gpGlobals->curtime >= m_flDeathAnimEndTIme )
+	if ( m_flDeathAnimEndTime != 0.0f && gpGlobals->curtime >= m_flDeathAnimEndTime )
 	{
 		if ( cl_ragdoll_physics_enable.GetBool() )
 		{
-			m_flDeathAnimEndTIme = 0.0f;
+			m_flDeathAnimEndTime = 0.0f;
 
-			// Make us a ragdoll..
+			// Make us a ragdoll.
 			m_nRenderFX = kRenderFxRagdoll;
 
 			matrix3x4_t boneDelta0[MAXSTUDIOBONES];
 			matrix3x4_t boneDelta1[MAXSTUDIOBONES];
 			matrix3x4_t currentBones[MAXSTUDIOBONES];
-			const float boneDt = 0.05f;
+			const float boneDt = 0.1f;
 
 			GetRagdollInitBoneArrays( boneDelta0, boneDelta1, currentBones, boneDt );
-			InitAsClientRagdoll( boneDelta0, boneDelta1, currentBones, boneDt );
+			InitAsClientRagdoll( boneDelta0, boneDelta1, currentBones, boneDt, false );
 			SetAbsVelocity( vec3_origin );
 		}
 		else
@@ -536,8 +539,9 @@ void C_TFRagdoll::CreateTFRagdoll(void)
 		Interp_Reset( GetVarMapping() );
 	}
 
+	// See if we should play a custom death animation.
 	bool bPlayDeathAnim = false;
-	if ( pPlayer && ( tf_always_deathanim.GetBool() || RandomFloat() < 0.25f ) )
+	if ( pPlayer && m_bOnGround && ( tf_always_deathanim.GetBool() || RandomFloat() < 0.25f ) )
 	{
 		int iSeq = pPlayer->m_Shared.GetSequenceForDeath( this, m_iDamageCustom );
 		if ( iSeq != -1 )
@@ -557,7 +561,7 @@ void C_TFRagdoll::CreateTFRagdoll(void)
 			UpdateVisibility();
 
 			SetSequence( iSeq );
-			m_flDeathAnimEndTIme = gpGlobals->curtime + SequenceDuration();
+			m_flDeathAnimEndTime = gpGlobals->curtime + SequenceDuration();
 
 			SetCycle( 0.0f );
 
@@ -2438,6 +2442,13 @@ void C_TFPlayer::TurnOnTauntCam( void )
 	/*engine->GetViewAngles( m_angTauntEngViewAngles );
 	prediction->GetViewAngles( m_angTauntPredViewAngles );*/
 
+	// If we're already in taunt cam just reset the distance.
+	if ( m_bWasTaunting )
+	{
+		g_ThirdPersonManager.SetDesiredCameraOffset( Vector( tf_tauntcam_dist.GetFloat(), 0.0f, 0.0f ) );
+		return;
+	}
+
 	m_TauntCameraData.m_flPitch = tf_tauntcam_pitch.GetFloat();
 	m_TauntCameraData.m_flYaw =  tf_tauntcam_yaw.GetFloat();
 	m_TauntCameraData.m_flDist = tf_tauntcam_dist.GetFloat();
@@ -2453,11 +2464,6 @@ void C_TFPlayer::TurnOnTauntCam( void )
 	ThirdPersonSwitch( true );
 
 	::input->CAM_SetCameraThirdData( &m_TauntCameraData, vecCameraOffset );
-
-	if ( m_hItem )
-	{
-		m_hItem->UpdateVisibility();
-	}
 }
 
 //-----------------------------------------------------------------------------
@@ -2486,7 +2492,6 @@ void C_TFPlayer::TurnOffTauntCam( void )
 	}
 
 	::input->CAM_ToFirstPerson();
-	ThirdPersonSwitch( false );
 
 	// Reset the old view angles.
 	/*engine->SetViewAngles( m_angTauntEngViewAngles );
@@ -2494,16 +2499,6 @@ void C_TFPlayer::TurnOffTauntCam( void )
 
 	// Force the feet to line up with the view direction post taunt.
 	m_PlayerAnimState->m_bForceAimYaw = true;
-
-	if ( GetViewModel() )
-	{
-		GetViewModel()->UpdateVisibility();
-	}
-
-	if ( m_hItem )
-	{
-		m_hItem->UpdateVisibility();
-	}
 }
 
 //-----------------------------------------------------------------------------
@@ -2511,8 +2506,6 @@ void C_TFPlayer::TurnOffTauntCam( void )
 //-----------------------------------------------------------------------------
 void C_TFPlayer::HandleTaunting( void )
 {
-	C_TFPlayer *pLocalPlayer = C_TFPlayer::GetLocalTFPlayer();
-
 	// Clear the taunt slot.
 	if ( ( !m_bWasTaunting || m_flTauntOffTime != 0.0f ) && (
 		m_Shared.InCond( TF_COND_TAUNTING ) ||
@@ -2524,14 +2517,11 @@ void C_TFPlayer::HandleTaunting( void )
 		m_Shared.InCond( TF_COND_HALLOWEEN_TINY ) ||
 		m_Shared.InCond( TF_COND_HALLOWEEN_GHOST_MODE ) ) )
 	{
+		// Handle the camera for the local player.
+		TurnOnTauntCam();
+
 		m_bWasTaunting = true;
 		m_flTauntOffTime = 0.0f;
-
-		// Handle the camera for the local player.
-		if ( pLocalPlayer )
-		{
-			TurnOnTauntCam();
-		}
 	}
 
 	if ( m_bWasTaunting && m_flTauntOffTime == 0.0f && (
@@ -2565,9 +2555,9 @@ void C_TFPlayer::TauntCamInterpolation( void )
 		// Pull the camera back in over the course of half a second.
 		float flDist = RemapValClamped( gpGlobals->curtime - m_flTauntOffTime, 0.0f, 0.5f, tf_tauntcam_dist.GetFloat(), 0.0f );
 
-		// Snap the camera back into first person
 		if ( flDist == 0.0f || !m_bWasTaunting || !IsAlive() || g_ThirdPersonManager.WantToUseGameThirdPerson() )
 		{
+			// Snap the camera back into first person.
 			TurnOffTauntCam();
 		}
 		else
@@ -2605,6 +2595,16 @@ void C_TFPlayer::ThirdPersonSwitch( bool bThirdPerson )
 	UpdateOverhealEffect();
 	UpdateSpyMask();
 	UpdateShieldEffect();
+
+	if ( GetViewModel() )
+	{
+		GetViewModel()->UpdateVisibility();
+	}
+
+	if ( m_hItem )
+	{
+		m_hItem->UpdateVisibility();
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -4501,6 +4501,7 @@ void C_TFPlayer::FireGameEvent( IGameEvent *event )
 			// Update any effects affected by disguise.
 			m_Shared.UpdateCritBoostEffect();
 			UpdateOverhealEffect();
+			UpdateRecentlyTeleportedEffect();
 			UpdateSpyMask();
 		}
 	}

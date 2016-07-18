@@ -1242,8 +1242,9 @@ void CTFPlayerShared::OnDisguiseChanged( void )
 {
 	// recalc disguise model index
 	//RecalcDisguiseWeapon();
-	m_pOuter->UpdateRecentlyTeleportedEffect();
 	UpdateCritBoostEffect();
+	m_pOuter->UpdateOverhealEffect();
+	m_pOuter->UpdateRecentlyTeleportedEffect();
 	m_pOuter->UpdateSpyMask();
 }
 #endif
@@ -1678,8 +1679,9 @@ void CTFPlayerShared::OnAddStealthed( void )
 #ifdef CLIENT_DLL
 	m_pOuter->EmitSound( "Player.Spy_Cloak" );
 	UpdateCritBoostEffect();
-	m_pOuter->RemoveAllDecals();
+	m_pOuter->UpdateOverhealEffect();
 	m_pOuter->UpdateRecentlyTeleportedEffect();
+	m_pOuter->RemoveAllDecals();
 #else
 
 #endif
@@ -1713,6 +1715,7 @@ void CTFPlayerShared::OnRemoveStealthed( void )
 #ifdef CLIENT_DLL
 	m_pOuter->EmitSound( "Player.Spy_UnCloak" );
 	UpdateCritBoostEffect();
+	m_pOuter->UpdateOverhealEffect();
 	m_pOuter->UpdateRecentlyTeleportedEffect();
 #endif
 

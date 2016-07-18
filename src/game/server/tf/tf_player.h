@@ -283,7 +283,7 @@ public:
 
 	// Death & Ragdolls.
 	virtual void CreateRagdollEntity( void );
-	void CreateRagdollEntity( bool bGib, bool bBurning, float flInvisLevel, int iDamageCustom );
+	void CreateRagdollEntity( bool bGib, bool bBurning, bool bOnGround, float flInvisLevel, int iDamageCustom );
 	void DestroyRagdoll( void );
 	CNetworkHandle( CBaseEntity, m_hRagdoll );	// networked entity handle 
 	virtual bool ShouldGib( const CTakeDamageInfo &info );
