@@ -766,6 +766,7 @@ void CTFPlayer::Precache()
 	PrecacheParticleSystem( "water_playerdive" );
 	PrecacheParticleSystem( "water_playeremerge" );
 	PrecacheParticleSystem( "rocketjump_smoke" );
+	PrecacheTeamParticles( "overhealedplayer_%s_pluses", false );
 	PrecacheParticleSystem( "speech_typing" );
 					 
 	BaseClass::Precache();
@@ -7256,8 +7257,13 @@ void CTFPlayer::Taunt( void )
 		}
 		else if ( V_stricmp( szResponse, "scenes/player/sniper/low/taunt04.vcd" ) == 0 )
 		{
-			m_flTauntAttackTime = gpGlobals->curtime = 0.85f;
+			m_flTauntAttackTime = gpGlobals->curtime + 0.85f;
 			m_iTauntAttack = TF_TAUNT_SNIPER_STUN;
+		}
+		else if ( V_stricmp( szResponse, "scenes/player/medic/low/taunt08.vcd" ) == 0 )
+		{
+			m_flTauntAttackTime = gpGlobals->curtime + 2.2;
+			m_iTauntAttack = TF_TAUNT_MEDIC_STUN;
 		}
 	}
 
@@ -7401,6 +7407,81 @@ void CTFPlayer::DoTauntAttack( void )
 			m_iTauntAttack = TF_TAUNT_LUNCHBOX;
 			m_flTauntAttackTime = gpGlobals->curtime + 1.0f;
 		}
+
+		break;
+	}
+	case TF_TAUNT_SNIPER_STUN:
+	case TF_TAUNT_SNIPER_KILL:
+	case TF_TAUNT_MEDIC_STUN:
+	case TF_TAUNT_MEDIC_KILL:
+	{
+		// Trace a bit ahead.
+		Vector vecSrc, vecShotDir, vecEnd;
+		QAngle angShot = EyeAngles();
+		AngleVectors( angShot, &vecShotDir );
+		vecSrc = Weapon_ShootPosition();
+		vecEnd = vecSrc + vecShotDir * 128;
+
+		trace_t tr;
+		UTIL_TraceLine( vecSrc, vecEnd, MASK_SOLID, this, COLLISION_GROUP_PLAYER, &tr );
+
+		if ( tr.fraction < 1.0f )
+		{
+			CTFPlayer *pPlayer = ToTFPlayer( tr.m_pEnt );
+			if ( pPlayer && !InSameTeam( pPlayer ) )
+			{
+				// First hit stuns, next hit kills.
+				bool bStun = ( iTauntType == TF_TAUNT_SNIPER_STUN || iTauntType == TF_TAUNT_MEDIC_STUN );
+				Vector vecForce, vecDamagePos;
+
+				if ( bStun )
+				{
+					vecForce == vec3_origin;
+				}
+				else
+				{
+					// Pull them towards us.
+					Vector vecDir = WorldSpaceCenter() - pPlayer->WorldSpaceCenter();
+					VectorNormalize( vecDir );
+					vecForce = vecDir * 12000;
+				}
+
+				float flDamage = bStun ? 1.0f : 500.0f;
+				int nDamageType = DMG_SLASH | DMG_PREVENT_PHYSICS_FORCE;
+				int iCustomDamage = 0;
+				if ( iTauntType == TF_TAUNT_SNIPER_STUN || TF_TAUNT_SNIPER_KILL )
+				{
+					iCustomDamage = TF_DMG_TAUNT_SNIPER;
+				}
+				else if ( iTauntType == TF_TAUNT_MEDIC_STUN || TF_TAUNT_MEDIC_KILL )
+				{
+					iCustomDamage = TF_DMG_TAUNT_MEDIC;
+				}
+
+				vecDamagePos = tr.endpos;
+
+				if ( bStun )
+				{
+					pPlayer->m_Shared.StunPlayer( 3.0f, this );
+				}
+				
+				CTakeDamageInfo info( this, this, GetActiveTFWeapon(), vecForce, vecDamagePos, flDamage, nDamageType, iCustomDamage );
+				pPlayer->TakeDamage( info );
+			}
+
+			if ( iTauntType == TF_TAUNT_SNIPER_STUN )
+			{
+				m_flTauntAttackTime = gpGlobals->curtime + 1.3f;
+				m_iTauntAttack = TF_TAUNT_SNIPER_KILL;
+			}
+			else if ( iTauntType == TF_TAUNT_MEDIC_STUN )
+			{
+				m_flTauntAttackTime = gpGlobals->curtime + 0.75f;
+				m_iTauntAttack = TF_TAUNT_MEDIC_KILL;
+			}
+		}
+
+		break;
 	}
 	}
 }

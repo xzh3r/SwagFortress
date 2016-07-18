@@ -146,6 +146,8 @@ BEGIN_RECV_TABLE_NOBASE( CTFPlayerShared, DT_TFPlayerShared )
 	RecvPropInt( RECVINFO( m_nAirDucked ) ),
 	RecvPropInt( RECVINFO( m_nPlayerState ) ),
 	RecvPropInt( RECVINFO( m_iDesiredPlayerClass ) ),
+	RecvPropTime( RECVINFO( m_flStunExpireTime ) ),
+	RecvPropEHandle( RECVINFO( m_hStunner ) ),
 	RecvPropEHandle( RECVINFO( m_hCarriedObject ) ),
 	RecvPropBool( RECVINFO( m_bCarryingObject ) ),
 	RecvPropInt( RECVINFO( m_nTeamTeleporterUsed ) ),
@@ -207,6 +209,8 @@ BEGIN_SEND_TABLE_NOBASE( CTFPlayerShared, DT_TFPlayerShared )
 	SendPropInt( SENDINFO( m_nAirDucked ), 2, SPROP_UNSIGNED | SPROP_CHANGES_OFTEN ),
 	SendPropInt( SENDINFO( m_nPlayerState ), Q_log2( TF_STATE_COUNT ) + 1, SPROP_UNSIGNED ),
 	SendPropInt( SENDINFO( m_iDesiredPlayerClass ), Q_log2( TF_CLASS_COUNT_ALL ) + 1, SPROP_UNSIGNED ),
+	SendPropTime( SENDINFO( m_flStunExpireTime ) ),
+	SendPropEHandle( SENDINFO( m_hStunner ) ),
 	SendPropEHandle( SENDINFO( m_hCarriedObject ) ),
 	SendPropBool( SENDINFO( m_bCarryingObject ) ),
 	SendPropInt( SENDINFO( m_nTeamTeleporterUsed ), 3, SPROP_UNSIGNED ),
@@ -250,13 +254,15 @@ CTFPlayerShared::CTFPlayerShared()
 	m_iDesiredWeaponID = -1;
 	m_iRespawnParticleID = 0;
 
+	m_iStunPhase = 0;
+
 	m_nTeamTeleporterUsed = TEAM_UNASSIGNED;
 
 #ifdef CLIENT_DLL
 	m_iDisguiseWeaponModelIndex = -1;
 	m_pDisguiseWeaponInfo = NULL;
 	m_pCritSound = NULL;
-	memset( m_pCritEffects, 0, sizeof( m_pCritEffects ) );
+	m_pCritEffect = NULL;
 #else
 	memset( m_flChargeOffTime, 0, sizeof( m_flChargeOffTime ) );
 	memset( m_bChargeSounds, 0, sizeof( m_bChargeSounds ) );
@@ -526,11 +532,6 @@ void CTFPlayerShared::OnDataChanged( void )
 	m_nOldConditionsEx2 = m_nPlayerCondEx2;
 	m_nOldConditionsEx3 = m_nPlayerCondEx3;
 
-	if ( m_bWasCritBoosted != IsCritBoosted() )
-	{
-		UpdateCritBoostEffect();
-	}
-
 	if ( m_nOldDisguiseClass != GetDisguiseClass() || m_nOldDisguiseTeam != GetDisguiseTeam() )
 	{
 		OnDisguiseChanged();
@@ -642,10 +643,6 @@ void CTFPlayerShared::OnConditionAdded( int nCond )
 		OnAddTeleported();
 		break;
 
-	case TF_COND_BURNING:
-		OnAddBurning();
-		break;
-
 	case TF_COND_DISGUISING:
 		OnAddDisguising();
 		break;
@@ -656,6 +653,30 @@ void CTFPlayerShared::OnConditionAdded( int nCond )
 
 	case TF_COND_TAUNTING:
 		OnAddTaunting();
+		break;
+
+	case TF_COND_CRITBOOSTED:
+	case TF_COND_CRITBOOSTED_PUMPKIN:
+	case TF_COND_CRITBOOSTED_USER_BUFF:
+	case TF_COND_CRITBOOSTED_DEMO_CHARGE:
+	case TF_COND_CRITBOOSTED_FIRST_BLOOD:
+	case TF_COND_CRITBOOSTED_BONUS_TIME:
+	case TF_COND_CRITBOOSTED_CTF_CAPTURE:
+	case TF_COND_CRITBOOSTED_ON_KILL:
+	case TF_COND_CRITBOOSTED_CARD_EFFECT:
+	case TF_COND_CRITBOOSTED_RUNE_TEMP:
+	case TF_COND_POWERUP_CRITDAMAGE:
+		OnAddCritboosted();
+		break;
+
+	case TF_COND_BURNING:
+		OnAddBurning();
+		break;
+		
+	case TF_COND_HEALTH_OVERHEALED:
+#ifdef CLIENT_DLL
+		m_pOuter->UpdateOverhealEffect();
+#endif
 		break;
 
 	case TF_COND_SLOWED:
@@ -674,9 +695,8 @@ void CTFPlayerShared::OnConditionAdded( int nCond )
 		OnAddHalloweenTiny();
 		break;
 
-	case TF_COND_POWERUP_CRITDAMAGE:
-	case TF_COND_CRITBOOSTED:
-		OnAddCritboosted();
+	case TF_COND_STUNNED:
+		OnAddStunned();
 		break;
 
 	case TF_COND_POWERUP_RAGEMODE:
@@ -706,10 +726,6 @@ void CTFPlayerShared::OnConditionRemoved( int nCond )
 	{
 	case TF_COND_ZOOMED:
 		OnRemoveZoomed();
-		break;
-
-	case TF_COND_BURNING:
-		OnRemoveBurning();
 		break;
 
 	case TF_COND_HEALTH_BUFF:
@@ -751,6 +767,30 @@ void CTFPlayerShared::OnConditionRemoved( int nCond )
 		OnRemoveTaunting();
 		break;
 
+	case TF_COND_CRITBOOSTED:
+	case TF_COND_CRITBOOSTED_PUMPKIN:
+	case TF_COND_CRITBOOSTED_USER_BUFF:
+	case TF_COND_CRITBOOSTED_DEMO_CHARGE:
+	case TF_COND_CRITBOOSTED_FIRST_BLOOD:
+	case TF_COND_CRITBOOSTED_BONUS_TIME:
+	case TF_COND_CRITBOOSTED_CTF_CAPTURE:
+	case TF_COND_CRITBOOSTED_ON_KILL:
+	case TF_COND_CRITBOOSTED_CARD_EFFECT:
+	case TF_COND_CRITBOOSTED_RUNE_TEMP:
+	case TF_COND_POWERUP_CRITDAMAGE:
+		OnRemoveCritboosted();
+		break;
+
+	case TF_COND_BURNING:
+		OnRemoveBurning();
+		break;
+
+	case TF_COND_HEALTH_OVERHEALED:
+#ifdef CLIENT_DLL
+		m_pOuter->UpdateOverhealEffect();
+#endif
+		break;
+
 	case TF_COND_SLOWED:
 		OnRemoveSlowed();
 		break;
@@ -763,9 +803,8 @@ void CTFPlayerShared::OnConditionRemoved( int nCond )
 		OnRemoveHalloweenTiny();
 		break;
 
-	case TF_COND_POWERUP_CRITDAMAGE:
-	case TF_COND_CRITBOOSTED:
-		OnRemoveCritboosted();
+	case TF_COND_STUNNED:
+		OnRemoveStunned();
 		break;
 
 	case TF_COND_POWERUP_RAGEMODE:
@@ -917,7 +956,6 @@ void CTFPlayerShared::ConditionGameRulesThink( void )
 			// Cap it to the max we'll boost a player's health
 			nHealthToAdd = clamp( nHealthToAdd, 0, iBoostMax - m_pOuter->GetHealth() );
 
-
 			m_pOuter->TakeHealth( nHealthToAdd, DMG_IGNORE_MAXHEALTH );
 
 			// split up total healing based on the amount each healer contributes
@@ -1015,6 +1053,21 @@ void CTFPlayerShared::ConditionGameRulesThink( void )
 		}
 	}
 
+	if ( m_pOuter->GetHealth() > m_pOuter->GetMaxHealth() )
+	{
+		if ( !InCond( TF_COND_HEALTH_OVERHEALED ) )
+		{
+			AddCond( TF_COND_HEALTH_OVERHEALED );
+		}
+	}
+	else
+	{
+		if ( InCond( TF_COND_HEALTH_OVERHEALED ) )
+		{
+			RemoveCond( TF_COND_HEALTH_OVERHEALED );
+		}
+	}
+
 	// Taunt
 	if ( InCond( TF_COND_TAUNTING ) )
 	{
@@ -1081,6 +1134,14 @@ void CTFPlayerShared::ConditionGameRulesThink( void )
 		if ( TF_SPY_STEALTH_BLINKTIME/*tf_spy_stealth_blink_time.GetFloat()*/ < ( gpGlobals->curtime - m_flLastStealthExposeTime ) )
 		{
 			RemoveCond( TF_COND_STEALTHED_BLINK );
+		}
+	}
+
+	if ( InCond( TF_COND_STUNNED ) )
+	{
+		if ( gpGlobals->curtime > m_flStunExpireTime && m_iStunPhase == STUN_PHASE_END )
+		{
+			RemoveCond( TF_COND_STUNNED );
 		}
 	}
 
@@ -1339,7 +1400,49 @@ void CTFPlayerShared::OnRemoveSlowed( void )
 //-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddCritboosted( void )
 {
+#ifdef CLIENT_DLL
+	UpdateCritBoostEffect();
+#endif
+}
 
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFPlayerShared::OnRemoveCritboosted( void )
+{
+#ifdef CLIENT_DLL
+	UpdateCritBoostEffect();
+#endif
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFPlayerShared::OnAddStunned( void )
+{
+	CTFWeaponBase *pWeapon = m_pOuter->GetActiveTFWeapon();
+
+	if ( pWeapon )
+	{
+		pWeapon->OnControlStunned();
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFPlayerShared::OnRemoveStunned( void )
+{
+	m_flStunExpireTime = 0.0f;
+	m_hStunner = NULL;
+	m_iStunPhase = 0;
+
+	CTFWeaponBase *pWeapon = m_pOuter->GetActiveTFWeapon();
+
+	if ( pWeapon )
+	{
+		pWeapon->SetWeaponVisible( true );
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -1386,14 +1489,6 @@ void CTFPlayerShared::OnRemoveHalloweenTiny( void )
 #ifdef GAME_DLL
 	m_pOuter->SetModelScale( 1.0, 0.0 );
 #endif
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CTFPlayerShared::OnRemoveCritboosted( void )
-{
-
 }
 
 //-----------------------------------------------------------------------------
@@ -1559,6 +1654,13 @@ void CTFPlayerShared::Burn( CTFPlayer *pAttacker, CTFWeaponBase *pWeapon /*= NUL
 #endif
 }
 
+void CTFPlayerShared::StunPlayer( float flDuration, CTFPlayer *pStunner )
+{
+	m_flStunExpireTime = max( m_flStunExpireTime, gpGlobals->curtime + flDuration );
+	m_hStunner = pStunner;
+	AddCond( TF_COND_STUNNED );
+}
+
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
@@ -1668,9 +1770,7 @@ void CTFPlayerShared::OnRemoveDisguised( void )
 #ifdef CLIENT_DLL
 
 	// if local player is on the other team, reset the model of this player
-	CTFPlayer *pLocalPlayer = C_TFPlayer::GetLocalTFPlayer();
-
-	if ( !m_pOuter->InSameTeam( pLocalPlayer ) )
+	if ( m_pOuter->IsEnemyPlayer() )
 	{
 		TFPlayerClassData_t *pData = GetPlayerClassData( TF_CLASS_SPY );
 		int iIndex = modelinfo->GetModelIndex( pData->GetModelName() );
@@ -1682,8 +1782,6 @@ void CTFPlayerShared::OnRemoveDisguised( void )
 
 	// They may have called for medic and created a visible medic bubble
 	m_pOuter->ParticleProp()->StopParticlesNamed( "speech_mediccall", true );
-
-	UpdateCritBoostEffect();
 
 #else
 	m_nDisguiseTeam = TF_SPY_UNDEFINED;
@@ -2180,15 +2278,12 @@ void CTFPlayerShared::UpdateCritBoostEffect( bool bForceHide /*= false*/ )
 	if ( bShouldShow )
 	{
 		// Update crit effect model.
-		for ( int i = 0; i < ARRAYSIZE( m_pCritEffects ); i++ )
+		if ( m_pCritEffect )
 		{
-			if ( m_pCritEffects[i] )
-			{
-				if ( m_hCritEffectHost.Get() )
-					m_hCritEffectHost->ParticleProp()->StopEmission( m_pCritEffects[i] );
+			if ( m_hCritEffectHost.Get() )
+				m_hCritEffectHost->ParticleProp()->StopEmission( m_pCritEffect );
 
-				m_pCritEffects[i] = NULL;
-			}
+			m_pCritEffect = NULL;
 		}
 
 		if ( !m_pOuter->ShouldDrawThisPlayer() )
@@ -2213,12 +2308,8 @@ void CTFPlayerShared::UpdateCritBoostEffect( bool bForceHide /*= false*/ )
 		if ( m_hCritEffectHost.Get() )
 		{
 			const char *pszEffect = ConstructTeamParticle( "critgun_weaponmodel_%s", m_pOuter->GetTeamNumber(), true, g_aTeamNamesShort );
-			m_pCritEffects[0] = m_hCritEffectHost->ParticleProp()->Create( pszEffect, PATTACH_ABSORIGIN_FOLLOW );
-			SetParticleToMercColor( m_pCritEffects[0] );
-
-			pszEffect = ConstructTeamParticle( "critgun_weaponmodel_%s_glow", m_pOuter->GetTeamNumber(), true, g_aTeamNamesShort );
-			m_pCritEffects[1] = m_hCritEffectHost->ParticleProp()->Create( pszEffect, PATTACH_ABSORIGIN_FOLLOW );
-			SetParticleToMercColor( m_pCritEffects[1] );
+			m_pCritEffect = m_hCritEffectHost->ParticleProp()->Create( pszEffect, PATTACH_ABSORIGIN_FOLLOW );
+			SetParticleToMercColor( m_pCritEffect );
 		}
 
 		if ( !m_pCritSound )
@@ -2231,17 +2322,12 @@ void CTFPlayerShared::UpdateCritBoostEffect( bool bForceHide /*= false*/ )
 	}
 	else
 	{
-		for ( int i = 0; i < ARRAYSIZE( m_pCritEffects ); i++ )
+		if ( m_pCritEffect )
 		{
-			if ( m_pCritEffects[i] )
-			{
-				if ( m_hCritEffectHost.Get() )
-				{
-					m_hCritEffectHost->ParticleProp()->StopEmission( m_pCritEffects[i] );
-				}
+			if ( m_hCritEffectHost.Get() )
+				m_hCritEffectHost->ParticleProp()->StopEmission( m_pCritEffect );
 
-				m_pCritEffects[i] = NULL;
-			}
+			m_pCritEffect = NULL;
 		}
 
 		m_hCritEffectHost = NULL;
@@ -3498,6 +3584,11 @@ bool CTFPlayer::CanAttack( void )
 	}
 
 	if ( ( pRules->State_Get() == GR_STATE_TEAM_WIN ) && ( pRules->GetWinningTeam() != GetTeamNumber() ) )
+	{
+		return false;
+	}
+
+	if ( m_Shared.InCond( TF_COND_STUNNED ) )
 	{
 		return false;
 	}
