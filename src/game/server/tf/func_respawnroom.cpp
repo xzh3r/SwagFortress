@@ -16,10 +16,12 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+DECLARE_AUTO_LIST(IFuncRespawnRoomVisualizerAutoList);
+
 //-----------------------------------------------------------------------------
 // Purpose: Visualizes a respawn room to the enemy team
 //-----------------------------------------------------------------------------
-class CFuncRespawnRoomVisualizer : public CFuncBrush
+class CFuncRespawnRoomVisualizer : public CFuncBrush, public IFuncRespawnRoomVisualizerAutoList
 {
 	DECLARE_CLASS( CFuncRespawnRoomVisualizer, CFuncBrush );
 public:
@@ -57,6 +59,31 @@ END_DATADESC()
 IMPLEMENT_SERVERCLASS_ST( CFuncRespawnRoom, DT_FuncRespawnRoom )
 END_SEND_TABLE()
 
+//-----------------------------------------------------------------------------
+// Purpose: Check whether the line between two vectors crosses an respawn room visualizer
+//-----------------------------------------------------------------------------
+bool PointsCrossRespawnRoomVisualizer(const Vector &vecStart, const Vector &vecEnd, int iTeam)
+{
+	Ray_t ray;
+	ray.Init(vecStart, vecEnd);
+
+	for (int i = 0; i < IFuncRespawnRoomVisualizerAutoList::AutoList().Count(); ++i)
+	{
+		CFuncRespawnRoomVisualizer *pVisualizer = (CFuncRespawnRoomVisualizer *)IFuncRespawnRoomVisualizerAutoList::AutoList()[i];
+		
+		if (pVisualizer->GetTeamNumber() != iTeam || !iTeam)
+		{
+			trace_t tr;
+
+			enginetrace->ClipRayToEntity(ray, MASK_ALL, pVisualizer, &tr);
+
+			if (tr.fraction < 1.f)
+				return true;
+		}
+	}
+
+	return false;
+}
 
 //-----------------------------------------------------------------------------
 // Purpose: 
