@@ -1643,6 +1643,7 @@ C_TFPlayer::C_TFPlayer() :
 	m_pDisguisingEffect = NULL;
 	m_pSaveMeEffect = NULL;
 	m_pTypingEffect = NULL;
+	m_pOverhealEffect = NULL;
 	
 	m_aGibs.Purge();
 
@@ -1667,6 +1668,8 @@ C_TFPlayer::C_TFPlayer() :
 	m_bUpdateObjectHudState = false;
 
 	m_bTyping = false;
+
+	ListenForGameEvent( "localplayer_changeteam" );
 }
 
 C_TFPlayer::~C_TFPlayer()
@@ -2305,12 +2308,6 @@ CStudioHdr *C_TFPlayer::OnNewModel( void )
 
 	m_bUpdatePartyHat = true;
 
-	if ( m_hSpyMask )
-	{
-		// Local player must have changed team.
-		m_hSpyMask->UpdateVisibility();
-	}
-
 	return hdr;
 }
 
@@ -2603,7 +2600,14 @@ void C_TFPlayer::ThirdPersonSwitch( bool bThirdPerson )
 		}
 	}
 
+	// Update any effects affected by camera mode.
 	m_Shared.UpdateCritBoostEffect();
+	UpdateOverhealEffect();
+
+	if ( m_hSpyMask.Get() )
+	{
+		m_hSpyMask->UpdateVisibility();
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -4491,6 +4495,31 @@ CBaseCombatWeapon *C_TFPlayer::Weapon_GetSlot( int slot ) const
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
+void C_TFPlayer::FireGameEvent( IGameEvent *event )
+{
+	if ( V_strcmp( event->GetName(), "localplayer_changeteam" ) == 0 )
+	{
+		if ( !IsLocalPlayer() )
+		{
+			// Update any effects affected by disguise.
+			m_Shared.UpdateCritBoostEffect();
+			UpdateOverhealEffect();
+
+			if ( m_hSpyMask )
+			{
+				m_hSpyMask->UpdateVisibility();
+			}
+		}
+	}
+	else
+	{
+		BaseClass::FireGameEvent( event );
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 void C_TFPlayer::UpdateSpyMask( void )
 {
 	C_TFSpyMask *pMask = m_hSpyMask.Get();
@@ -4510,10 +4539,11 @@ void C_TFPlayer::UpdateSpyMask( void )
 
 			pMask->SetOwnerEntity( this );
 			pMask->FollowEntity( this );
-			pMask->UpdateVisibility();
 
 			m_hSpyMask = pMask;
 		}
+
+		pMask->UpdateVisibility();
 	}
 	else if ( pMask )
 	{
@@ -4547,6 +4577,49 @@ void C_TFPlayer::UpdateTypingBubble( void )
 		}
 	}
 }
+
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
+void C_TFPlayer::UpdateOverhealEffect( void )
+{
+	bool bShouldShow = true;
+
+	if ( !m_Shared.InCond( TF_COND_HEALTH_OVERHEALED ) )
+	{
+		bShouldShow = false;
+	}
+	else if ( InFirstPersonView() )
+	{
+		bShouldShow = false;
+	}
+	else if ( IsEnemyPlayer() )
+	{
+		if ( m_Shared.IsStealthed() || m_Shared.InCond( TF_COND_DISGUISED ) )
+		{
+			// Don't give away cloaked and disguised spies.
+			bShouldShow = false;
+		}
+	}
+
+	if ( bShouldShow )
+	{
+		if ( !m_pOverhealEffect )
+		{
+			const char *pszEffect = ConstructTeamParticle( "overhealedplayer_%s_pluses", GetTeamNumber(), false );
+			m_pOverhealEffect = ParticleProp()->Create( pszEffect, PATTACH_ABSORIGIN_FOLLOW );
+		}
+	}
+	else
+	{
+		if ( m_pOverhealEffect )
+		{
+			ParticleProp()->StopEmission( m_pOverhealEffect );
+			m_pOverhealEffect = NULL;
+		}
+	}
+}
+
 
 static void cc_tf_crashclient()
 {

@@ -766,6 +766,7 @@ void CTFPlayer::Precache()
 	PrecacheParticleSystem( "water_playerdive" );
 	PrecacheParticleSystem( "water_playeremerge" );
 	PrecacheParticleSystem( "rocketjump_smoke" );
+	PrecacheTeamParticles( "overhealedplayer_%s_pluses", false );
 	PrecacheParticleSystem( "speech_typing" );
 					 
 	BaseClass::Precache();
