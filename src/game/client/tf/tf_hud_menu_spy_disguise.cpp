@@ -411,6 +411,15 @@ void CHudMenuSpyDisguise::ToggleDisguiseTeam( void )
 			m_pClassItems_Blue[i]->SetVisible(bShowBlue);
 		}
 	}
+
+	// Do click animation.
+	C_TFPlayer *pPlayer = C_TFPlayer::GetLocalTFPlayer();
+	if ( pPlayer )
+	{
+		pPlayer->DoAnimationEvent( PLAYERANIMEVENT_ATTACK_PRIMARY );
+	}
+
+	engine->ExecuteClientCmd( "pda_click" );
 }
 
 //-----------------------------------------------------------------------------
