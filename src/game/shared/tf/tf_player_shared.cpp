@@ -1549,21 +1549,7 @@ void CTFPlayerShared::OnAddShield( void )
 #ifdef GAME_DLL
 
 #else
-	if ( !m_hPowerupShield.Get() )
-	{
-		C_BaseAnimating *pShield = new C_BaseAnimating();
-		if ( !pShield->InitializeAsClientEntity( TF_POWERUP_SHIELD_MODEL, RENDER_GROUP_TRANSLUCENT_ENTITY ) )
-		{
-			pShield->Release();
-			return;
-		}
-
-		pShield->AddEffects( EF_NOSHADOW | EF_BONEMERGE_FASTCULL );
-		pShield->SetOwnerEntity( m_pOuter );
-		pShield->FollowEntity( m_pOuter );
-
-		m_hPowerupShield = pShield;
-	}
+	m_pOuter->UpdateShieldEffect();
 #endif
 }
 
@@ -1575,11 +1561,7 @@ void CTFPlayerShared::OnRemoveShield( void )
 #ifdef GAME_DLL
 
 #else
-	if ( m_hPowerupShield.Get() )
-	{
-		m_hPowerupShield->Release();
-		m_hPowerupShield = NULL;
-	}
+	m_pOuter->UpdateShieldEffect();
 #endif
 }
 

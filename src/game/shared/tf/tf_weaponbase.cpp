@@ -1042,10 +1042,7 @@ void CTFWeaponBase::AbortReload( void )
 {
 	BaseClass::AbortReload();
 
-#ifdef CLIENT_DLL
-	if ( !UsingViewModel() )
-#endif
-		StopWeaponSound( RELOAD );
+	StopWeaponSound( RELOAD );
 
 	m_iReloadMode.Set( TF_RELOAD_START );
 }
@@ -1123,10 +1120,7 @@ bool CTFWeaponBase::ReloadSingly( void )
 			UpdateReloadTimers( false );
 		}
 
-#ifdef CLIENT_DLL
-		if ( !UsingViewModel() )
-#endif
-			WeaponSound( RELOAD );
+		PlayReloadSound();
 
 		// Next continue to reload shells?
 		m_iReloadMode.Set( TF_RELOADING_CONTINUE );
@@ -1238,10 +1232,7 @@ bool CTFWeaponBase::DefaultReload( int iClipSize1, int iClipSize2, int iActivity
 		return false;
 
 	// Play reload
-#ifdef CLIENT_DLL
-	if ( !UsingViewModel() )
-#endif
-		WeaponSound( RELOAD );
+	PlayReloadSound();
 
 	// Play the player's reload animation
 	pPlayer->DoAnimationEvent( PLAYERANIMEVENT_RELOAD );
@@ -1335,6 +1326,20 @@ bool CTFWeaponBase::PlayEmptySound()
 	//	EmitSound( filter, entindex(), "Default.ClipEmpty_Rifle" );
 
 	return false;
+}
+
+// -----------------------------------------------------------------------------
+// Purpose:
+// -----------------------------------------------------------------------------
+void CTFWeaponBase::PlayReloadSound( void )
+{
+#ifdef CLIENT_DLL
+	// Don't play world reload sound in first person, viewmodel will take care of this.
+	if ( UsingViewModel() )
+		return;
+#endif
+
+	WeaponSound( RELOAD );
 }
 
 // -----------------------------------------------------------------------------

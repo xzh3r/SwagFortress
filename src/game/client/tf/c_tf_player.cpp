@@ -1819,7 +1819,7 @@ void C_TFPlayer::SetDormant( bool bDormant )
 
 	m_Shared.UpdateCritBoostEffect();
 
-	// Deliberately skip base combat weapon
+	// Deliberately skip base player.
 	C_BaseEntity::SetDormant( bDormant );
 }
 
@@ -2603,11 +2603,8 @@ void C_TFPlayer::ThirdPersonSwitch( bool bThirdPerson )
 	// Update any effects affected by camera mode.
 	m_Shared.UpdateCritBoostEffect();
 	UpdateOverhealEffect();
-
-	if ( m_hSpyMask.Get() )
-	{
-		m_hSpyMask->UpdateVisibility();
-	}
+	UpdateSpyMask();
+	UpdateShieldEffect();
 }
 
 //-----------------------------------------------------------------------------
@@ -4504,11 +4501,7 @@ void C_TFPlayer::FireGameEvent( IGameEvent *event )
 			// Update any effects affected by disguise.
 			m_Shared.UpdateCritBoostEffect();
 			UpdateOverhealEffect();
-
-			if ( m_hSpyMask )
-			{
-				m_hSpyMask->UpdateVisibility();
-			}
+			UpdateSpyMask();
 		}
 	}
 	else
@@ -4529,16 +4522,9 @@ void C_TFPlayer::UpdateSpyMask( void )
 		// Create mask if we don't already have one.
 		if ( !pMask )
 		{
-			pMask = new C_TFSpyMask();
-
-			if ( !pMask->InitializeAsClientEntity( TF_SPY_MASK_MODEL, RENDER_GROUP_OPAQUE_ENTITY ) )
-			{
-				pMask->Release();
+			pMask = C_TFSpyMask::Create( this );		
+			if ( !pMask )
 				return;
-			}
-
-			pMask->SetOwnerEntity( this );
-			pMask->FollowEntity( this );
 
 			m_hSpyMask = pMask;
 		}
@@ -4555,9 +4541,38 @@ void C_TFPlayer::UpdateSpyMask( void )
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
+void C_TFPlayer::UpdateShieldEffect( void )
+{
+	C_PlayerAttachedModel *pShield = m_hPowerupShield.Get();
+
+	if ( m_Shared.InCond( TF_COND_POWERUP_SHIELD ) )
+	{
+		if ( !pShield )
+		{
+			pShield = C_PlayerAttachedModel::Create( TF_POWERUP_SHIELD_MODEL, this );
+			if ( !pShield )
+				return;
+
+			ClientLeafSystem()->SetRenderGroup( pShield->GetRenderHandle(), RENDER_GROUP_TRANSLUCENT_ENTITY );
+
+			m_hPowerupShield = pShield;
+		}
+
+		pShield->UpdateVisibility();
+	}
+	else if ( pShield )
+	{
+		pShield->Release();
+		m_hPowerupShield = NULL;
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 void C_TFPlayer::UpdateTypingBubble( void )
 {
-	// Don't show the bubble for local player.
+	// Don't show the bubble for local player since they don't need it.
 	if ( IsLocalPlayer() )
 		return;
 

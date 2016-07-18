@@ -267,6 +267,7 @@ public:
 	virtual void FireGameEvent( IGameEvent *event );
 
 	void UpdateSpyMask( void );
+	void UpdateShieldEffect( void );
 
 	void UpdateTypingBubble( void );
 	void UpdateOverhealEffect( void );
@@ -406,6 +407,7 @@ public:
 	float			m_flLastDamageTime;
 
 	CHandle<C_TFSpyMask> m_hSpyMask;
+	CHandle<C_PlayerAttachedModel> m_hPowerupShield;
 
 	bool			m_bTyping;
 	CNewParticleEffect	*m_pTypingEffect;

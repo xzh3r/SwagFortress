@@ -419,8 +419,6 @@ private:
 	EHANDLE m_hCritEffectHost;
 	CSoundPatch *m_pCritSound;
 
-	CHandle<C_BaseAnimating> m_hPowerupShield;
-
 	int	m_nOldDisguiseClass;
 	int m_nOldDisguiseTeam;
 

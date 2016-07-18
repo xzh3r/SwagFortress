@@ -183,6 +183,7 @@ class CTFWeaponBase : public CBaseCombatWeapon
 
 	// Sound.
 	bool PlayEmptySound();
+	void PlayReloadSound( void );
 	virtual const char *GetShootSound( int iIndex ) const;
 
 	// Activities.
