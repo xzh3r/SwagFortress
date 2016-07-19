@@ -710,14 +710,13 @@ CTFHudObjectiveStatus::CTFHudObjectiveStatus( const char *pElementName ) : CHudE
 
 	m_pFlagPanel = new CTFHudFlagObjectives( this, "ObjectiveStatusFlagPanel" );
 	m_pTimePanel = new CTFHudTimeStatus( this, "ObjectiveStatusTimePanel" );
-	m_pEscortPanel = new CTFHudEscort( this, "ObjectiveStatusEscort" );
-	m_pDMPanel = new CTFHudDeathMatchObjectives( this, "ObjectiveStatusDeathMatchPanel" );
 	m_pControlPointIconsPanel = NULL;
 	m_pControlPointProgressBar = new CControlPointProgressBar( this );
-	//m_pEscortPanel = new CTFHudEscort( this, "ObjectiveStatusEscort" );
+	m_pEscortPanel = new CTFHudEscort( this, "ObjectiveStatusEscort" );
 	//m_pEscortRacePanel = new CTFHudMultipleEscort( this, "ObjectiveStatusMultipleEscort" );
 	//m_pTrainingPanel = new CTFHudTraining( this, "ObjectiveStatusTraining" );
 	//m_pRobotDestructionPanel = new CTFHUDRobotDestruction( this, "ObjectiveStatusRobotDestruction" );
+	m_pDMPanel = new CTFHudDeathMatchObjectives( this, "ObjectiveStatusDeathMatchPanel" );
 
 	SetHiddenBits( 0 );
 

@@ -2612,15 +2612,12 @@ void C_TFPlayer::ThirdPersonSwitch( bool bThirdPerson )
 //-----------------------------------------------------------------------------
 bool C_TFPlayer::CanLightCigarette( void )
 {
-	C_TFPlayer *pLocalPlayer = C_TFPlayer::GetLocalTFPlayer();
-
 	// Start smoke if we're not invisible or disguised
-	if ( IsPlayerClass( TF_CLASS_SPY ) && IsAlive() &&									// only on spy model
+	if ( IsPlayerClass( TF_CLASS_SPY ) && IsAlive() &&						// only on spy model
 		( !m_Shared.InCond( TF_COND_DISGUISED ) || !IsEnemyPlayer() ) &&	// disguise doesn't show for teammates
 		GetPercentInvisible() <= 0 &&										// don't start if invis
-		( pLocalPlayer != this ) && 										// don't show to local player
-		!m_Shared.InCond( TF_COND_DISGUISED_AS_DISPENSER ) &&				// don't show if we're a dispenser
-		!( pLocalPlayer->GetObserverMode() == OBS_MODE_IN_EYE && pLocalPlayer->GetObserverTarget() == this ) )	// not if we're spectating this player first person
+		!InFirstPersonView() && 											// don't show in first person view
+		!m_Shared.InCond( TF_COND_DISGUISED_AS_DISPENSER ) )				// don't show if we're a dispenser
 		return true;
 
 	return false;

@@ -3,7 +3,6 @@
 // Purpose: Payload HUD
 //
 //=============================================================================
-
 #ifndef HUD_ESCORT_H
 #define HUD_ESCORT_H
 
@@ -17,11 +16,9 @@
 #include <vgui_controls/ImagePanel.h>
 #include "vgui_controls/EditablePanel.h"
 #include "vgui_controls/AnimationController.h"
-#include "vgui_controls/CircularProgressBar.h"
 #include <vgui/ISurface.h>
 #include "GameEventListener.h"
 #include "tf_controls.h"
-#include "IconPanel.h"
 
 class CTFHudEscort : public vgui::EditablePanel, public CGameEventListener
 {
@@ -31,9 +28,12 @@ public:
 	CTFHudEscort( vgui::Panel *pParent, const char *pszName );
 
 	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
+	virtual void OnChildSettingsApplied( KeyValues *pInResourceData, Panel *pChild );
 	virtual bool IsVisible( void );
 	virtual void FireGameEvent( IGameEvent *event );
 	virtual void OnTick( void );
+
+	void UpdateCPImages( bool bUpdatePositions, int iIndex );
 
 private:
 	vgui::ImagePanel *m_pLevelBar;
@@ -45,8 +45,13 @@ private:
 	vgui::ImagePanel *m_pBackwardsImage;
 	vgui::ImagePanel *m_pBlockedImage;
 
+	vgui::ImagePanel *m_pCPImageTemplate;
+	vgui::ImagePanel *m_pCPImages[MAX_CONTROL_POINTS];
+
 	float m_flProgress;
 	float m_flRecedeTime;
+
+	int m_iTeamNum;
 };
 
 #endif // HUD_ESCORT_H
