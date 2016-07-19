@@ -7,6 +7,7 @@
 #include "tf_hud_escort.h"
 #include "tf_hud_freezepanel.h"
 #include "c_team_objectiveresource.h"
+#include "tf_gamerules.h"
 
 using namespace vgui;
 
@@ -15,6 +16,8 @@ CTFHudEscort::CTFHudEscort( Panel *pParent, const char *pszName ) : EditablePane
 	m_pLevelBar = new ImagePanel( this, "LevelBar" );
 
 	m_pEscortItemPanel = new EditablePanel( this, "EscortItemPanel" );
+	m_pEscortItemImage = new ImagePanel( m_pEscortItemPanel, "EscortItemImage" );
+	m_pEscortItemImageBottom = new ImagePanel( m_pEscortItemPanel, "EscortItemImageBottom" );
 	m_pCapNumPlayers = new CExLabel( m_pEscortItemPanel, "CapNumPlayers", "x0" );
 	m_pRecedeTime = new CExLabel( m_pEscortItemPanel, "RecedeTime", "0" );
 	m_pCapPlayerImage = new ImagePanel( m_pEscortItemPanel, "CapPlayerImage" );
@@ -32,6 +35,8 @@ CTFHudEscort::CTFHudEscort( Panel *pParent, const char *pszName ) : EditablePane
 	m_flRecedeTime = 0.0f;
 
 	m_iTeamNum = TF_TEAM_BLUE;
+	m_bMultipleTrains = false;
+	m_bOnTop = true;
 
 	ivgui()->AddTickSignal( GetVPanel() );
 
@@ -57,9 +62,16 @@ void CTFHudEscort::ApplySchemeSettings( IScheme *pScheme )
 
 		KeyValues *pTeamKey = new KeyValues( m_iTeamNum == TF_TEAM_RED ? "if_team_red" : "if_team_blue" );
 		pConditions->AddSubKey( pTeamKey );
+
+		if ( m_bMultipleTrains )
+		{
+			AddSubKeyNamed( pConditions, "if_multiple_trains" );
+			AddSubKeyNamed( pConditions, m_iTeamNum == TF_TEAM_RED ? "if_multiple_trains_red" : "if_multiple_trains_blue" );
+			AddSubKeyNamed( pConditions, m_bOnTop ? "if_multiple_trains_top" : "if_multiple_trains_bottom" );
+		}
 	}
 
-	LoadControlSettings( "Resource/UI/ObjectiveStatusEscort.res", NULL, NULL, pConditions );
+	LoadControlSettings( "resource/ui/ObjectiveStatusEscort.res", NULL, NULL, pConditions );
 
 	if ( pConditions )
 		pConditions->deleteThis();
@@ -83,6 +95,21 @@ void CTFHudEscort::OnChildSettingsApplied( KeyValues *pInResourceData, Panel *pC
 	}
 
 	BaseClass::OnChildSettingsApplied( pInResourceData, pChild );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFHudEscort::PerformLayout( void )
+{
+	// If the tracker's at the bottom show the correct cart image.
+	if ( m_pEscortItemImage )
+		m_pEscortItemImage->SetVisible( m_bOnTop );
+
+	if ( m_pEscortItemImageBottom )
+		m_pEscortItemImageBottom->SetVisible( !m_bOnTop );
+
+	UpdateCPImages( true, -1 );
 }
 
 //-----------------------------------------------------------------------------
@@ -270,4 +297,88 @@ void CTFHudEscort::UpdateCPImages( bool bUpdatePositions, int iIndex )
 
 		pImage->SetImage( pszImage );
 	}
+}
+
+
+CTFHudMultipleEscort::CTFHudMultipleEscort( Panel *pParent, const char *pszName ) : EditablePanel( pParent, pszName )
+{
+	m_pRedEscort = new CTFHudEscort( this, "RedEscortPanel" );
+	m_pRedEscort->SetMultipleTrains( true );
+	m_pRedEscort->SetTeam( TF_TEAM_RED );
+	m_pRedEscort->SetOnTop( true );
+
+	m_pBlueEscort = new CTFHudEscort( this, "BlueEscortPanel" );
+	m_pBlueEscort->SetMultipleTrains( true );
+
+	ListenForGameEvent( "localplayer_changeteam" );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFHudMultipleEscort::ApplySchemeSettings( IScheme *pScheme )
+{
+	BaseClass::ApplySchemeSettings( pScheme );
+
+	// Setup conditions.
+	KeyValues *pConditions = new KeyValues( "conditions" );
+
+	int iTeam = GetLocalPlayerTeam();
+	AddSubKeyNamed( pConditions, iTeam == TF_TEAM_BLUE ? "if_blue_is_top" : "if_red_is_top" );
+
+	LoadControlSettings( "resource/ui/ObjectiveStatusMultipleEscort.res", NULL, NULL, pConditions );
+
+	pConditions->deleteThis();
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFHudMultipleEscort::FireGameEvent( IGameEvent *event )
+{
+	if ( V_strcmp( event->GetName(), "localplayer_changeteam" ) == 0 )
+	{
+		// Show the cart of the local player's team on top.
+		int iTeam = GetLocalPlayerTeam();
+		if ( m_pRedEscort )
+		{
+			m_pRedEscort->SetOnTop( iTeam != TF_TEAM_BLUE );
+		}
+		if ( m_pBlueEscort )
+		{
+			m_pBlueEscort->SetOnTop( iTeam == TF_TEAM_BLUE );
+		}
+
+		// Re-arrange panels when player changes teams.
+		InvalidateLayout( false, true );
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFHudMultipleEscort::SetVisible( bool bVisible )
+{
+	// Hide sub-panels as well.
+	if ( m_pRedEscort )
+	{
+		m_pRedEscort->SetVisible( bVisible );
+	}	
+	if ( m_pBlueEscort )
+	{
+		m_pBlueEscort->SetVisible( bVisible );
+	}
+
+	BaseClass::SetVisible( bVisible );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+bool CTFHudMultipleEscort::IsVisible( void )
+{
+	if ( IsInFreezeCam() )
+		return false;
+
+	return BaseClass::IsVisible();
 }

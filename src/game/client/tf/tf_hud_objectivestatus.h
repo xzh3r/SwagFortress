@@ -208,6 +208,7 @@ private:
 	CHudControlPointIcons	*m_pControlPointIconsPanel;
 	CControlPointProgressBar *m_pControlPointProgressBar;
 	CTFHudEscort			*m_pEscortPanel;
+	CTFHudMultipleEscort	*m_pEscortRacePanel;
 };
 
 #endif	// TF_HUD_OBJECTIVESTATUS_H

@@ -33,16 +33,16 @@
 #endif
 
 #ifdef CLIENT_DLL
-	
-	#define CTFGameRules C_TFGameRules
-	#define CTFGameRulesProxy C_TFGameRulesProxy
+
+#define CTFGameRules C_TFGameRules
+#define CTFGameRulesProxy C_TFGameRulesProxy
 
 #else
 
-	extern BOOL no_cease_fire_text;
-	extern BOOL cease_fire;
+extern BOOL no_cease_fire_text;
+extern BOOL cease_fire;
 
-	class CHealthKit;
+class CHealthKit;
 
 #endif
 
@@ -82,16 +82,16 @@ public:
 	DECLARE_DATADESC();
 	void	InputSetRedTeamRespawnWaveTime( inputdata_t &inputdata );
 	void	InputSetBlueTeamRespawnWaveTime( inputdata_t &inputdata );
-	void	InputSetGreenTeamRespawnWaveTime(inputdata_t &inputdata);
-	void	InputSetYellowTeamRespawnWaveTime(inputdata_t &inputdata);
+	void	InputSetGreenTeamRespawnWaveTime( inputdata_t &inputdata );
+	void	InputSetYellowTeamRespawnWaveTime( inputdata_t &inputdata );
 	void	InputAddRedTeamRespawnWaveTime( inputdata_t &inputdata );
 	void	InputAddBlueTeamRespawnWaveTime( inputdata_t &inputdata );
-	void	InputAddGreenTeamRespawnWaveTime(inputdata_t &inputdata);
-	void	InputAddYellowTeamRespawnWaveTime(inputdata_t &inputdata);
+	void	InputAddGreenTeamRespawnWaveTime( inputdata_t &inputdata );
+	void	InputAddYellowTeamRespawnWaveTime( inputdata_t &inputdata );
 	void	InputSetRedTeamGoalString( inputdata_t &inputdata );
 	void	InputSetBlueTeamGoalString( inputdata_t &inputdata );
-	void	InputSetGreenTeamGoalString(inputdata_t &inputdata);
-	void	InputSetYellowTeamGoalString(inputdata_t &inputdata);
+	void	InputSetGreenTeamGoalString( inputdata_t &inputdata );
+	void	InputSetYellowTeamGoalString( inputdata_t &inputdata );
 	void	InputSetRedTeamRole( inputdata_t &inputdata );
 	void	InputSetBlueTeamRole( inputdata_t &inputdata );
 	void	InputSetGreenTeamRole( inputdata_t &inputdata );
@@ -151,7 +151,7 @@ public:
 	virtual bool	Damage_ShowOnHUD( int iDmgType );				// Damage types that have client HUD art.
 	virtual bool	Damage_ShouldNotBleed( int iDmgType );			// Damage types that don't make the player bleed.
 	// TEMP:
-	virtual int		Damage_GetTimeBased( void );		
+	virtual int		Damage_GetTimeBased( void );
 	virtual int		Damage_GetShowOnHud( void );
 	virtual int		Damage_GetShouldNotBleed( void );
 
@@ -159,12 +159,12 @@ public:
 	virtual bool	TeamMayCapturePoint( int iTeam, int iPointIndex );
 	virtual bool	PlayerMayCapturePoint( CBasePlayer *pPlayer, int iPointIndex, char *pszReason = NULL, int iMaxReasonLength = 0 );
 	virtual bool	PlayerMayBlockPoint( CBasePlayer *pPlayer, int iPointIndex, char *pszReason = NULL, int iMaxReasonLength = 0 );
-	
+
 	static int		CalcPlayerScore( RoundStats_t *pRoundStats );
 
 	bool			IsBirthday( void );
 
-	virtual const unsigned char *GetEncryptionKey( void ) { return (unsigned char *)"E2NcUkG2"; }
+	virtual const unsigned char *GetEncryptionKey( void ) { return ( unsigned char * )"E2NcUkG2"; }
 
 	virtual bool	AllowThirdPersonCamera( void );
 
@@ -215,7 +215,7 @@ public:
 	virtual void	HandleScrambleTeams( void );
 	bool			CanChangeClassInStalemate( void );
 
-	virtual void	SetRoundOverlayDetails( void );	
+	virtual void	SetRoundOverlayDetails( void );
 	virtual void	ShowRoundInfoPanel( CTFPlayer *pPlayer = NULL ); // NULL pPlayer means show the panel to everyone
 
 	virtual bool	TimerMayExpire( void );
@@ -229,7 +229,7 @@ public:
 
 	virtual void	Activate();
 
-	virtual void	SetHudType(int iHudType){ m_nHudType = iHudType; };
+	virtual void	SetHudType( int iHudType ) { m_nHudType = iHudType; };
 
 	virtual bool	AllowDamage( CBaseEntity *pVictim, const CTakeDamageInfo &info );
 
@@ -246,14 +246,16 @@ public:
 
 	bool			ShouldScorePerRound( void );
 
-	virtual int		PlayerRelationship(CBaseEntity *pPlayer, CBaseEntity *pTarget);
+	virtual int		PlayerRelationship( CBaseEntity *pPlayer, CBaseEntity *pTarget );
+
+	virtual void	PlayTrainCaptureAlert( CTeamControlPoint *pPoint, bool bFinalPointInMap );
 
 	void			SetBlueKothRoundTimer( CTeamRoundTimer *pTimer ) { m_hBlueKothTimer.Set( pTimer ); }
 	void			SetRedKothRoundTimer( CTeamRoundTimer *pTimer ) { m_hRedKothTimer.Set( pTimer ); }
 	void			SetGreenKothRoundTimer( CTeamRoundTimer *pTimer ) { m_hGreenKothTimer.Set( pTimer ); }
 	void			SetYellowKothRoundTimer( CTeamRoundTimer *pTimer ) { m_hYellowKothTimer.Set( pTimer ); }
 
-	virtual bool	ClientConnected(edict_t *pEntity, const char *pszName, const char *pszAddress, char *reject, int maxrejectlen);
+	virtual bool	ClientConnected( edict_t *pEntity, const char *pszName, const char *pszAddress, char *reject, int maxrejectlen );
 
 protected:
 	virtual void	InitTeams( void );
@@ -261,7 +263,7 @@ protected:
 	virtual void	RoundRespawn( void );
 
 	virtual void	InternalHandleTeamWin( int iWinningTeam );
-	
+
 	static int		PlayerRoundScoreSortFunc( const PlayerRoundScore_t *pRoundScore1, const PlayerRoundScore_t *pRoundScore2 );
 
 	virtual void	FillOutTeamplayRoundWinEvent( IGameEvent *event );
@@ -276,7 +278,7 @@ public:
 
 	// Collision and Damage rules.
 	virtual bool	ShouldCollide( int collisionGroup0, int collisionGroup1 );
-	
+
 	int GetTimeLeft( void );
 
 	// Get the view vectors for this mod.
@@ -284,31 +286,31 @@ public:
 
 	virtual void FireGameEvent( IGameEvent *event );
 
-	virtual const char *GetGameTypeName( void ){ return g_aGameTypeNames[m_nGameType]; }
-	virtual int GetGameType( void ){ return m_nGameType; }
+	virtual const char *GetGameTypeName( void ) { return g_aGameTypeNames[m_nGameType]; }
+	virtual int GetGameType( void ) { return m_nGameType; }
 
 	virtual bool FlagsMayBeCapped( void );
 
-	void	RunPlayerConditionThink ( void );
+	void	RunPlayerConditionThink( void );
 
 	const char *GetTeamGoalString( int iTeam );
 
-	virtual int		GetHudType( void ){ return m_nHudType; };
+	virtual int		GetHudType( void ) { return m_nHudType; };
 
-	virtual bool	IsMultiplayer( void ){ return true; };
+	virtual bool	IsMultiplayer( void ) { return true; };
 
 	virtual bool	IsConnectedUserInfoChangeAllowed( CBasePlayer *pPlayer );
 
-	virtual bool	IsFourTeamGame( void ){ return m_bFourTeamMode; };
-	virtual bool	IsDeathmatch( void ){ return m_nGameType == TF_GAMETYPE_DM; };
+	virtual bool	IsFourTeamGame( void ) { return m_bFourTeamMode; };
+	virtual bool	IsDeathmatch( void ) { return m_nGameType == TF_GAMETYPE_DM; };
 	virtual bool    IsMannVsMachineMode( void ) { return false; };
 	virtual bool	IsInArenaMode( void ) { return m_nGameType == TF_GAMETYPE_ARENA; }
 	virtual bool	IsInKothMode( void ) { return m_bPlayingKoth; }
 	virtual bool    IsHalloweenScenario( int iEventType ) { return false; };
 	virtual bool	IsPVEModeActive( void ) { return false; };
-	virtual bool	IsCompetitiveMode( void ){ return m_bCompetitiveMode; };
-	virtual bool	IsInHybridCTF_CPMode( void ){ return m_bPlayingHybrid_CTF_CP; };
-	virtual bool	IsInSpecialDeliveryMode( void ){ return m_bPlayingSpecialDeliveryMode; };
+	virtual bool	IsCompetitiveMode( void ) { return m_bCompetitiveMode; };
+	virtual bool	IsInHybridCTF_CPMode( void ) { return m_bPlayingHybrid_CTF_CP; };
+	virtual bool	IsInSpecialDeliveryMode( void ) { return m_bPlayingSpecialDeliveryMode; };
 
 #ifdef CLIENT_DLL
 
@@ -326,7 +328,7 @@ public:
 #else
 
 	DECLARE_SERVERCLASS_NOBASE(); // This makes data tables able to access our private vars.
-	
+
 	virtual ~CTFGameRules();
 
 	virtual bool ClientCommand( CBaseEntity *pEdict, const CCommand &args );
@@ -351,13 +353,13 @@ public:
 	virtual void GetTaggedConVarList( KeyValues *pCvarTagList );
 	void ChangePlayerName( CTFPlayer *pPlayer, const char *pszNewName );
 
-	virtual VoiceCommandMenuItem_t *VoiceCommand( CBaseMultiplayerPlayer *pPlayer, int iMenu, int iItem ); 
+	virtual VoiceCommandMenuItem_t *VoiceCommand( CBaseMultiplayerPlayer *pPlayer, int iMenu, int iItem );
 
 	bool IsInPreMatch() const;
 	float GetPreMatchEndTime() const;	// Returns the time at which the prematch will be over.
 	void GoToIntermission( void );
 
-	virtual int GetAutoAimMode()	{ return AUTOAIM_NONE; }
+	virtual int GetAutoAimMode() { return AUTOAIM_NONE; }
 
 	bool CanHaveAmmo( CBaseCombatCharacter *pPlayer, int iAmmoIndex );
 
@@ -404,9 +406,9 @@ private:
 
 	Vector2D	m_vecPlayerPositions[MAX_PLAYERS];
 
-	CUtlVector<CHandle<CHealthKit> > m_hDisabledHealthKits;	
-	
-	char	m_szMostRecentCappers[MAX_PLAYERS+1];	// list of players who made most recent capture.  Stored as string so it can be passed in events.
+	CUtlVector<CHandle<CHealthKit> > m_hDisabledHealthKits;
+
+	char	m_szMostRecentCappers[MAX_PLAYERS + 1];	// list of players who made most recent capture.  Stored as string so it can be passed in events.
 	int		m_iNumCaps[TF_TEAM_COUNT];				// # of captures ever by each team during a round
 
 	int SetCurrentRoundStateBitString();
@@ -443,7 +445,7 @@ private:
 
 public:
 
-	bool m_bControlSpawnsPerTeam[ MAX_TEAMS ][ MAX_CONTROL_POINTS ];
+	bool m_bControlSpawnsPerTeam[MAX_TEAMS][MAX_CONTROL_POINTS];
 	int	 m_iPreviousRoundWinners;
 
 	int		m_iBirthdayMode;
@@ -462,15 +464,15 @@ public:
 
 inline CTFGameRules* TFGameRules()
 {
-	return static_cast<CTFGameRules*>(g_pGameRules);
+	return static_cast<CTFGameRules*>( g_pGameRules );
 }
 
 #ifdef GAME_DLL
-	bool EntityPlacementTest( CBaseEntity *pMainEnt, const Vector &vOrigin, Vector &outPos, bool bDropToGround );
+bool EntityPlacementTest( CBaseEntity *pMainEnt, const Vector &vOrigin, Vector &outPos, bool bDropToGround );
 #endif
 
 #ifdef CLIENT_DLL
-	void AddSubKeyNamed( KeyValues *pKeys, const char *pszName );
+void AddSubKeyNamed( KeyValues *pKeys, const char *pszName );
 #endif
 
 #endif // TF_GAMERULES_H

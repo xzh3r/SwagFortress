@@ -29,16 +29,22 @@ public:
 
 	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
 	virtual void OnChildSettingsApplied( KeyValues *pInResourceData, Panel *pChild );
+	virtual void PerformLayout( void );
 	virtual bool IsVisible( void );
 	virtual void FireGameEvent( IGameEvent *event );
 	virtual void OnTick( void );
 
 	void UpdateCPImages( bool bUpdatePositions, int iIndex );
+	void SetTeam( int iTeam ) { m_iTeamNum = iTeam; }
+	void SetMultipleTrains( bool bEnabled ) { m_bMultipleTrains = bEnabled; }
+	void SetOnTop( bool bTop ) { m_bOnTop = bTop; }
 
 private:
 	vgui::ImagePanel *m_pLevelBar;
 
 	vgui::EditablePanel *m_pEscortItemPanel;
+	vgui::ImagePanel *m_pEscortItemImage;
+	vgui::ImagePanel *m_pEscortItemImageBottom;
 	CExLabel *m_pCapNumPlayers;
 	CExLabel *m_pRecedeTime;
 	vgui::ImagePanel *m_pCapPlayerImage;
@@ -52,6 +58,26 @@ private:
 	float m_flRecedeTime;
 
 	int m_iTeamNum;
+	bool m_bMultipleTrains;
+	bool m_bOnTop;
+};
+
+
+class CTFHudMultipleEscort : public vgui::EditablePanel, public CGameEventListener
+{
+public:
+	DECLARE_CLASS_SIMPLE( CTFHudMultipleEscort, vgui::EditablePanel );
+
+	CTFHudMultipleEscort( vgui::Panel *pParent, const char *pszName );
+
+	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
+	virtual void FireGameEvent( IGameEvent *event );
+	virtual void SetVisible( bool bVisible );
+	virtual bool IsVisible( void );
+
+private:
+	CTFHudEscort *m_pRedEscort;
+	CTFHudEscort *m_pBlueEscort;
 };
 
 #endif // HUD_ESCORT_H

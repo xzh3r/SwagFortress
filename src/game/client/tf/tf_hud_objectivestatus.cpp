@@ -713,7 +713,7 @@ CTFHudObjectiveStatus::CTFHudObjectiveStatus( const char *pElementName ) : CHudE
 	m_pControlPointIconsPanel = NULL;
 	m_pControlPointProgressBar = new CControlPointProgressBar( this );
 	m_pEscortPanel = new CTFHudEscort( this, "ObjectiveStatusEscort" );
-	//m_pEscortRacePanel = new CTFHudMultipleEscort( this, "ObjectiveStatusMultipleEscort" );
+	m_pEscortRacePanel = new CTFHudMultipleEscort( this, "ObjectiveStatusMultipleEscort" );
 	//m_pTrainingPanel = new CTFHudTraining( this, "ObjectiveStatusTraining" );
 	//m_pRobotDestructionPanel = new CTFHUDRobotDestruction( this, "ObjectiveStatusRobotDestruction" );
 	m_pDMPanel = new CTFHudDeathMatchObjectives( this, "ObjectiveStatusDeathMatchPanel" );
@@ -814,9 +814,19 @@ void CTFHudObjectiveStatus::SetVisiblePanels( void )
 
 		case TF_GAMETYPE_ESCORT:
 			// turn on the payload panel
-			if ( m_pEscortPanel && !m_pEscortPanel->IsVisible() )
+			if ( TFGameRules()->HasMultipleTrains() )
 			{
-				m_pEscortPanel->SetVisible( true );
+				if ( m_pEscortRacePanel && !m_pEscortRacePanel->IsVisible() )
+				{
+					m_pEscortRacePanel->SetVisible( true );
+				}
+			}
+			else
+			{
+				if ( m_pEscortPanel && !m_pEscortPanel->IsVisible() )
+				{
+					m_pEscortPanel->SetVisible( true );
+				}
 			}
 			return;
 			break;
@@ -861,14 +871,23 @@ void CTFHudObjectiveStatus::SetVisiblePanels( void )
 					m_pFlagPanel->SetVisible( true );
 				}
 			}
-
 			break;
 
 		case TF_GAMETYPE_ESCORT:
 			// turn on the payload panel
-			if ( m_pEscortPanel && !m_pEscortPanel->IsVisible() )
+			if ( TFGameRules()->HasMultipleTrains() )
 			{
-				m_pEscortPanel->SetVisible( true );
+				if ( m_pEscortRacePanel && !m_pEscortRacePanel->IsVisible() )
+				{
+					m_pEscortRacePanel->SetVisible( true );
+				}
+			}
+			else
+			{
+				if ( m_pEscortPanel && !m_pEscortPanel->IsVisible() )
+				{
+					m_pEscortPanel->SetVisible( true );
+				}
 			}
 			break;
 
@@ -912,6 +931,11 @@ void CTFHudObjectiveStatus::TurnOffPanels()
 	if ( m_pEscortPanel && m_pEscortPanel->IsVisible() )
 	{
 		m_pEscortPanel->SetVisible( false );
+	}
+
+	if ( m_pEscortRacePanel && m_pEscortRacePanel->IsVisible() )
+	{
+		m_pEscortRacePanel->SetVisible( false );
 	}
 }
 
