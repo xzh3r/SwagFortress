@@ -431,9 +431,9 @@ void CTFHudEscort::UpdateAlarmAnimations( void )
 CTFHudMultipleEscort::CTFHudMultipleEscort( Panel *pParent, const char *pszName ) : EditablePanel( pParent, pszName )
 {
 	m_pRedEscort = new CTFHudEscort( this, "RedEscortPanel", TF_TEAM_RED, true );
-	m_pRedEscort->SetOnTop( true );
 
 	m_pBlueEscort = new CTFHudEscort( this, "BlueEscortPanel", TF_TEAM_BLUE, true );
+	m_pRedEscort->SetOnTop( false );
 
 	ListenForGameEvent( "localplayer_changeteam" );
 }
@@ -527,7 +527,7 @@ CEscortHillPanel::CEscortHillPanel( Panel *pParent, const char *pszName ) : Pane
 	m_iWidth = 0;
 	m_iHeight = 0;
 	m_flScrollPerc = 0.0f;
-	m_flUnknown = 0.0f;
+	m_flTextureScale = 0.0f;
 
 	m_iTeamNum = TEAM_UNASSIGNED;
 	m_iHillIndex = 0;
@@ -561,7 +561,7 @@ void CEscortHillPanel::Paint( void )
 
 	surface()->DrawSetTexture( m_iTextureId );
 
-	float flMod = m_flUnknown + m_flScrollPerc;
+	float flMod = m_flTextureScale + m_flScrollPerc;
 
 	Vertex_t vert[4];
 
@@ -583,8 +583,7 @@ void CEscortHillPanel::PerformLayout( void )
 	GetBounds( x, y, m_iWidth, m_iHeight );
 	surface()->DrawGetTextureSize( m_iTextureId, textureWide, textureTall );
 
-	// Not quite quite what this is and what it does...
-	m_flUnknown = (float)m_iWidth / ( (float)textureWide * ( (float)m_iHeight / (float)textureTall ) );
+	m_flTextureScale = (float)m_iWidth / ( (float)textureWide * ( (float)m_iHeight / (float)textureTall ) );
 
 	SetAlpha( 64 );
 }

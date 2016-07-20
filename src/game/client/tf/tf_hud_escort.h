@@ -114,7 +114,7 @@ private:
 	int m_iWidth;
 	int m_iHeight;
 	float m_flScrollPerc;
-	float m_flUnknown;
+	float m_flTextureScale;
 
 	int m_iTeamNum;
 	int m_iHillIndex;
