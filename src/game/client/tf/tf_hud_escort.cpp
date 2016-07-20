@@ -8,9 +8,15 @@
 #include "tf_hud_freezepanel.h"
 #include "c_team_objectiveresource.h"
 #include "tf_gamerules.h"
+#include "iclientmode.h"
+#include "vgui_controls/AnimationController.h"
 
 using namespace vgui;
 
+
+//=============================================================================
+// CTFHudEscort
+//=============================================================================
 CTFHudEscort::CTFHudEscort( Panel *pParent, const char *pszName ) : EditablePanel( pParent, pszName )
 {
 	m_pLevelBar = new ImagePanel( this, "LevelBar" );
@@ -18,6 +24,7 @@ CTFHudEscort::CTFHudEscort( Panel *pParent, const char *pszName ) : EditablePane
 	m_pEscortItemPanel = new EditablePanel( this, "EscortItemPanel" );
 	m_pEscortItemImage = new ImagePanel( m_pEscortItemPanel, "EscortItemImage" );
 	m_pEscortItemImageBottom = new ImagePanel( m_pEscortItemPanel, "EscortItemImageBottom" );
+	m_pEscortItemImageAlert = new ImagePanel( m_pEscortItemPanel, "EscortItemImageAlert" );
 	m_pCapNumPlayers = new CExLabel( m_pEscortItemPanel, "CapNumPlayers", "x0" );
 	m_pRecedeTime = new CExLabel( m_pEscortItemPanel, "RecedeTime", "0" );
 	m_pCapPlayerImage = new ImagePanel( m_pEscortItemPanel, "CapPlayerImage" );
@@ -31,12 +38,19 @@ CTFHudEscort::CTFHudEscort( Panel *pParent, const char *pszName ) : EditablePane
 
 	m_pCPImageTemplate = new ImagePanel( this, "SimpleControlPointTemplate" );
 
+	for ( int i = 0; i < TEAM_TRAIN_MAX_HILLS; i++ )
+	{
+		m_pHillPanels[i] = new CEscortHillPanel( this, VarArgs( "hill_%d", i ) );
+	}
+
 	m_flProgress = -1.0f;
 	m_flRecedeTime = 0.0f;
 
 	m_iTeamNum = TF_TEAM_BLUE;
 	m_bMultipleTrains = false;
 	m_bOnTop = true;
+	m_bAlarm = false;
+	m_iNumHills = 0;
 
 	ivgui()->AddTickSignal( GetVPanel() );
 
@@ -54,20 +68,30 @@ void CTFHudEscort::ApplySchemeSettings( IScheme *pScheme )
 {
 	BaseClass::ApplySchemeSettings( pScheme );
 
+	// Get hill data.
+	if ( ObjectiveResource() )
+	{
+		m_iNumHills = ObjectiveResource()->GetNumNodeHillData( m_iTeamNum );
+	}
+
 	// Setup conditions.
 	KeyValues *pConditions = NULL;
 	if ( m_iTeamNum >= FIRST_GAME_TEAM )
 	{
 		pConditions = new KeyValues( "conditions" );
 
-		KeyValues *pTeamKey = new KeyValues( m_iTeamNum == TF_TEAM_RED ? "if_team_red" : "if_team_blue" );
-		pConditions->AddSubKey( pTeamKey );
+		AddSubKeyNamed( pConditions, m_iTeamNum == TF_TEAM_RED ? "if_team_red" : "if_team_blue" );
 
 		if ( m_bMultipleTrains )
 		{
 			AddSubKeyNamed( pConditions, "if_multiple_trains" );
 			AddSubKeyNamed( pConditions, m_iTeamNum == TF_TEAM_RED ? "if_multiple_trains_red" : "if_multiple_trains_blue" );
 			AddSubKeyNamed( pConditions, m_bOnTop ? "if_multiple_trains_top" : "if_multiple_trains_bottom" );
+		}
+		else if ( m_iNumHills > 0 )
+		{
+			AddSubKeyNamed( pConditions, "if_single_with_hills" );
+			AddSubKeyNamed( pConditions, m_iTeamNum == TF_TEAM_RED ? "if_single_with_hills_red" : "if_single_with_hills_blue" );
 		}
 	}
 
@@ -109,6 +133,39 @@ void CTFHudEscort::PerformLayout( void )
 	if ( m_pEscortItemImageBottom )
 		m_pEscortItemImageBottom->SetVisible( !m_bOnTop );
 
+	// Update hill panels.
+	for ( int i = 0; i < TEAM_TRAIN_MAX_HILLS; i++ )
+	{
+		CEscortHillPanel *pPanel = m_pHillPanels[i];
+		if ( !pPanel )
+			continue;
+
+		if ( !ObjectiveResource() || i >= ObjectiveResource()->GetNumNodeHillData( m_iTeamNum ) || !m_pLevelBar )
+		{
+			pPanel->SetVisible( false );
+			continue;
+		}
+
+		pPanel->SetTeam( m_iTeamNum );
+		pPanel->SetHillIndex( i );
+		pPanel->SetVisible( true );
+
+		// Set the panel's bounds according to starting and ending points of the hill.
+		int x, y, wide, tall;
+		m_pLevelBar->GetBounds( x, y, wide, tall );
+
+		float flStart, flEnd;
+		ObjectiveResource()->GetHillData( m_iTeamNum, i, flStart, flEnd );
+
+		int iStartPos = flStart * wide;
+		int iEndPos = flEnd * wide;
+
+		pPanel->SetBounds( x + iStartPos, y, iEndPos - iStartPos, tall );
+
+		// Show it on top of the track bar.
+		pPanel->SetZPos( m_pLevelBar->GetZPos() + 1 );
+	}
+
 	UpdateCPImages( true, -1 );
 }
 
@@ -130,7 +187,7 @@ void CTFHudEscort::FireGameEvent( IGameEvent *event )
 {
 	if ( V_strcmp( event->GetName(), "controlpoint_initialized" ) == 0 )
 	{
-		UpdateCPImages( true, -1 );
+		InvalidateLayout( true, true );
 		return;
 	}
 
@@ -227,11 +284,23 @@ void CTFHudEscort::OnTick( void )
 	if ( m_pRecedeTime )
 	{
 		// Show the timer if the cart is close to starting to recede.
-		bool bShow = flRecedeTimeLeft > 0 && flRecedeTimeLeft < 30.0f;
+		bool bShow = flRecedeTimeLeft > 0 && flRecedeTimeLeft < 20.0f;
 		if ( m_pRecedeTime->IsVisible() != bShow )
 		{
 			m_pRecedeTime->SetVisible( bShow );
 		}
+	}
+
+	bool bInAlarm = false;
+	if ( ObjectiveResource() ) 
+	{
+		bInAlarm = ObjectiveResource()->GetTrackAlarm( m_iTeamNum );
+	}
+
+	if ( bInAlarm != m_bAlarm )
+	{
+		m_bAlarm = bInAlarm;
+		UpdateAlarmAnimations();
 	}
 }
 
@@ -257,7 +326,8 @@ void CTFHudEscort::UpdateCPImages( bool bUpdatePositions, int iIndex )
 		{
 			// Check if this point exists and should be shown.
 			if ( i >= ObjectiveResource()->GetNumControlPoints() ||
-				( ObjectiveResource()->PlayingMiniRounds() && ObjectiveResource()->IsCPVisible( i ) == false ) )
+				ObjectiveResource()->IsInMiniRound( i ) == false ||
+				ObjectiveResource()->IsCPVisible( i ) == false )
 			{
 				pImage->SetVisible( false );
 				continue;
@@ -299,7 +369,35 @@ void CTFHudEscort::UpdateCPImages( bool bUpdatePositions, int iIndex )
 	}
 }
 
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFHudEscort::UpdateAlarmAnimations( void )
+{
+	// Only do alert animations in Payload Race.
+	if ( !m_pEscortItemImageAlert || !m_bMultipleTrains )
+		return;
 
+	if ( m_bAlarm )
+	{
+		if ( !m_pEscortItemImageAlert->IsVisible() )
+			m_pEscortItemImageAlert->SetVisible( true );
+
+		g_pClientMode->GetViewportAnimationController()->StartAnimationSequence( m_pEscortItemPanel, "HudCartAlarmPulse" );
+	}
+	else
+	{
+		if ( m_pEscortItemImageAlert->IsVisible() )
+			m_pEscortItemImageAlert->SetVisible( false );
+
+		g_pClientMode->GetViewportAnimationController()->StartAnimationSequence( m_pEscortItemPanel, "HudCartAlarmPulseStop" );
+	}
+}
+
+
+//=============================================================================
+// CTFHudMultipleEscort
+//=============================================================================
 CTFHudMultipleEscort::CTFHudMultipleEscort( Panel *pParent, const char *pszName ) : EditablePanel( pParent, pszName )
 {
 	m_pRedEscort = new CTFHudEscort( this, "RedEscortPanel" );
@@ -381,4 +479,114 @@ bool CTFHudMultipleEscort::IsVisible( void )
 		return false;
 
 	return BaseClass::IsVisible();
+}
+
+
+//=============================================================================
+// CEscortHillPanel
+//=============================================================================
+CEscortHillPanel::CEscortHillPanel( Panel *pParent, const char *pszName ) : Panel( pParent, pszName )
+{
+	// Load the texture.
+	m_iTextureId = surface()->DrawGetTextureId( "hud/cart_track_arrow" );
+	if ( m_iTextureId == -1 )
+	{
+		m_iTextureId = surface()->CreateNewTextureID( false );
+		surface()->DrawSetTextureFile( m_iTextureId, "hud/cart_track_arrow", true, false );
+	}
+
+	m_bActive = false;
+	m_bLowerAlpha = true;
+	m_iWidth = 0;
+	m_iHeight = 0;
+	m_flScrollPerc = 0.0f;
+	m_flUnknown = 0.0f;
+
+	m_iTeamNum = TEAM_UNASSIGNED;
+	m_iHillIndex = 0;
+
+	ivgui()->AddTickSignal( GetVPanel(), 750 );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CEscortHillPanel::Paint( void )
+{
+	if ( ObjectiveResource() )
+	{
+		m_bActive = ObjectiveResource()->IsTrainOnHill( m_iTeamNum, m_iHillIndex );
+	}
+	else
+	{
+		m_bActive = false;
+	}
+
+	if ( m_bActive )
+	{
+		// Scroll the texture when the cart is on this hill.
+		m_flScrollPerc += 0.02f;
+		if ( m_flScrollPerc > 1.0f )
+			m_flScrollPerc -= 1.0f;
+	}
+
+	surface()->DrawSetTexture( m_iTextureId );
+
+	float flMod = m_flUnknown + m_flScrollPerc;
+
+	Vertex_t vert[4];
+
+	vert[0].Init( vec2_origin, Vector2D( m_flScrollPerc, 0.0f ) );
+	vert[1].Init( Vector2D( m_iWidth, 0.0f ), Vector2D( flMod, 0.0f ) );
+	vert[2].Init( Vector2D( m_iWidth, m_iHeight ), Vector2D( flMod, 1.0f ) );
+	vert[3].Init( Vector2D( 0.0f, m_iHeight ), Vector2D( m_flScrollPerc, 1.0f ) );
+
+	surface()->DrawSetColor( COLOR_WHITE );
+	surface()->DrawTexturedPolygon( 4, vert );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CEscortHillPanel::PerformLayout( void )
+{
+	int x, y, textureWide, textureTall;
+	GetBounds( x, y, m_iWidth, m_iHeight );
+	surface()->DrawGetTextureSize( m_iTextureId, textureWide, textureTall );
+
+	// Not quite quite what this is and what it does...
+	m_flUnknown = (float)m_iWidth / ( (float)textureWide * ( (float)m_iHeight / (float)textureTall ) );
+
+	SetAlpha( 64 );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CEscortHillPanel::OnTick( void )
+{
+	if ( !IsVisible() )
+		return;
+
+	if ( m_bActive )
+	{
+		if ( m_bLowerAlpha )
+		{
+			// Lower alpha.
+			GetAnimationController()->RunAnimationCommand( this, "alpha", 32.0f, 0.0f, 0.75f, AnimationController::INTERPOLATOR_LINEAR );
+			m_bLowerAlpha = false;
+		}
+		else
+		{
+			// Rise alpha.
+			GetAnimationController()->RunAnimationCommand( this, "alpha", 96.0f, 0.0f, 0.75f, AnimationController::INTERPOLATOR_LINEAR );
+			m_bLowerAlpha = true;
+		}
+	}
+	else
+	{
+		// Stop flashing.
+		SetAlpha( 64 );
+		m_bLowerAlpha = true;
+	}
 }
