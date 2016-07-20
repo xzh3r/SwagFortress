@@ -712,7 +712,7 @@ CTFHudObjectiveStatus::CTFHudObjectiveStatus( const char *pElementName ) : CHudE
 	m_pTimePanel = new CTFHudTimeStatus( this, "ObjectiveStatusTimePanel" );
 	m_pControlPointIconsPanel = NULL;
 	m_pControlPointProgressBar = new CControlPointProgressBar( this );
-	m_pEscortPanel = new CTFHudEscort( this, "ObjectiveStatusEscort" );
+	m_pEscortPanel = new CTFHudEscort( this, "ObjectiveStatusEscort", TF_TEAM_BLUE, false );
 	m_pEscortRacePanel = new CTFHudMultipleEscort( this, "ObjectiveStatusMultipleEscort" );
 	//m_pTrainingPanel = new CTFHudTraining( this, "ObjectiveStatusTraining" );
 	//m_pRobotDestructionPanel = new CTFHUDRobotDestruction( this, "ObjectiveStatusRobotDestruction" );

@@ -17,8 +17,10 @@ using namespace vgui;
 //=============================================================================
 // CTFHudEscort
 //=============================================================================
-CTFHudEscort::CTFHudEscort( Panel *pParent, const char *pszName ) : EditablePanel( pParent, pszName )
+CTFHudEscort::CTFHudEscort( Panel *pParent, const char *pszName, int iTeam, bool bMultipleTrains ) : EditablePanel( pParent, pszName )
 {
+	m_iTeamNum = iTeam;
+
 	m_pLevelBar = new ImagePanel( this, "LevelBar" );
 
 	m_pEscortItemPanel = new EditablePanel( this, "EscortItemPanel" );
@@ -43,11 +45,12 @@ CTFHudEscort::CTFHudEscort( Panel *pParent, const char *pszName ) : EditablePane
 		m_pHillPanels[i] = new CEscortHillPanel( this, VarArgs( "hill_%d", i ) );
 	}
 
+	m_pProgressBar = new CTFHudEscortProgressBar( this, "ProgressBar", m_iTeamNum );
+
 	m_flProgress = -1.0f;
 	m_flRecedeTime = 0.0f;
 
-	m_iTeamNum = TF_TEAM_BLUE;
-	m_bMultipleTrains = false;
+	m_bMultipleTrains = bMultipleTrains;
 	m_bOnTop = true;
 	m_bAlarm = false;
 	m_iNumHills = 0;
@@ -142,13 +145,17 @@ void CTFHudEscort::PerformLayout( void )
 
 		if ( !ObjectiveResource() || i >= ObjectiveResource()->GetNumNodeHillData( m_iTeamNum ) || !m_pLevelBar )
 		{
-			pPanel->SetVisible( false );
+			if ( pPanel->IsVisible() )
+				pPanel->SetVisible( false );
+
 			continue;
 		}
 
 		pPanel->SetTeam( m_iTeamNum );
 		pPanel->SetHillIndex( i );
-		pPanel->SetVisible( true );
+
+		if ( !pPanel->IsVisible() )
+			pPanel->SetVisible( true );
 
 		// Set the panel's bounds according to starting and ending points of the hill.
 		int x, y, wide, tall;
@@ -268,9 +275,28 @@ void CTFHudEscort::OnTick( void )
 		int x, y, wide, tall, pos;
 		m_pLevelBar->GetBounds( x, y, wide, tall );
 
-		pos = Lerp( m_flProgress, x, x + wide ) - m_pEscortItemPanel->GetWide() / 2;
+		pos = (int)( wide * m_flProgress ) - m_pEscortItemPanel->GetWide() / 2;
 
-		m_pEscortItemPanel->SetPos( pos, m_pEscortItemPanel->GetYPos() );
+		m_pEscortItemPanel->SetPos( x + pos, m_pEscortItemPanel->GetYPos() );
+	}
+
+	// Update the progress bar.
+	if ( m_pProgressBar )
+	{
+		// Only show progress bar in Payload Race.
+		if ( m_bMultipleTrains )
+		{
+			if ( !m_pProgressBar->IsVisible() )
+			{
+				m_pProgressBar->SetVisible( true );
+			}
+
+			m_pProgressBar->SetProgress( m_flProgress );
+		}
+		else if ( m_pProgressBar->IsVisible() )
+		{
+			m_pProgressBar->SetVisible( false );
+		}
 	}
 
 	// Calculate time left until receding.
@@ -291,6 +317,7 @@ void CTFHudEscort::OnTick( void )
 		}
 	}
 
+	// Check for alarm animation.
 	bool bInAlarm = false;
 	if ( ObjectiveResource() ) 
 	{
@@ -329,7 +356,9 @@ void CTFHudEscort::UpdateCPImages( bool bUpdatePositions, int iIndex )
 				ObjectiveResource()->IsInMiniRound( i ) == false ||
 				ObjectiveResource()->IsCPVisible( i ) == false )
 			{
-				pImage->SetVisible( false );
+				if ( pImage->IsVisible() )
+					pImage->SetVisible( false );
+
 				continue;
 			}
 
@@ -344,24 +373,25 @@ void CTFHudEscort::UpdateCPImages( bool bUpdatePositions, int iIndex )
 				int x, y, wide, tall, pos;
 				m_pLevelBar->GetBounds( x, y, wide, tall );
 
-				pos = Lerp( flDist, x, x + wide ) - pImage->GetWide() / 2;
+				pos = (int)( wide * flDist ) - pImage->GetWide() / 2;
 
-				pImage->SetPos( pos, pImage->GetYPos() );
+				pImage->SetPos( x + pos, pImage->GetYPos() );
 			}
 		}
 
 		// Set the icon according to team.
 		const char *pszImage = NULL;
+		bool bOpaque = m_bMultipleTrains || m_iNumHills > 0;
 		switch ( ObjectiveResource()->GetOwningTeam( i ) )
 		{
 		case TF_TEAM_RED:
-			pszImage = "../hud/cart_point_red";
+			pszImage = bOpaque ? "../hud/cart_point_red_opaque" : "../hud/cart_point_red";
 			break;
 		case TF_TEAM_BLUE:
-			pszImage = "../hud/cart_point_blue";
+			pszImage = bOpaque ? "../hud/cart_point_blue_opaque" : "../hud/cart_point_blue";
 			break;
 		default:
-			pszImage = "../hud/cart_point_neutral";
+			pszImage = bOpaque ? "../hud/cart_point_neutral_opaque" : "../hud/cart_point_neutral";
 			break;
 		}
 
@@ -400,13 +430,10 @@ void CTFHudEscort::UpdateAlarmAnimations( void )
 //=============================================================================
 CTFHudMultipleEscort::CTFHudMultipleEscort( Panel *pParent, const char *pszName ) : EditablePanel( pParent, pszName )
 {
-	m_pRedEscort = new CTFHudEscort( this, "RedEscortPanel" );
-	m_pRedEscort->SetMultipleTrains( true );
-	m_pRedEscort->SetTeam( TF_TEAM_RED );
+	m_pRedEscort = new CTFHudEscort( this, "RedEscortPanel", TF_TEAM_RED, true );
 	m_pRedEscort->SetOnTop( true );
 
-	m_pBlueEscort = new CTFHudEscort( this, "BlueEscortPanel" );
-	m_pBlueEscort->SetMultipleTrains( true );
+	m_pBlueEscort = new CTFHudEscort( this, "BlueEscortPanel", TF_TEAM_BLUE, true );
 
 	ListenForGameEvent( "localplayer_changeteam" );
 }
@@ -506,6 +533,8 @@ CEscortHillPanel::CEscortHillPanel( Panel *pParent, const char *pszName ) : Pane
 	m_iHillIndex = 0;
 
 	ivgui()->AddTickSignal( GetVPanel(), 750 );
+
+	ListenForGameEvent( "teamplay_round_start" );
 }
 
 //-----------------------------------------------------------------------------
@@ -536,7 +565,7 @@ void CEscortHillPanel::Paint( void )
 
 	Vertex_t vert[4];
 
-	vert[0].Init( vec2_origin, Vector2D( m_flScrollPerc, 0.0f ) );
+	vert[0].Init( Vector2D( 0.0f, 0.0f ), Vector2D( m_flScrollPerc, 0.0f ) );
 	vert[1].Init( Vector2D( m_iWidth, 0.0f ), Vector2D( flMod, 0.0f ) );
 	vert[2].Init( Vector2D( m_iWidth, m_iHeight ), Vector2D( flMod, 1.0f ) );
 	vert[3].Init( Vector2D( 0.0f, m_iHeight ), Vector2D( m_flScrollPerc, 1.0f ) );
@@ -589,4 +618,66 @@ void CEscortHillPanel::OnTick( void )
 		SetAlpha( 64 );
 		m_bLowerAlpha = true;
 	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CEscortHillPanel::FireGameEvent( IGameEvent *event )
+{
+	if ( V_strcmp( event->GetName(), "teamplay_round_start" ) == 0 )
+	{
+		// Reset scrolling.
+		m_flScrollPerc = 0.0f;
+	}
+}
+
+
+//=============================================================================
+// CTFHudEscortProgressBar
+//=============================================================================
+CTFHudEscortProgressBar::CTFHudEscortProgressBar( Panel *pParent, const char *pszName, int iTeam ) : ImagePanel( pParent, pszName )
+{
+	m_iTeamNum = iTeam;
+
+	const char *pszTextureName = m_iTeamNum == TF_TEAM_RED ? "hud/cart_track_red_opaque" : "hud/cart_track_blue_opaque";
+
+	m_iTextureId = surface()->DrawGetTextureId( pszTextureName );
+	if ( m_iTextureId == -1 )
+	{
+		m_iTextureId = surface()->CreateNewTextureID( false );
+		surface()->DrawSetTextureFile( m_iTextureId, pszTextureName, true, false );
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFHudEscortProgressBar::Paint( void )
+{
+	if ( m_flProgress == 0.0f )
+		return;
+
+	surface()->DrawSetTexture( m_iTextureId );
+
+	int x, y, wide, tall;
+	GetBounds( x, y, wide, tall );
+	wide *= m_flProgress;
+
+	// Draw the bar.
+	Vertex_t vert[4];
+
+	vert[0].Init( Vector2D( 0.0f, 0.0f ), Vector2D( 0.0f, 0.0f ) );
+	vert[1].Init( Vector2D( wide, 0.0f ), Vector2D( 1.0f, 0.0f ) );
+	vert[2].Init( Vector2D( wide, tall ), Vector2D( 1.0f, 1.0f ) );
+	vert[3].Init( Vector2D( 0.0f, tall ), Vector2D( 0.0f, 1.0f ) );
+
+	Color colBar( 255, 255, 255, 210 );
+	surface()->DrawSetColor( colBar );
+	surface()->DrawTexturedPolygon( 4, vert );
+
+	// Draw a line at the end.
+	Color colLine( 245, 229, 196, 210 );
+	surface()->DrawSetColor( colLine );
+	surface()->DrawLine( wide - 1, 0, wide - 1, tall );
 }

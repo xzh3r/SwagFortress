@@ -20,6 +20,7 @@
 #include "tf_controls.h"
 
 class CEscortHillPanel;
+class CTFHudEscortProgressBar;
 
 
 class CTFHudEscort : public vgui::EditablePanel, public CGameEventListener
@@ -27,7 +28,7 @@ class CTFHudEscort : public vgui::EditablePanel, public CGameEventListener
 public:
 	DECLARE_CLASS_SIMPLE( CTFHudEscort, vgui::EditablePanel );
 
-	CTFHudEscort( vgui::Panel *pParent, const char *pszName );
+	CTFHudEscort( vgui::Panel *pParent, const char *pszName, int iTeam, bool bMultipleTrains );
 
 	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
 	virtual void OnChildSettingsApplied( KeyValues *pInResourceData, Panel *pChild );
@@ -60,6 +61,8 @@ private:
 
 	CEscortHillPanel *m_pHillPanels[TEAM_TRAIN_MAX_HILLS];
 
+	CTFHudEscortProgressBar *m_pProgressBar;
+
 	float m_flProgress;
 	float m_flRecedeTime;
 
@@ -89,7 +92,7 @@ private:
 };
 
 
-class CEscortHillPanel : public vgui::Panel
+class CEscortHillPanel : public vgui::Panel, public CGameEventListener
 {
 public:
 	DECLARE_CLASS_SIMPLE( CEscortHillPanel, vgui::Panel );
@@ -99,6 +102,7 @@ public:
 	virtual void Paint( void );
 	virtual void PerformLayout( void );
 	virtual void OnTick( void );
+	virtual void FireGameEvent( IGameEvent *event );
 	
 	void SetHillIndex( int index ) { m_iHillIndex = index; }
 	void SetTeam( int iTeam ) { m_iTeamNum = iTeam; }
@@ -114,6 +118,24 @@ private:
 
 	int m_iTeamNum;
 	int m_iHillIndex;
+};
+
+
+class CTFHudEscortProgressBar : public vgui::ImagePanel
+{
+public:
+	DECLARE_CLASS_SIMPLE( CTFHudEscortProgressBar, vgui::ImagePanel );
+
+	CTFHudEscortProgressBar( vgui::Panel *pParent, const char *pszName, int iTeam );
+
+	virtual void Paint( void );
+	void SetProgress( float flValue ) { m_flProgress = flValue; }
+
+private:
+	int m_iTextureId;
+
+	int m_iTeamNum;
+	float m_flProgress;
 };
 
 #endif // HUD_ESCORT_H
