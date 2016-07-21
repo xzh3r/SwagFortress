@@ -93,6 +93,7 @@ public:
 	virtual void FireGameEvent( IGameEvent *event );
 	virtual void SetVisible( bool bVisible );
 	virtual bool IsVisible( void );
+	virtual void Reset( void );
 
 private:
 	CTFHudEscort *m_pRedEscort;

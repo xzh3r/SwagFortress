@@ -153,6 +153,8 @@ int CHudChat::GetFilterForString( const char *pString )
 }
 
 //-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
 Color CHudChat::GetClientColor( int clientIndex )
 {
 	IScheme *pScheme = scheme()->GetIScheme( GetScheme() );
@@ -171,13 +173,14 @@ Color CHudChat::GetClientColor( int clientIndex )
 		C_TFPlayer *pPlayer = ToTFPlayer( UTIL_PlayerByIndex( clientIndex ) );
 		C_TFPlayer *pLocalPlayer = C_TFPlayer::GetLocalTFPlayer();
 
-		if ( pPlayer && TFGameRules()->IsDeathmatch() )
+		if ( TFGameRules() && TFGameRules()->IsDeathmatch() )
 		{
 			// Show their chosen player color in DM unless they're in spec.
-			if ( pPlayer->GetTeamNumber() >= FIRST_GAME_TEAM )
+			C_TF_PlayerResource *tf_PR = GetTFPlayerResource();
+
+			if ( tf_PR && iTeam >= FIRST_GAME_TEAM )
 			{
-				C_TF_PlayerResource *tf_PR = dynamic_cast<C_TF_PlayerResource *>( g_PR );
-				return tf_PR->GetPlayerColor( pPlayer->entindex() );
+				return tf_PR->GetPlayerColor( clientIndex );
 			}
 			else
 			{
@@ -195,18 +198,37 @@ Color CHudChat::GetClientColor( int clientIndex )
 			}
 		}
 
-		switch ( iTeam )
-		{
-		case TF_TEAM_RED: return pScheme->GetColor( "TFColors.ChatTextTeamRed", g_ColorRed );
-		case TF_TEAM_BLUE: return pScheme->GetColor( "TFColors.ChatTextTeamBlue", g_ColorBlue );
-		case TF_TEAM_GREEN: return pScheme->GetColor( "TFColors.ChatTextTeamGreen", g_ColorGreen );
-		case TF_TEAM_YELLOW: return pScheme->GetColor( "TFColors.ChatTextTeamYellow", g_ColorYellow );
-		default: return g_ColorGrey;
-		}
+		return GetTeamColor( iTeam );
 	}
 
 	return g_ColorYellow;
 }
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+Color CHudChat::GetTeamColor( int iTeam )
+{
+	IScheme *pScheme = scheme()->GetIScheme( GetScheme() );
+
+	if ( pScheme == NULL )
+		return Color( 255, 255, 255, 255 );
+
+	switch ( iTeam )
+	{
+	case TF_TEAM_RED:
+		return pScheme->GetColor( "TFColors.ChatTextTeamRed", g_ColorRed );
+	case TF_TEAM_BLUE:
+		return pScheme->GetColor( "TFColors.ChatTextTeamBlue", g_ColorBlue );
+	case TF_TEAM_GREEN:
+		return pScheme->GetColor( "TFColors.ChatTextTeamGreen", g_ColorGreen );
+	case TF_TEAM_YELLOW:
+		return pScheme->GetColor( "TFColors.ChatTextTeamYellow", g_ColorYellow );
+	}
+
+	return g_ColorGrey;
+}
+
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
@@ -259,6 +281,10 @@ Color CHudChat::GetTextColorForClient( TextColor colorNum, int clientIndex )
 	Color c;
 	switch ( colorNum )
 	{
+	case COLOR_CUSTOM:
+		c = m_ColorCustom;
+		break;
+
 	case COLOR_PLAYERNAME:
 		c = GetClientColor( clientIndex );
 		break;

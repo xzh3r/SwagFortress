@@ -3835,7 +3835,7 @@ void CTFGameRules::SendWinPanelInfo( void )
 		winEvent->SetInt( "red_score_prev", iRedScorePrev );
 		winEvent->SetInt( "round_complete", bRoundComplete );
 
-		CTFPlayerResource *pResource = dynamic_cast< CTFPlayerResource * >( g_pPlayerResource );
+		CTFPlayerResource *pResource = GetTFPlayerResource();
 		if ( !pResource )
 			return;
  
@@ -4363,7 +4363,7 @@ void CTFGameRules::InternalHandleTeamWin( int iWinningTeam )
 // sort function for the list of players that we're going to use to scramble the teams
 int ScramblePlayersSort( CTFPlayer* const *p1, CTFPlayer* const *p2 )
 {
-	CTFPlayerResource *pResource = dynamic_cast< CTFPlayerResource * >( g_pPlayerResource );
+	CTFPlayerResource *pResource = GetTFPlayerResource();
 
 	if ( pResource )
 	{

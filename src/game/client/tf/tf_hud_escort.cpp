@@ -610,6 +610,18 @@ bool CTFHudMultipleEscort::IsVisible( void )
 	return BaseClass::IsVisible();
 }
 
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFHudMultipleEscort::Reset( void )
+{
+	if ( m_pRedEscort )
+		m_pRedEscort->Reset();
+
+	if ( m_pBlueEscort )
+		m_pBlueEscort->Reset();
+}
+
 
 //=============================================================================
 // CEscortStatusTeardrop

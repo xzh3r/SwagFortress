@@ -361,6 +361,7 @@ public:
 		GET_STRING( pItem, pData, item_quality );
 		GET_STRING( pItem, pData, item_logname );
 		GET_STRING( pItem, pData, item_iconname );
+		GET_BOOL( pItem, pData, propername );
 
 		const char *pszLoadoutSlot = pData->GetString( "item_slot" );
 

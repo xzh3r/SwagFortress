@@ -98,7 +98,7 @@ void CTFHudDeathMatchObjectives::OnThink( void )
 //-----------------------------------------------------------------------------
 void CTFHudDeathMatchObjectives::UpdateStatus( void )
 {
-	C_TF_PlayerResource *tf_PR = dynamic_cast<C_TF_PlayerResource *>( g_PR );
+	C_TF_PlayerResource *tf_PR = GetTFPlayerResource();
 	if ( !tf_PR )
 		return;
 
