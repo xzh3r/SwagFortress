@@ -767,7 +767,7 @@ void CTFHudObjectiveStatus::Reset()
 
 	if ( m_pEscortPanel )
 	{
-		//m_pEscortPanel->Reset();
+		m_pEscortPanel->Reset();
 	}
 }
 

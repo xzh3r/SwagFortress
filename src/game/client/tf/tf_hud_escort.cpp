@@ -13,6 +13,8 @@
 
 using namespace vgui;
 
+extern ConVar mp_blockstyle;
+extern ConVar mp_capstyle;
 
 //=============================================================================
 // CTFHudEscort
@@ -32,6 +34,7 @@ CTFHudEscort::CTFHudEscort( Panel *pParent, const char *pszName, int iTeam, bool
 	m_pCapPlayerImage = new ImagePanel( m_pEscortItemPanel, "CapPlayerImage" );
 	m_pBackwardsImage = new ImagePanel( m_pEscortItemPanel, "Speed_Backwards" );
 	m_pBlockedImage = new ImagePanel( m_pEscortItemPanel, "Blocked" );
+	m_pTearDrop = new CEscortStatusTeardrop( m_pEscortItemPanel, "EscortTeardrop" );
 
 	for ( int i = 0; i < MAX_CONTROL_POINTS; i++ )
 	{
@@ -49,6 +52,7 @@ CTFHudEscort::CTFHudEscort( Panel *pParent, const char *pszName, int iTeam, bool
 
 	m_flProgress = -1.0f;
 	m_flRecedeTime = 0.0f;
+	m_iCurrentCP = -1;
 
 	m_bMultipleTrains = bMultipleTrains;
 	m_bOnTop = true;
@@ -62,6 +66,9 @@ CTFHudEscort::CTFHudEscort( Panel *pParent, const char *pszName, int iTeam, bool
 	ListenForGameEvent( "escort_recede" );
 	ListenForGameEvent( "controlpoint_initialized" );
 	ListenForGameEvent( "controlpoint_updateimages" );
+	ListenForGameEvent( "controlpoint_updatecapping" );
+	ListenForGameEvent( "controlpoint_starttouch" );
+	ListenForGameEvent( "controlpoint_endtouch" );
 }
 
 //-----------------------------------------------------------------------------
@@ -122,6 +129,14 @@ void CTFHudEscort::OnChildSettingsApplied( KeyValues *pInResourceData, Panel *pC
 	}
 
 	BaseClass::OnChildSettingsApplied( pInResourceData, pChild );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFHudEscort::Reset( void )
+{
+	m_iCurrentCP = -1;
 }
 
 //-----------------------------------------------------------------------------
@@ -192,6 +207,8 @@ bool CTFHudEscort::IsVisible( void )
 //-----------------------------------------------------------------------------
 void CTFHudEscort::FireGameEvent( IGameEvent *event )
 {
+	C_BasePlayer *pLocalPlayer = C_BasePlayer::GetLocalPlayer();
+
 	if ( V_strcmp( event->GetName(), "controlpoint_initialized" ) == 0 )
 	{
 		InvalidateLayout( true, true );
@@ -200,7 +217,37 @@ void CTFHudEscort::FireGameEvent( IGameEvent *event )
 
 	if ( V_strcmp( event->GetName(), "controlpoint_updateimages" ) == 0 )
 	{
-		UpdateCPImages( false, event->GetInt( "index" ) );
+		int iIndex = event->GetInt( "index" );
+		UpdateCPImages( false, iIndex );
+		UpdateStatusTeardropFor( iIndex );
+		return;
+	}
+
+	if ( V_strcmp( event->GetName(), "controlpoint_updatecapping" ) == 0 )
+	{
+		UpdateStatusTeardropFor( event->GetInt( "index" ) );
+		return;
+	}
+
+	if ( V_strcmp( event->GetName(), "controlpoint_starttouch" ) == 0 )
+	{
+		int iPlayer = event->GetInt( "player" );
+		if ( pLocalPlayer && iPlayer == pLocalPlayer->entindex() )
+		{
+			m_iCurrentCP = event->GetInt( "area" );
+			UpdateStatusTeardropFor( m_iCurrentCP );
+		}
+		return;
+	}
+
+	if ( V_strcmp( event->GetName(), "controlpoint_endtouch" ) == 0 )
+	{
+		int iPlayer = event->GetInt( "player" );
+		if ( pLocalPlayer && iPlayer == pLocalPlayer->entindex() )
+		{
+			m_iCurrentCP = -1;
+			UpdateStatusTeardropFor( m_iCurrentCP );
+		}
 		return;
 	}
 
@@ -319,7 +366,7 @@ void CTFHudEscort::OnTick( void )
 
 	// Check for alarm animation.
 	bool bInAlarm = false;
-	if ( ObjectiveResource() ) 
+	if ( ObjectiveResource() )
 	{
 		bInAlarm = ObjectiveResource()->GetTrackAlarm( m_iTeamNum );
 	}
@@ -396,6 +443,31 @@ void CTFHudEscort::UpdateCPImages( bool bUpdatePositions, int iIndex )
 		}
 
 		pImage->SetImage( pszImage );
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFHudEscort::UpdateStatusTeardropFor( int iIndex )
+{
+	// Don't show teardrop for enemy carts in Payload Race.
+	if ( !m_bMultipleTrains || iIndex == -1 || GetLocalPlayerTeam() == m_iTeamNum )
+	{
+		// If they tell us to update all progress bars, update only the one we're standing on
+		if ( iIndex == -1 )
+		{
+			iIndex = m_iCurrentCP;
+		}
+
+		// Ignore requests to display progress bars for points we're not standing on
+		if ( ( m_iCurrentCP != iIndex ) )
+			return;
+
+		if ( iIndex >= ObjectiveResource()->GetNumControlPoints() )
+			iIndex = -1;
+
+		m_pTearDrop->SetupForPoint( iIndex );
 	}
 }
 
@@ -488,7 +560,7 @@ void CTFHudMultipleEscort::SetVisible( bool bVisible )
 	if ( m_pRedEscort )
 	{
 		m_pRedEscort->SetVisible( bVisible );
-	}	
+	}
 	if ( m_pBlueEscort )
 	{
 		m_pBlueEscort->SetVisible( bVisible );
@@ -508,6 +580,189 @@ bool CTFHudMultipleEscort::IsVisible( void )
 	return BaseClass::IsVisible();
 }
 
+
+//=============================================================================
+// CEscortStatusTeardrop
+//=============================================================================
+CEscortStatusTeardrop::CEscortStatusTeardrop( Panel *pParent, const char *pszName ) : EditablePanel( pParent, pszName )
+{
+	m_pProgressText = new Label( this, "ProgressText", "" );
+	m_pTearDrop = new CIconPanel( this, "Teardrop" );
+	m_pBlocked = new CIconPanel( this, "Blocked" );
+	m_pCapping = new ImagePanel( this, "Capping" );
+
+	m_iOrgHeight = 0;
+	m_iMidGroupIndex = -1;
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CEscortStatusTeardrop::ApplySchemeSettings( IScheme *pScheme )
+{
+	BaseClass::ApplySchemeSettings( pScheme );
+
+	m_iOrgHeight = GetTall();
+	m_iMidGroupIndex = gHUD.LookupRenderGroupIndexByName( "mid" );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+bool CEscortStatusTeardrop::IsVisible( void )
+{
+	if ( IsInFreezeCam() )
+		return false;
+
+	if ( m_iMidGroupIndex != -1 && gHUD.IsRenderGroupLockedFor( NULL, m_iMidGroupIndex ) )
+		return false;
+
+	return BaseClass::IsVisible();
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CEscortStatusTeardrop::SetupForPoint( int iCP )
+{
+	C_BasePlayer *pPlayer = C_BasePlayer::GetLocalPlayer();
+	if ( !pPlayer )
+		return;
+
+	bool bInWinState = TeamplayRoundBasedRules() ? TeamplayRoundBasedRules()->RoundHasBeenWon() : false;
+
+	if ( iCP != -1 && !bInWinState )
+	{
+		SetVisible( true );
+
+		int iCappingTeam = ObjectiveResource()->GetCappingTeam( iCP );
+		int iOwnerTeam = ObjectiveResource()->GetOwningTeam( iCP );
+		int iPlayerTeam = pPlayer->GetTeamNumber();
+		bool bCapBlocked = ObjectiveResource()->CapIsBlocked( iCP );
+
+		if ( !bCapBlocked && iCappingTeam != TEAM_UNASSIGNED && iCappingTeam != iOwnerTeam && iCappingTeam == iPlayerTeam )
+		{
+			m_pBlocked->SetVisible( false );
+			m_pProgressText->SetVisible( false );
+			m_pCapping->SetVisible( true );
+		}
+		else
+		{
+			m_pBlocked->SetVisible( true );
+			m_pCapping->SetVisible( false );
+
+			UpdateBarText( iCP );
+		}
+	}
+	else
+	{
+		SetVisible( false );
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CEscortStatusTeardrop::UpdateBarText( int iCP )
+{
+	C_BasePlayer *pPlayer = C_BasePlayer::GetLocalPlayer();
+	if ( !pPlayer || !m_pProgressText || iCP == -1 )
+		return;
+
+	m_pProgressText->SetVisible( true );
+
+	int iCappingTeam = ObjectiveResource()->GetCappingTeam( iCP );
+	int iPlayerTeam = pPlayer->GetTeamNumber();
+	int iOwnerTeam = ObjectiveResource()->GetOwningTeam( iCP );
+
+	if ( !TeamplayGameRules()->PointsMayBeCaptured() )
+	{
+		m_pProgressText->SetText( "#Team_Capture_NotNow" );
+		return;
+	}
+
+	if ( ObjectiveResource()->GetCPLocked( iCP ) )
+	{
+		m_pProgressText->SetText( "#Team_Capture_NotNow" );
+		return;
+	}
+
+	if ( mp_blockstyle.GetInt() == 1 && iCappingTeam != TEAM_UNASSIGNED && iCappingTeam != iPlayerTeam )
+	{
+		if ( ObjectiveResource()->IsCPBlocked( iCP ) )
+		{
+			m_pProgressText->SetText( "#Team_Blocking_Capture" );
+			return;
+		}
+		else if ( iOwnerTeam == TEAM_UNASSIGNED )
+		{
+			m_pProgressText->SetText( "#Team_Reverting_Capture" );
+			return;
+		}
+	}
+
+	if ( ObjectiveResource()->GetOwningTeam( iCP ) == iPlayerTeam )
+	{
+		// If the opponents can never recapture this point back, we use a different string
+		if ( iPlayerTeam != TEAM_UNASSIGNED )
+		{
+			int iEnemyTeam = ( iPlayerTeam == TF_TEAM_RED ) ? TF_TEAM_BLUE : TF_TEAM_RED;
+			if ( !ObjectiveResource()->TeamCanCapPoint( iCP, iEnemyTeam ) )
+			{
+				m_pProgressText->SetText( "#Team_Capture_Owned" );
+				return;
+			}
+		}
+
+		m_pProgressText->SetText( "#Team_Capture_OwnPoint" );
+		return;
+	}
+
+	if ( !TeamplayGameRules()->TeamMayCapturePoint( iPlayerTeam, iCP ) )
+	{
+		if ( TeamplayRoundBasedRules() && TeamplayRoundBasedRules()->IsInArenaMode() == true )
+		{
+			m_pProgressText->SetText( "#Team_Capture_NotNow" );
+		}
+		else
+		{
+			m_pProgressText->SetText( "#Team_Capture_Linear" );
+		}
+
+		return;
+	}
+
+	char szReason[256];
+	if ( !TeamplayGameRules()->PlayerMayCapturePoint( pPlayer, iCP, szReason, sizeof( szReason ) ) )
+	{
+		m_pProgressText->SetText( szReason );
+		return;
+	}
+
+	bool bHaveRequiredPlayers = true;
+
+	// In Capstyle 1, more players simply cap faster, no required amounts.
+	if ( mp_capstyle.GetInt() != 1 )
+	{
+		int nNumTeammates = ObjectiveResource()->GetNumPlayersInArea( iCP, iPlayerTeam );
+		int nRequiredTeammates = ObjectiveResource()->GetRequiredCappers( iCP, iPlayerTeam );
+		bHaveRequiredPlayers = ( nNumTeammates >= nRequiredTeammates );
+	}
+
+	if ( iCappingTeam == iPlayerTeam && bHaveRequiredPlayers )
+	{
+		m_pProgressText->SetText( "#Team_Capture_Blocked" );
+		return;
+	}
+
+	if ( !ObjectiveResource()->TeamCanCapPoint( iCP, iPlayerTeam ) )
+	{
+		m_pProgressText->SetText( "#Team_Cannot_Capture" );
+		return;
+	}
+
+	m_pProgressText->SetText( "#Team_Waiting_for_teammate" );
+}
 
 //=============================================================================
 // CEscortHillPanel

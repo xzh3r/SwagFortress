@@ -16,12 +16,13 @@
 #include <vgui_controls/ImagePanel.h>
 #include "vgui_controls/EditablePanel.h"
 #include <vgui/ISurface.h>
+#include "IconPanel.h"
 #include "GameEventListener.h"
 #include "tf_controls.h"
 
 class CEscortHillPanel;
 class CTFHudEscortProgressBar;
-
+class CEscortStatusTeardrop;
 
 class CTFHudEscort : public vgui::EditablePanel, public CGameEventListener
 {
@@ -32,12 +33,14 @@ public:
 
 	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
 	virtual void OnChildSettingsApplied( KeyValues *pInResourceData, Panel *pChild );
+	virtual void Reset( void );
 	virtual void PerformLayout( void );
 	virtual bool IsVisible( void );
 	virtual void FireGameEvent( IGameEvent *event );
 	virtual void OnTick( void );
 
 	void UpdateCPImages( bool bUpdatePositions, int iIndex );
+	void UpdateStatusTeardropFor( int iIndex );
 	void UpdateAlarmAnimations( void );
 	void SetTeam( int iTeam ) { m_iTeamNum = iTeam; }
 	void SetMultipleTrains( bool bEnabled ) { m_bMultipleTrains = bEnabled; }
@@ -55,6 +58,7 @@ private:
 	vgui::ImagePanel *m_pCapPlayerImage;
 	vgui::ImagePanel *m_pBackwardsImage;
 	vgui::ImagePanel *m_pBlockedImage;
+	CEscortStatusTeardrop *m_pTearDrop;
 
 	vgui::ImagePanel *m_pCPImageTemplate;
 	vgui::ImagePanel *m_pCPImages[MAX_CONTROL_POINTS];
@@ -65,6 +69,7 @@ private:
 
 	float m_flProgress;
 	float m_flRecedeTime;
+	int m_iCurrentCP;
 
 	int m_iTeamNum;
 	bool m_bMultipleTrains;
@@ -89,6 +94,30 @@ public:
 private:
 	CTFHudEscort *m_pRedEscort;
 	CTFHudEscort *m_pBlueEscort;
+};
+
+
+class CEscortStatusTeardrop : public vgui::EditablePanel
+{
+public:
+	DECLARE_CLASS_SIMPLE( CEscortStatusTeardrop, vgui::EditablePanel );
+
+	CEscortStatusTeardrop( vgui::Panel *pParent, const char *pszName );
+
+	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
+	virtual bool IsVisible( void );
+
+	void SetupForPoint( int iCP );
+	void UpdateBarText( int iCP );
+
+private:
+	vgui::Label *m_pProgressText;
+	CIconPanel *m_pTearDrop;
+	CIconPanel *m_pBlocked;
+	vgui::ImagePanel *m_pCapping;
+
+	int m_iOrgHeight;
+	int m_iMidGroupIndex;
 };
 
 
