@@ -13,6 +13,7 @@
 
 using namespace vgui;
 
+extern ConVar cl_hud_minmode;
 extern ConVar mp_blockstyle;
 extern ConVar mp_capstyle;
 
@@ -36,6 +37,10 @@ CTFHudEscort::CTFHudEscort( Panel *pParent, const char *pszName, int iTeam, bool
 	m_pBlockedImage = new ImagePanel( m_pEscortItemPanel, "Blocked" );
 	m_pTearDrop = new CEscortStatusTeardrop( m_pEscortItemPanel, "EscortTeardrop" );
 
+	m_pCapHighlightImage = new CControlPointIconSwoop( m_pEscortItemPanel, "CapHighlightImage" );
+	m_pCapHighlightImage->SetZPos( 10 );
+	m_pCapHighlightImage->SetShouldScaleImage( true );
+
 	for ( int i = 0; i < MAX_CONTROL_POINTS; i++ )
 	{
 		m_pCPImages[i] = new ImagePanel( this, VarArgs( "cp_%d", i ) );
@@ -51,6 +56,7 @@ CTFHudEscort::CTFHudEscort( Panel *pParent, const char *pszName, int iTeam, bool
 	m_pProgressBar = new CTFHudEscortProgressBar( this, "ProgressBar", m_iTeamNum );
 
 	m_flProgress = -1.0f;
+	m_iSpeedLevel = 0;
 	m_flRecedeTime = 0.0f;
 	m_iCurrentCP = -1;
 
@@ -150,6 +156,18 @@ void CTFHudEscort::PerformLayout( void )
 
 	if ( m_pEscortItemImageBottom )
 		m_pEscortItemImageBottom->SetVisible( !m_bOnTop );
+
+	// Place the swooping thingamajig on top of the cart icon.
+	if ( m_pCapHighlightImage && m_pEscortItemImage )
+	{
+		int x, y, wide, tall;
+		m_pEscortItemImage->GetBounds( x, y, wide, tall );
+
+		float flHeightMult = ( m_bMultipleTrains || cl_hud_minmode.GetBool() ) ? 0.15f : 0.20f;
+		int iSwoopHeight = ScreenHeight() * flHeightMult;
+
+		m_pCapHighlightImage->SetBounds( x + CAP_BOX_INDENT_X, y - iSwoopHeight + CAP_BOX_INDENT_Y, wide - ( CAP_BOX_INDENT_X * 2 ), iSwoopHeight );
+	}
 
 	// Update hill panels.
 	for ( int i = 0; i < TEAM_TRAIN_MAX_HILLS; i++ )
@@ -300,6 +318,18 @@ void CTFHudEscort::FireGameEvent( IGameEvent *event )
 			// NO! CART MOVES WRONG VAY!
 			m_pBackwardsImage->SetVisible( iSpeedLevel == -1 );
 		}
+
+		if ( m_iSpeedLevel <= 0 && iSpeedLevel > 0 )
+		{
+			// Do the swooping animation when the cart starts moving but only for the top icon.
+			if ( m_pCapHighlightImage && m_bOnTop )
+			{		
+				m_pCapHighlightImage->SetVisible( true );
+				m_pCapHighlightImage->StartSwoop();
+			}	
+		}
+
+		m_iSpeedLevel = iSpeedLevel;
 	}
 	else if ( V_strcmp( event->GetName(), "escort_recede" ) == 0 )
 	{
@@ -452,23 +482,23 @@ void CTFHudEscort::UpdateCPImages( bool bUpdatePositions, int iIndex )
 void CTFHudEscort::UpdateStatusTeardropFor( int iIndex )
 {
 	// Don't show teardrop for enemy carts in Payload Race.
-	if ( !m_bMultipleTrains || iIndex == -1 || GetLocalPlayerTeam() == m_iTeamNum )
+	if ( m_bMultipleTrains && GetLocalPlayerTeam() != m_iTeamNum )
+		return;
+
+	// If they tell us to update all points, update only the one we're standing on.
+	if ( iIndex == -1 )
 	{
-		// If they tell us to update all progress bars, update only the one we're standing on
-		if ( iIndex == -1 )
-		{
-			iIndex = m_iCurrentCP;
-		}
-
-		// Ignore requests to display progress bars for points we're not standing on
-		if ( ( m_iCurrentCP != iIndex ) )
-			return;
-
-		if ( iIndex >= ObjectiveResource()->GetNumControlPoints() )
-			iIndex = -1;
-
-		m_pTearDrop->SetupForPoint( iIndex );
+		iIndex = m_iCurrentCP;
 	}
+
+	// Ignore requests to display teardrop for points we're not standing on.
+	if ( ( m_iCurrentCP != iIndex ) )
+		return;
+
+	if ( iIndex >= ObjectiveResource()->GetNumControlPoints() )
+		iIndex = -1;
+
+	m_pTearDrop->SetupForPoint( iIndex );
 }
 
 //-----------------------------------------------------------------------------

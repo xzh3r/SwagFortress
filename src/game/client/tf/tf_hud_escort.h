@@ -19,6 +19,7 @@
 #include "IconPanel.h"
 #include "GameEventListener.h"
 #include "tf_controls.h"
+#include "hud_controlpointicons.h"
 
 class CEscortHillPanel;
 class CTFHudEscortProgressBar;
@@ -59,6 +60,7 @@ private:
 	vgui::ImagePanel *m_pBackwardsImage;
 	vgui::ImagePanel *m_pBlockedImage;
 	CEscortStatusTeardrop *m_pTearDrop;
+	CControlPointIconSwoop *m_pCapHighlightImage;
 
 	vgui::ImagePanel *m_pCPImageTemplate;
 	vgui::ImagePanel *m_pCPImages[MAX_CONTROL_POINTS];
@@ -68,6 +70,7 @@ private:
 	CTFHudEscortProgressBar *m_pProgressBar;
 
 	float m_flProgress;
+	int m_iSpeedLevel;
 	float m_flRecedeTime;
 	int m_iCurrentCP;
 
