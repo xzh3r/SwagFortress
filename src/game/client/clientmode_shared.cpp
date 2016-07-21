@@ -65,11 +65,6 @@ extern ConVar replay_rendersetting_renderglow;
 #include "econ_item_description.h"
 #endif
 
-#if defined ( TF_CLASSIC_CLIENT )
-#include "c_tf_player.h"
-#include "tf_gamerules.h"
-#endif
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -1077,18 +1072,7 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 				}
 				else
 				{
-#ifdef TF_CLASSIC_CLIENT
-					if ( TFGameRules() && TFGameRules()->IsDeathmatch() && team > LAST_SHARED_TEAM )
-					{
-						g_pVGuiLocalize->ConstructString( wszLocalized, sizeof( wszLocalized ), g_pVGuiLocalize->Find( "#TF_DM_Joined" ), 1, wszPlayerName );
-					}
-					else
-					{
-						g_pVGuiLocalize->ConstructString( wszLocalized, sizeof( wszLocalized ), g_pVGuiLocalize->Find( "#game_player_joined_team" ), 2, wszPlayerName, wszTeam );
-					}
-#else
 					g_pVGuiLocalize->ConstructString( wszLocalized, sizeof( wszLocalized ), g_pVGuiLocalize->Find( "#game_player_joined_team" ), 2, wszPlayerName, wszTeam );
-#endif
 				}
 
 				char szLocalized[100];
