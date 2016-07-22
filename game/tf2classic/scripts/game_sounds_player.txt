@@ -599,6 +599,14 @@
 	"wave"		"misc/freeze_cam.wav"
 }
 
+"TFPlayer.ReCharged"
+{
+	"channel"	"CHAN_STATIC"
+	"volume"	"1.0"
+	"soundlevel"  	"SNDLVL_75dB"
+	"wave"		"player/recharged.wav"
+}
+
 //-----------------------------------------------------------------------------
 //Taunts and Selection Menu
 //-----------------------------------------------------------------------------

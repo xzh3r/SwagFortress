@@ -25,7 +25,6 @@ WeaponData
 	// Model & Animation
 	"viewmodel"			"models/weapons/v_models/v_leadpipe.mdl"
 	"playermodel"			""
-	"anim_prefix"			"all_melee"
 
 	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
 	SoundData

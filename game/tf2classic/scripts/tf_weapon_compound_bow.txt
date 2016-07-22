@@ -18,31 +18,27 @@ WeaponData
 	"TimeReloadStart"	"0"
 	"TimeReload"		"1.0"
 	"Spread"			"0.0"
-	"HasTeamSkins_Viewmodel"	"1"
-	"HasTeamSkins_Worldmodel"	"1"
+	"ProjectileType"	"projectile_arrow"
 
 	// Ammo & Clip.
 	"primary_ammo"			"TF_AMMO_PRIMARY"
 	"secondary_ammo"		"None"
-	"clip_size"			"-1"
-	"ProjectileType"		"projectile_arrow"
+	"clip_size"				"-1"
+	"MaxAmmo"				"12"
 
 	// Buckets.
 	"bucket"			"0"
 	"bucket_position"		"0"
-
-
-	// Muzzleflash
-	"MuzzleFlashParticleEffect" 	"muzzle_shotgun"
-
-	"ExplosionSound"		"Default.FlareImpact"
+	
+	// Models.
+	"HasTeamSkins_Viewmodel"	"1"
+	
+	// Explosions.
 	"ExplosionEffect"		"flaregun_destroyed"
 	"ExplosionWaterEffect"		"flaregun_destroyed"
 	"ExplosionPlayerEffect"		"flaregun_destroyed"		// this is also in air expolosion - not player
-
-
-	// Animation.
-	"anim_prefix"			"ac"
+	
+	"ExplosionSound"		"Default.FlareImpact"
 
 	// Sounds.
 	// Max of 16 per category (ie. max 16 "single_shot" sounds).
@@ -52,6 +48,7 @@ WeaponData
 		"reload"		"Weapon_CompoundBow.WorldReload"
 		"empty"			"Weapon_CompoundBow.ClipEmpty"	
 		"burst"			"Weapon_CompoundBow.SingleCrit"
+		"special1"		"Weapon_CompoundBow.SinglePull"
 		"special2"		"Player.UseDeny"
 	}
 

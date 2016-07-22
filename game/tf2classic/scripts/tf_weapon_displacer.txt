@@ -1,14 +1,14 @@
 WeaponData
 {
 	// Attributes Base.
-	"printname"		"#TF_Weapon_RocketLauncher"
+	"printname"		"#TF_Weapon_Displacer"
 	"BuiltRightHanded"	"0"
 	"weight"		"3"
 	"WeaponType"		"primary"
 	"ITEM_FLAG_NOITEMPICKUP" 	"1"
 	
-	// Attributes TF.
-	"Damage"		"90"
+	// Primary Attributes.
+	"Damage"		"180"
 	"Range"			"0"
 	"BulletsPerShot"	"1"
 	"Spread"		"0.0"
@@ -16,45 +16,53 @@ WeaponData
 	"TimeFireDelay"		"0.8"
 	"TimeIdle"		"0.8"
 	"TimeIdleEmpty"		"0.8"
-	"TimeReloadStart"	"0.1"
-	"TimeReload"		"0.83"
-	"ProjectileType"	"projectile_rocket"
-
-	// Ammo & Clip.
+	"SmackDelay"		"1.0"
+	"ProjectileType"	"projectile_plasma"
+	
+	// Ammo
 	"primary_ammo"		"TF_AMMO_PRIMARY"
-	"secondary_ammo"	"None"
-	"clip_size"		"4"
-	"default_clip"		"4"
-	"MaxAmmo"		"20"
-	"SpawnAmmo"		"8"
+	"secondary_ammo"	"TF_AMMO_PRIMARY"
+	"clip_size"		"-1"
+	"MaxAmmo"		"10"
+	"SpawnAmmo"		"6"
+
+	// Secondary Attributes.
+	"Secondary_AmmoPerShot"	"6"
+	"Secondary_TimeFireDelay"	"1.0"
+	"Secondary_SmackDelay"		"0.5"
+	"Secondary_ProjectileType"	"projectile_none"
 
 	// Buckets.
 	"bucket"		"0"
 	"bucket_position"	"0"	
 
-	// Models.
+	// Animation.
 	"viewmodel"		"models/weapons/v_models/v_rocketlauncher_soldier.mdl"
 	"playermodel"		"models/weapons/w_models/w_rocketlauncher.mdl"
 	
 	"HasTeamSkins_Viewmodel"	"1"
 	
+	// Muzzleflash.
+	"MuzzleFlashParticleEffect"	"mlg_muzzleflash"
+	
 	// Explosions.
-	"ExplosionEffect"		"ExplosionCore_wall"
-	"ExplosionPlayerEffect"		"ExplosionCore_MidAir"
-	"ExplosionWaterEffect"		"ExplosionCore_MidAir_underwater"
-	"ExplosionEffect_Crit"		"ExplosionCore_wall_%s"
-	"ExplosionPlayerEffect_Crit"		"ExplosionCore_MidAir_%s"
-	"ExplosionWaterEffect_Crit"		"ExplosionCore_MidAir_underwater_%s"
+	"ExplosionEffect"		"mlg_explosion_primary"
+	"ExplosionPlayerEffect"		"mlg_explosion_primary"
+	"ExplosionWaterEffect"		"mlg_explosion_secondary"
+	
+	"HasTeamColoredExplosions"	"1"
 
-	"ExplosionSound"	"BaseExplosionEffect.Sound"
+	"ExplosionSound"	"Weapon_Displacer.Explode"
 
 	// Sounds.
 	// Max of 16 per category (ie. max 16 "single_shot" sounds).
 	SoundData
 	{
-		"single_shot"	"Weapon_RPG.Single"
-//		"reload"		"Weapon_RPG.WorldReload"
-		"burst"			"Weapon_RPG.SingleCrit"	
+		"single_shot"	"Weapon_Displacer.Single"
+		"burst"			"Weapon_Displacer.SingleCrit"
+		"double_shot"	"Weapon_Displacer.Teleport"
+		"special2"		"Weapon_Displacer.ChargeUp"
+		"special3"		"Weapon_Displacer.LockOn"
 	}
 
 	// Weapon Sprite data is loaded by the Client DLL.

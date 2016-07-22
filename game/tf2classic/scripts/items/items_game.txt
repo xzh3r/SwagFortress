@@ -953,6 +953,10 @@
 			"model_world"	"models/weapons/w_models/w_shotgun.mdl"
 			"mouse_pressed_sound"	"ui/item_heavy_gun_pickup.wav"
 			"drop_sound"	"ui/item_heavy_gun_drop.wav"
+			"model_player_per_class"
+			{
+				"mercenary"	"models/weapons/v_models/v_shotgun_merc.mdl"
+			}
 		}
 		"weapon_ubersaw"
 		{
@@ -1074,6 +1078,61 @@
 			"drop_sound"	"ui/item_light_gun_drop.wav"
 			"xifier_class_remap"	"flaregun"
 		}
+		"weapon_sandvich"
+		{
+			"item_class"	"tf_weapon_lunchbox"
+			"craft_class"	"weapon"
+			"craft_material_type"	"weapon"
+			"capabilities"
+			{
+				"nameable"	"1"
+			}
+			"tags"
+			{
+				"can_heal_allies"	"1"
+				"can_extinguish"	"1"
+			}
+			"show_in_armory"	"1"
+			"item_type_name"	"#TF_Weapon_LunchBox"
+			"item_name"	"#TF_Unique_Achievement_LunchBox"
+			"item_description"	"#TF_Sandvich_desc"
+			"item_slot"	"secondary"
+			"anim_slot"	"ITEM1"
+			"image_inventory"	"backpack/weapons/w_models/w_sandwich"
+			"image_inventory_size_w"	"128"
+			"image_inventory_size_h"	"82"
+			"model_world"	"models/weapons/w_models/w_sandwich.mdl"
+			"model_player"	"models/weapons/v_models/v_sandwich_heavy.mdl"
+			"attach_to_hands"	"2"
+			"item_quality"	"unique"
+			"propername"	"1"
+			"min_ilevel"	"1"
+			"max_ilevel"	"1"
+			"used_by_classes"
+			{
+				"heavy"	"1"
+			}
+			"attributes"
+			{
+				"kill eater score type"
+				{
+					"attribute_class"	"kill_eater_score_type"
+					"value"	"50"
+				}
+				"special taunt"
+				{
+					"attribute_class"	"special_taunt"
+					"value"	"1"
+				}
+				"allowed in medieval mode"
+				{
+					"attribute_class"	"allowed_in_medieval_mode"
+					"value"	"1"
+				}
+			}
+			"mouse_pressed_sound"	"ui/item_sandwich_drop.wav"
+			"drop_sound"	"ui/item_sandwich_pickup.wav"
+		}
 		"weapon_huntsman"
 		{
 			"item_class"	"tf_weapon_compound_bow"
@@ -1081,17 +1140,17 @@
 			"craft_material_type"	"weapon"
 			"capabilities"
 			{
-				"nameable"		"1"
+				"nameable"	"1"
 			}
 			"tags"
 			{
-				"can_deal_damage"			"1"
-				"can_headshot"				"1"
+				"can_deal_damage"	"1"
+				"can_headshot"	"1"
 				"can_deal_posthumous_damage"	"1"
 				"can_deal_critical_damage"	"1"
 				"can_deal_mvm_penetration_damage"	"1"
 				"can_deal_long_distance_damage"	"1"
-				"can_deal_taunt_damage"		"1"
+				"can_deal_taunt_damage"	"1"
 			}
 			"show_in_armory"	"1"
 			"item_type_name"	"#TF_Weapon_CompoundBow"
@@ -1103,9 +1162,9 @@
 			"min_ilevel"	"10"
 			"max_ilevel"	"10"
 			"anim_slot"	"item2"
-			"image_inventory"	"backpack/weapons/c_models/c_bow/c_bow"
-			"image_inventory_size_w"		"128"
-			"image_inventory_size_h"		"82"
+			"image_inventory"	"backpack/weapons/w_models/w_bow"
+			"image_inventory_size_w"	"128"
+			"image_inventory_size_h"	"82"
 			"model_player"	"models/weapons/c_models/c_bow/c_bow.mdl"
 			"attach_to_hands"	"1"
 			"flip_viewmodel"	"1"
@@ -1115,11 +1174,6 @@
 			}
 			"attributes"
 			{
-				"hidden primary max ammo bonus"
-				{
-					"attribute_class"	"mult_maxammo_primary"
-					"value"	"0.5"
-				}
 				"disable fancy class select anim"
 				{
 					"attribute_class"	"disable_fancy_class_select_anim"
@@ -1128,7 +1182,7 @@
 				"special taunt"
 				{
 					"attribute_class"	"special_taunt"
-					"value" "1"
+					"value"	"1"
 				}
 				"allowed in medieval mode"
 				{
@@ -1140,11 +1194,11 @@
 			{
 				"player_bodygroups"
 				{
-					"arrows"		"1"
+					"arrows"	"1"
 				}
 			}
 			"mouse_pressed_sound"	"ui/item_wood_pole_pickup.wav"
-			"drop_sound"		"ui/item_wood_pole_drop.wav"
+			"drop_sound"	"ui/item_wood_pole_drop.wav"
 		}
 		"weapon_crowbar"
 		{
@@ -1215,7 +1269,7 @@
 			"used_by_classes"
 			{
 				"scout"	"primary"
-				"mercenary" "secondary"
+				"mercenary"	"secondary"
 			}
 			"mouse_pressed_sound"	"ui/item_heavy_gun_pickup.wav"
 			"drop_sound"	"ui/item_heavy_gun_drop.wav"
@@ -2150,6 +2204,12 @@
 			"prefab"	"valve weapon_flaregun"
 			"first_sale_date"	"2011/04/14"
 		}
+		"42"
+		{
+			"name"	"The Sandvich"
+			"first_sale_date"	"2010/09/29"
+			"prefab"	"valve weapon_sandvich"
+		}
 		"56"
 		{
 			"name"	"The Huntsman"
@@ -2217,6 +2277,8 @@
 			"name"	"Valve Rocket Launcher"
 			"prefab"	"weapon_rocketlauncher"
 			"baseitem"	"0"
+			"item_quality"	"developer"
+			"show_in_armory"	"1"
 			"attributes"
 			{
 				"damage bonus"
@@ -2264,7 +2326,7 @@
 			"used_by_classes"
 			{
 				"scout"	"1"
-				"mercenary" "1"
+				"mercenary"	"1"
 			}
 		}
 		"9004"
@@ -2290,9 +2352,10 @@
 			"item_type_name"	"#TF_Weapon_RocketLauncher"
 			"item_name"	"#TF_Weapon_RocketLauncherBeta"
 			"item_logname"	"rpg"
+			"item_iconname"	"rpg"
 			"item_slot"	"primary"
 			"item_quality"	"unique"
-			"propername"	"1"
+			"propername"	"0"
 			"min_ilevel"	"8"
 			"max_ilevel"	"8"
 			"image_inventory"	"backpack/weapons/w_models/w_rpg"
@@ -2328,6 +2391,11 @@
 				{
 					"attribute_class"	"mod_spawn_ammo_override"
 					"value"	"10"
+				}
+				"custom projectile model"
+				{
+					"attribute_class"	"custom_projectile_model"
+					"value"	"models/weapons/w_models/w_rocketbeta.mdl"
 				}
 			}
 			"visuals"
@@ -2557,8 +2625,13 @@
 			{
 				"sniper"	"1"
 			}
-			"mouse_pressed_sound"	"ui/item_knife_small_pickup.wav"
-			"drop_sound"	"ui/item_metal_weapon_drop.wav"
+			"visuals"
+			{
+				"sound_melee_hit"	"Weapon_Fishwhacker.HitFlesh"
+				"sound_melee_hit_world"	"Weapon_Fishwhacker.HitWorld"
+			}
+			"mouse_pressed_sound"	"ui/item_wood_pole_pickup.wav"
+			"drop_sound"	"ui/item_wood_pole_drop.wav"
 		}
 		"9009"
 		{
@@ -2583,17 +2656,17 @@
 				"can_deal_mvm_penetration_damage"	"1"
 				"can_deal_long_distance_damage"	"1"
 			}
-			"first_sale_date"	"2010/09/29"
-			"item_class"	"tf_weapon_smg_primary"
+			"first_sale_date"	"1941/01/15"
+			"item_class"	"tf_weapon_smg"
 			"craft_class"	"weapon"
 			"craft_material_type"	"weapon"
 			"item_type_name"	"#TF_Weapon_SMG"
 			"item_name"	"#TF_Weapon_StenGun"
 			"item_iconname"	"stengun"
 			"item_logname"	"stengun"
-			"item_slot"	"primary"
+			"item_slot"	"secondary"
 			"item_quality"	"unique"
-			"propername"	"1"
+			"propername"	"0"
 			"min_ilevel"	"8"
 			"max_ilevel"	"8"
 			"image_inventory"	"backpack/weapons/w_models/w_stengun"
@@ -2611,7 +2684,7 @@
 				"damage bonus"
 				{
 					"attribute_class"	"mult_dmg"
-					"value"	"1.5"
+					"value"	"1.25"
 				}
 				"clip size bonus"
 				{
@@ -2620,7 +2693,7 @@
 				}
 				"maxammo primary increased"
 				{
-					"attribute_class"	"mult_maxammo_primary"
+					"attribute_class"	"mult_maxammo_secondary"
 					"value"	"1.2"
 				}
 				"spawn ammo override"
@@ -2660,7 +2733,7 @@
 			"item_slot"	"primary"
 			"anim_slot"	"secondary"
 			"item_quality"	"unique"
-			"propername"	"1"
+			"propername"	"0"
 			"min_ilevel"	"8"
 			"max_ilevel"	"8"
 			"image_inventory"	"backpack/weapons/w_models/w_supershotgun"
@@ -2803,7 +2876,7 @@
 			"item_slot"	"primary"
 			"anim_slot"	"secondary"
 			"item_quality"	"unique"
-			"propername"	"1"
+			"propername"	"0"
 			"min_ilevel"	"8"
 			"max_ilevel"	"8"
 			"image_inventory"	"backpack/weapons/w_models/w_tommygun"
@@ -2841,12 +2914,13 @@
 			"item_type_name"	"#TF_Weapon_Grenade"
 			"item_name"	"#TF_Weapon_Mirv"
 			"item_slot"	"secondary"
+			"item_iconname"	"mirv"
 			"anim_slot"	"melee"
 			"item_quality"	"unique"
 			"propername"	"1"
 			"min_ilevel"	"5"
 			"max_ilevel"	"10"
-			"image_inventory"	"backpack/weapons/w_models/w_stickybomb_launcher"
+			"image_inventory"	"backpack/weapons/w_models/w_grenade_mirv_demo"
 			"image_inventory_size_w"	"128"
 			"image_inventory_size_h"	"82"
 			"model_world"	"models/weapons/w_models/w_grenade_mirv_demo.mdl"
@@ -2858,6 +2932,41 @@
 			}
 			"mouse_pressed_sound"	"ui/item_heavy_gun_pickup.wav"
 			"drop_sound"	"ui/item_heavy_gun_drop.wav"
+		}
+		"9016"
+		{
+			"name"	"Assault Rifle"
+			"capabilities"
+			{
+				"nameable"	"1"
+			}
+			"tags"
+			{
+				"can_deal_damage"	"1"
+				"can_deal_mvm_penetration_damage"	"1"
+				"can_deal_long_distance_damage"	"1"
+			}
+			"item_class"	"tf_weapon_assaultrifle"
+			"craft_class"	"weapon"
+			"craft_material_type"	"weapon"
+			"item_type_name"	"#TF_Weapon_AR"
+			"item_name"	"#TF_Weapon_AR"
+			"item_slot"	"primary"
+			"item_quality"	"unique"
+			"min_ilevel"	"5"
+			"max_ilevel"	"5"
+			"image_inventory"	"backpack/weapons/w_models/w_smg"
+			"image_inventory_size_w"	"128"
+			"image_inventory_size_h"	"82"
+			"model_world"	"models/weapons/w_models/w_smg.mdl"
+			"model_player"	"models/weapons/v_models/v_assaultrifle_merc.mdl"
+			"attach_to_hands"	"2"
+			"used_by_classes"
+			{
+				"mercenary"	"1"
+			}
+			"mouse_pressed_sound"	"ui/item_light_gun_pickup.wav"
+			"drop_sound"	"ui/item_light_gun_drop.wav"
 		}
 		"9017"
 		{
@@ -2890,10 +2999,126 @@
 			"model_player"	"models/weapons/v_models/v_umbrella_civilian.mdl"
 			"used_by_classes"
 			{
-				"civilian" "1"
+				"civilian"	"1"
 			}
 			"mouse_pressed_sound"	"ui/item_metal_weapon_pickup.wav"
 			"drop_sound"	"ui/item_metal_weapon_drop.wav"
+		}
+		"9018"
+		{
+			"name"	"Displacer Cannon"
+			"capabilities"
+			{
+				"nameable"	"1"
+			}
+			"tags"
+			{
+				"can_deal_damage"	"1"
+				"can_deal_mvm_penetration_damage"	"1"
+				"can_deal_long_distance_damage"	"1"
+			}
+			"item_class"	"tf_weapon_displacer"
+			"craft_class"	"weapon"
+			"craft_material_type"	"weapon"
+			"item_type_name"	"#TF_Weapon_Displacer"
+			"item_name"	"#TF_Weapon_BFG"
+			"item_slot"	"primary"
+			"item_quality"	"unique"
+			"min_ilevel"	"5"
+			"max_ilevel"	"5"
+			"image_inventory"	"backpack/weapons/w_models/w_rocketlauncher"
+			"image_inventory_size_w"	"128"
+			"image_inventory_size_h"	"82"
+			"attach_to_hands"	"2"
+			"model_world"	"models/weapons/w_models/w_rocketlauncher.mdl"
+			"model_player"	"models/weapons/v_models/v_rocketlauncher_soldier.mdl"
+			"used_by_classes"
+			{
+				"mercenary"	"1"
+			}
+			"attributes"
+			{
+				"blast dmg to self reduced"
+				{
+					"attribute_class"	"blast_dmg_to_self"
+					"value"	"0.5"
+				}
+			}
+			"mouse_pressed_sound"	"ui/item_heavy_gun_pickup.wav"
+			"drop_sound"	"ui/item_heavy_gun_drop.wav"
+		}
+		"134"
+		{
+			"name"	"The Makeshift Mutilator"
+			"first_sale_date"	"2010/09/29"
+			"item_class"	"tf_weapon_flamethrower"
+			"craft_class"	"weapon"
+			"craft_material_type"	"weapon"
+			"capabilities"
+			{
+				"nameable"	"1"
+				"can_gift_wrap"	"1"
+			}
+			"tags"
+			{
+				"can_deal_critical_damage"	"0"
+				"can_deal_damage"	"1"
+			}
+			"show_in_armory"	"1"
+			"item_type_name"	"#TF_Weapon_Flamethrower"
+			"item_name"	"#TF_Weapon_Mutilator"
+			"item_slot"	"primary"
+			"image_inventory"	"backpack/weapons/c_models/c_chemthrower"
+			"image_inventory_size_w"	"128"
+			"image_inventory_size_h"	"82"
+			"model_world"	"models/workshop/weapons/c_models/c_chemthrower/c_chemthrower.mdl"
+			"model_player"	"models/workshop/weapons/c_models/c_chemthrower/c_chemthrower.mdl"
+			"attach_to_hands"	"1"
+			"item_quality"	"unique"
+			"propername"	"1"
+			"min_ilevel"	"8"
+			"max_ilevel"	"8"
+			"used_by_classes"
+			{
+				"pyro"	"1"
+			}
+			"visuals"
+			{
+				"sound_single_shot"		"Weapon_MakeshiftMutilator.Fire"
+				"sound_special1"		"Weapon_MakeshiftMutilator.FireLoop"
+				"sound_special3"		"Weapon_MakeshiftMutilator.WindDown"
+				"sound_burst"			"Weapon_MakeshiftMutilator.FireLoopCrit"
+			}
+			"mouse_pressed_sound"	"ui/item_heavy_gun_pickup.wav"
+			"drop_sound"	"ui/item_heavy_gun_drop.wav"
+			"attributes"
+			{
+				"damage bonus"
+				{
+					"attribute_class"	"mult_dmg"
+					"value"	"1.25"
+				}
+				"fire rate bonus"
+				{
+					"attribute_class"	"mult_postfiredelay"
+					"value"	"0.50"
+				}
+				"flame size penalty"
+				{
+					"attribute_class"	"mult_flame_size"
+					"value"	"0.50"
+				}
+				"mod flamethrower push"
+				{
+					"attribute_class"	"set_flamethrower_push_disabled"
+					"value"	"1"
+				}
+				"maxammo primary reduced"
+				{
+					"attribute_class"	"mult_maxammo_primary"
+					"value"	"0.50"
+				}
+			}
 		}
 	}
 	"attributes"
@@ -9799,7 +10024,17 @@
 			"description_format"	"value_is_additive_percentage"
 			"hidden"	"0"
 			"effect_type"	"negative"
-			"stored_as_integer"	"0"			
+			"stored_as_integer"	"0"
+		}
+		"1005"
+		{
+			"name"	"blast dmg to self reduced"
+			"attribute_class"	"blast_dmg_to_self"
+			"description_string"	"#Attrib_BlastDamageToSelf_Reduced"
+			"description_format"	"value_is_percentage"
+			"hidden"	"0"
+			"effect_type"	"positive"
+			"stored_as_integer"	"0"
 		}
 	}
 	"attribute_controlled_attached_particles"

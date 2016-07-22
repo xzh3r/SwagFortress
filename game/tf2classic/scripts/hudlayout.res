@@ -273,6 +273,7 @@
 		"tall_minmode"	 	"31"
 		"priority"	"40"
 		"priority_lodef"	"5"
+		"avatar_offset"	"16"
 	}
 	
 	CSpectatorTargetID
@@ -287,6 +288,7 @@
 		"tall_minmode"	 	"31"
 		"priority"	"40"
 		"priority_lodef" "35"
+		"avatar_offset"	"16"
 	}
 	
 	CSecondaryTargetID
@@ -300,6 +302,7 @@
 		"tall"	 	"50"
 		"tall_minmode"	 	"31"
 		"priority"	"35"
+		"avatar_offset"	"16"
 	}
 	
 	BuildingStatus_Spy
@@ -900,6 +903,7 @@
 		"ypos"					"0"
 		"wide"					"f0"
 		"tall"					"480"
+		"avatar_offset"			"16"
 	}
 
 	FreezePanelCallout
@@ -1465,5 +1469,97 @@
 		"ypos"			"0"
 		"wide"	 		"f0"
 		"tall"	 		"f0"
+	}
+	
+	// TF2C elements begin here
+	
+	"HudItemEffects"
+	{
+		"fieldName"		"HudItemEffectMeter"
+		"visible"		"1"
+		"enabled"		"1"
+		"xpos"			"r335"	[$WIN32] // r125 + ( 40x5 ) + 10
+		"xpos_minmode"	"r52"	[$WIN32]
+		"ypos"			"r62"	[$WIN32]
+		"ypos_minmode"	"r54"	[$WIN32]
+		"xpos"			"r295"	[$X360]
+		"ypos"			"r74"	[$X360]
+		"x_offset"		"40"
+		"y_offset"		"0"
+		"wide"			"260"	// 40x4 + 100
+		"tall"			"50"
+		"MeterFG"		"White"
+		"MeterBG"		"Gray"
+	}
+	
+	"HudWeaponSwitch"
+	{
+		"ControlName"		"EditablePanel"
+		"fieldName"			"HudWeaponSwitch"
+		"xpos"				"c-70"
+		"ypos"				"r160"
+		"zpos"				"1"
+		"wide"				"640"
+		"tall"				"480"
+		"visible"			"1"
+		"enabled"			"1"
+	}
+	
+	"HudWeaponSwitch"
+	{
+		"ControlName"		"EditablePanel"
+		"fieldName"			"HudWeaponSwitch"
+		"xpos"				"c-70"
+		"ypos"				"r160"
+		"zpos"				"1"
+		"wide"				"200"
+		"tall"				"150"
+		"visible"			"1"
+		"enabled"			"1"
+	}
+	
+	"HudCondStatus"
+	{
+		"ControlName"		"EditablePanel"
+		"fieldName"			"HudCondStatus"
+		"xpos"				"15"
+		"ypos"				"r135"
+		"zpos"				"1"
+		"wide"				"230"
+		"tall"				"40"
+		"visible"			"1"
+		"enabled"			"1"
+		"border"			""
+	}
+	
+	"HudBetaStamp"
+	{
+		"ControlName"		"EditablePanel"
+		"fieldName"			"HudCondStatus"
+		"xpos"				"0"
+		"ypos"				"0"
+		"zpos"				"1"
+		"wide"				"100"
+		"tall"				"100"
+		"visible"			"0"
+		"enabled"			"1"
+	}
+	
+	"HudDistanceMeter"
+	{
+		"fieldName" "HudDistanceMeter"
+		"visible" "0"
+		"enabled" "0"
+		"wide"	 "640"
+		"tall"	 "480"
+	}
+	
+	"HudMusicManager"
+	{
+		"fieldName" "HudMusicManager"
+		"visible" "0"
+		"enabled" "0"
+		"wide"	 "640"
+		"tall"	 "480"
 	}
 }

@@ -375,6 +375,15 @@
 				"width"		"96"
 				"height"	"32"
 		}
+		"stengun"
+		{
+				"dfile"	"HUD/d_images_tf2c"
+				"dnegfile"	"HUD/dneg_images_tf2c"
+				"x"		"0"
+				"y"		"192"
+				"width"		"96"
+				"height"	"32"
+		}
 		"smg_scout"
 		{
 				"dfile"	"HUD/d_images"
@@ -447,6 +456,15 @@
 				"width"		"96"
 				"height"	"32"
 		}
+		"rpg"
+		{
+				"dfile"	"HUD/d_images_tf2c"
+				"dnegfile"	"HUD/dneg_images_tf2c"
+				"x"		"0"
+				"y"		"225"
+				"width"		"110"
+				"height"	"32"
+		}
 		"shotgun_primary"
 		{
 				"dfile"	"HUD/d_images"
@@ -491,6 +509,15 @@
 				"y"		"288"
 				"width"		"96"
 				"height"	"32"
+		}
+		"mirv"
+		{
+				"dfile"	"HUD/d_images_tf2c"
+				"dnegfile"	"HUD/dneg_images_tf2c"
+				"x"		"0"
+				"y"		"254"
+				"width"		"52"
+				"height"	"45"
 		}
 		"bottle"
 		{
@@ -580,6 +607,15 @@
 				"x"		"96"
 				"y"		"32"
 				"width"		"96"
+				"height"	"32"
+		}
+		"tranq"
+		{
+				"dfile"	"HUD/d_images_tf2c"
+				"dnegfile"	"HUD/dneg_images_tf2c"
+				"x"		"0"
+				"y"		"162"
+				"width"		"113"
 				"height"	"32"
 		}
 		"flaregun"

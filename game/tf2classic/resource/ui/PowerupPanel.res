@@ -1,5 +1,19 @@
 "Resource/UI/PowerupPanel.res"
 {
+	"PowerupPanel"
+	{
+		"ControlName"		"CTFPowerupPanel"
+		"fieldName"			"PowerupPanel"
+		"xpos"				"0"
+		"ypos"				"0"
+		"zpos"				"1"
+		"wide"				"50"
+		"tall"				"40"
+		"visible"			"0"
+		"enabled"			"1"
+		"border"			""
+	}
+	
 	"TimePanelProgressBar"
 	{
 		"ControlName"		"CTFProgressBar"

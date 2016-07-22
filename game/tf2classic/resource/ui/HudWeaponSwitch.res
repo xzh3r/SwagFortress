@@ -1,17 +1,5 @@
 "Resource/UI/HudDeathWeaponDesire.res"
 {	
-	"HudWeaponSwitch"
-	{
-		"ControlName"		"EditablePanel"
-		"fieldName"			"HudWeaponSwitch"
-		"xpos"				"c-70"
-		"ypos"				"r160"
-		"zpos"				"1"
-		"wide"				"200"
-		"tall"				"150"
-		"visible"			"1"
-		"enabled"			"1"
-	}
 	"HintLabel"
 	{
 		"ControlName"	"CExLabel"
@@ -24,7 +12,7 @@
 		"visible"		"1"
 		"enabled"		"1"
 		"textAlignment"	"center"	
-		"labelText"		"%hint%"	
+		"labelText"		"#TF_WeaponSwitchHint"	
 		"font"			"TallTextSmall"
 		"fgcolor"		"TanLight"
 	}	
@@ -40,7 +28,7 @@
 		"visible"		"1"
 		"enabled"		"1"
 		"textAlignment"	"center"	
-		"labelText"		"%hint%"	
+		"labelText"		"#TF_WeaponSwitchHint"	
 		"font"			"TallTextSmall"
 		"fgcolor"		"Black"
 	}

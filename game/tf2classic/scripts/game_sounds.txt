@@ -971,6 +971,7 @@
 		"wave"	"items/pills/pill_heal6.wav"
 	}
 }
+
 "OverhealPillNoRattle.Touch" //Plays if it only just healed the player
 {
 	"channel"	"CHAN_ITEM"
@@ -1000,6 +1001,7 @@
 	
 	"wave"		"items/powerup_crit.wav"
 }
+
 "PowerupUber.Touch" // Plays if player picks up a uber powerup.
 {
 	"channel"	"CHAN_ITEM"
@@ -1008,4 +1010,24 @@
 	"pitch"		"PITCH_NORM"
 	
 	"wave"		"items/powerup_uber.wav"
+}
+
+"PowerupSpeedBoost.Touch" // Plays if player picks up a speed boost powerup.
+{
+	"channel"	"CHAN_ITEM"
+	"volume"	"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+	"pitch"		"PITCH_NORM"
+	
+	"wave"		"weapons/discipline_device_power_up.wav"
+}
+
+"PowerupSpeedBoost.WearOff" // Plays if player picks up a speed boost powerup.
+{
+	"channel"	"CHAN_ITEM"
+	"volume"	"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+	"pitch"		"PITCH_NORM"
+	
+	"wave"		"weapons/discipline_device_power_down.wav"
 }
