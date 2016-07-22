@@ -489,7 +489,7 @@ void CHudMenuSpyDisguise::SetVisible( bool state )
 		engine->ClientCmd( "cancelselect" );
 
 		bool bConsoleMode = ( IsConsole() || tf_disguise_menu_controller_mode.GetBool() );
-			
+
 		if ( bConsoleMode != m_bInConsoleMode )
 		{
 			InvalidateLayout( true, true );
@@ -506,22 +506,22 @@ void CHudMenuSpyDisguise::SetVisible( bool state )
 		SetDialogVariable( "lastinv", key );
 
 		// set the %disguiseteam% dialog var
-		key = engine->Key_LookupBinding("disguiseteam");
-		if (!key)
+		key = engine->Key_LookupBinding( "disguiseteam" );
+		if ( !key )
 		{
 			key = "< not bound >";
 		}
 
-		SetDialogVariable("disguiseteam", key);
+		SetDialogVariable( "disguiseteam", key );
 
 		// set the %reload% dialog var
-		key = engine->Key_LookupBinding("+reload");
-		if (!key)
+		key = engine->Key_LookupBinding( "+reload" );
+		if ( !key )
 		{
 			key = "< not bound >";
 		}
 
-		SetDialogVariable("reload", key);
+		SetDialogVariable( "reload", key );
 
 		HideLowerPriorityHudElementsInGroup( "mid" );
 	}

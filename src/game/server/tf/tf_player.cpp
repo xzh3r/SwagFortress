@@ -5400,19 +5400,19 @@ void CTFPlayer::RemoveOwnedProjectiles( void )
 		CBaseProjectile *pProjectile = static_cast<CBaseProjectile *>( IBaseProjectileAutoList::AutoList()[i] );
 
 		// If the player owns this entity, remove it.
-		bool bOwner = ( pProjectile->GetOwnerEntity() == this );
+		CBaseEntity *pOwner = pProjectile->GetOwnerEntity();
 
-		if ( !bOwner )
+		if ( !pOwner )
 		{
 			// Might be a grenade.
 			CBaseGrenade *pGrenade = dynamic_cast<CBaseGrenade *>( pProjectile );
 			if ( pGrenade )
 			{
-				bOwner = ( pGrenade->GetThrower() == this );
+				pOwner = pGrenade->GetThrower();
 			}
 		}
 
-		if ( bOwner )
+		if ( pOwner == this )
 		{
 			pProjectile->SetThink( &CBaseEntity::SUB_Remove );
 			pProjectile->SetNextThink( gpGlobals->curtime );

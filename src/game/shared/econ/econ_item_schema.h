@@ -27,7 +27,7 @@ enum
 	ATTRIB_EFFECT_NEGATIVE,
 };
 
-enum
+enum EEconItemQuality
 {
 	QUALITY_NORMAL,
 	QUALITY_GENUINE,
@@ -45,10 +45,14 @@ enum
 	QUALITY_HUNTED,
 	QUALITY_COLLECTOR,
 	QUALITY_DECORATED,
+	QUALITY_COUNT
 };
 
 extern const char *g_szQualityColorStrings[];
 extern const char *g_szQualityLocalizationStrings[];
+
+const char *EconQuality_GetColorString( EEconItemQuality quality );
+const char *EconQuality_GetLocalizationString( EEconItemQuality quality );
 
 #define CALL_ATTRIB_HOOK_INT(value, name)			\
 		value = CAttributeManager::AttribHookValue<int>(value, #name, this)
@@ -253,7 +257,7 @@ public:
 	char item_description[128];
 	int  item_slot;
 	int  anim_slot;
-	int  item_quality;
+	EEconItemQuality  item_quality;
 	bool baseitem;
 	bool propername;
 	char item_logname[128];

@@ -102,7 +102,6 @@ const char *g_szQualityLocalizationStrings[] =
 	"#paintkitWeapon",
 };
 
-
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
@@ -425,7 +424,7 @@ public:
 			int iQuality = UTIL_StringFieldToInt( pszQuality, g_szQualityStrings, ARRAYSIZE( g_szQualityStrings ) );
 			if ( iQuality != -1 )
 			{
-				pItem->item_quality = iQuality;
+				pItem->item_quality = (EEconItemQuality)iQuality;
 			}
 		}
 

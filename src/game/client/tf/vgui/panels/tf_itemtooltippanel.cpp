@@ -88,31 +88,29 @@ void CTFItemToolTipPanel::ShowToolTip(CEconItemDefinition *pItemData)
 	}
 	*/
 
-	SetDialogVariable( "itemname", pItemData->GenerateLocalizedFullItemName() );
-
+	// Set item name.
 	if ( m_pTitle )
-	{
-		IScheme *pScheme = scheme()->GetIScheme( GetScheme() );
+	{	
+		m_pTitle->SetText( pItemData->GenerateLocalizedFullItemName() );
 
-		if ( pScheme )
+		// Set the color according to quality.
+		IScheme *pScheme = scheme()->GetIScheme( GetScheme() );
+		const char *pszColor = EconQuality_GetColorString( pItemData->item_quality );
+
+		if ( pScheme && pszColor )
 		{
-			Color colTitle = pScheme->GetColor( g_szQualityColorStrings[pItemData->item_quality], m_colorTitle );
+			Color colTitle = pScheme->GetColor( pszColor, m_colorTitle );
 			m_pTitle->SetFgColor( colTitle );
 		}
 	}
 
-	const wchar_t *pszLocalizedType = g_pVGuiLocalize->Find( pItemData->item_type_name );
-
-	if ( pszLocalizedType )
-	{
-		SetDialogVariable( "attriblist", pszLocalizedType );
-	}
-	else
-	{
-		SetDialogVariable( "attriblist", pItemData->item_type_name );
+	// Set item type name.
+	if ( m_pClassName )
+	{	
+		m_pClassName->SetText( pItemData->item_type_name );
 	}
 
-
+	// List atrributes.
 	for (int i = 0; i < 20; i++){
 		m_pAttributes[i]->SetVisible(false);
 	}
