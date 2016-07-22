@@ -94,7 +94,7 @@ void CTFAdvItemButton::SetItemDefinition(CEconItemDefinition *pItemData)
 	Q_snprintf( szIcon, sizeof( szIcon ), "../%s_large", pItemData->image_inventory );
 	SetImage( szIcon );
 
-	SetText( pItemData->item_name );
+	pButton->SetText( pItemData->GenerateLocalizedFullItemName() );
 
 	pButton->SetDepressedSound( pItemData->mouse_pressed_sound );
 	pButton->SetReleasedSound( NULL );
