@@ -11,17 +11,18 @@ class CTFAdvModelPanel;
 //-----------------------------------------------------------------------------
 class CTFItemToolTipPanel : public CTFToolTipPanel
 {
-	DECLARE_CLASS_SIMPLE(CTFItemToolTipPanel, CTFToolTipPanel);
+	DECLARE_CLASS_SIMPLE( CTFItemToolTipPanel, CTFToolTipPanel );
 
 public:
-	CTFItemToolTipPanel(vgui::Panel* parent, const char *panelName);
+	CTFItemToolTipPanel( vgui::Panel* parent, const char *panelName );
 	virtual bool Init();
 	virtual ~CTFItemToolTipPanel();
+	void ApplySchemeSettings( vgui::IScheme *pScheme );
+	void OnChildSettingsApplied( KeyValues *pInResourceData, Panel *pChild );
 	void PerformLayout();
-	void ApplySchemeSettings(vgui::IScheme *pScheme);
 	void Show();
 	void Hide();
-	void ShowToolTip(CEconItemDefinition *pItemData);
+	void ShowToolTip( CEconItemDefinition *pItemData );
 	void HideToolTip();
 
 private:

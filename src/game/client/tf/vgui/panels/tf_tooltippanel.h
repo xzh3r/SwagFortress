@@ -14,13 +14,13 @@ public:
 	CTFToolTipPanel(vgui::Panel* parent, const char *panelName);
 	virtual bool Init();
 	virtual ~CTFToolTipPanel();
-	void PerformLayout();
-	void ApplySchemeSettings(vgui::IScheme *pScheme);
-	void OnThink();
-	void Show();
-	void Hide();
-	void ShowToolTip(char *sText);
-	void HideToolTip();
+	virtual void PerformLayout();
+	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
+	virtual void OnThink();
+	virtual void Show();
+	virtual void Hide();
+	virtual void ShowToolTip( char *sText );
+	virtual void HideToolTip();
 
 protected:
 	char		m_sText[256];
