@@ -12,18 +12,19 @@ class CTFToolTipPanel : public CTFMenuPanelBase
 
 public:
 	CTFToolTipPanel(vgui::Panel* parent, const char *panelName);
-	virtual bool Init();
 	virtual ~CTFToolTipPanel();
-	virtual void PerformLayout();
+	virtual void PerformLayout( void );
 	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
-	virtual void OnThink();
-	virtual void Show();
-	virtual void Hide();
+	virtual void OnThink( void );
+	virtual void Show( void );
+	virtual void Hide( void );
 	virtual void ShowToolTip( char *sText );
-	virtual void HideToolTip();
+	virtual void HideToolTip( void );
+	virtual void AdjustToolTipSize( void );
+
+	virtual const char *GetResFilename( void ) { return "resource/UI/main_menu/ToolTipPanel.res"; }
 
 protected:
-	char		m_sText[256];
 	CExLabel	*m_pText;
 };
 

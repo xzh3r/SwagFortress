@@ -21,12 +21,11 @@ CTFItemToolTipPanel::CTFItemToolTipPanel( Panel *parent, const char *panelName )
 	m_pTitle = new CExLabel( this, "TitleLabel", "Title" );
 	m_pClassName = new CExLabel( this, "ClassNameLabel", "ClassName" );
 	m_pAttributeText = new CExLabel( this, "AttributeLabel", "Attribute" );
+
 	for ( int i = 0; i < 20; i++ )
 	{
 		m_pAttributes.AddToTail( new CExLabel( this, VarArgs( "attribute_%d", i ), "Attribute" ) );
 	}
-
-	Init();
 }
 
 //-----------------------------------------------------------------------------
@@ -37,51 +36,15 @@ CTFItemToolTipPanel::~CTFItemToolTipPanel()
 
 }
 
-bool CTFItemToolTipPanel::Init( void )
-{
-	return BaseClass::Init();
-}
-
 void CTFItemToolTipPanel::ApplySchemeSettings( IScheme *pScheme )
 {
 	BaseClass::ApplySchemeSettings( pScheme );
-
-	LoadControlSettings( "resource/UI/main_menu/ItemToolTipPanel.res" );
 
 	if ( m_pTitle )
 	{
 		m_colorTitle = m_pTitle->GetFgColor();
 	}
 }
-
-void CTFItemToolTipPanel::PerformLayout()
-{
-	BaseClass::PerformLayout();
-
-	// Place attributes one under the other.
-	int x, y, wide, tall;
-	m_pAttributeText->GetBounds( x, y, wide, tall );
-
-	int iTotalHeight = y;
-	for ( int i = 0; i < m_pAttributes.Count(); i++ )
-	{
-		CExLabel *pLabel = m_pAttributes[i];
-
-		if ( pLabel->IsVisible() )
-		{
-			pLabel->SetPos( x, iTotalHeight );
-
-			int twide, ttall;
-			pLabel->GetTextImage()->GetContentSize( twide, ttall );
-			pLabel->SetSize( pLabel->GetWide(), ttall );
-
-			iTotalHeight += ttall;
-		}
-	}
-
-	// Set the tooltip size based on attribute list size.
-	SetSize( GetWide(), iTotalHeight + YRES( 10 ) );
-};
 
 void CTFItemToolTipPanel::OnChildSettingsApplied( KeyValues *pInResourceData, Panel *pChild )
 {
@@ -128,8 +91,7 @@ void CTFItemToolTipPanel::ShowToolTip( CEconItemDefinition *pItemData )
 
 		if ( pszColor )
 		{
-			Color colTitle = pScheme->GetColor( pszColor, m_colorTitle );
-			m_pTitle->SetFgColor( colTitle );
+			m_pTitle->SetFgColor( pScheme->GetColor( pszColor, m_colorTitle ) );
 		}
 	}
 
@@ -167,6 +129,11 @@ void CTFItemToolTipPanel::ShowToolTip( CEconItemDefinition *pItemData )
 				if ( !pStatic || pStatic->hidden )
 					continue;
 
+				const wchar_t *pszLocalized = g_pVGuiLocalize->Find( pStatic->description_string );
+
+				if ( !pszLocalized || pszLocalized[0] == '\0' )
+					continue;
+
 				float flValue = pAttribute->value;
 
 				switch ( pStatic->description_format )
@@ -187,11 +154,6 @@ void CTFItemToolTipPanel::ShowToolTip( CEconItemDefinition *pItemData )
 				wchar_t wszValue[32];
 				V_snwprintf( wszValue, sizeof( wszValue ) / sizeof( wchar_t ), L"%.0f", flValue );
 
-				const wchar_t *pszLocalized = g_pVGuiLocalize->Find( pStatic->description_string );
-
-				if ( !pszLocalized || pszLocalized[0] == '\0' )
-					continue;
-
 				wchar_t wszAttrib[128];
 				g_pVGuiLocalize->ConstructString( wszAttrib, sizeof( wszAttrib ), pszLocalized, 1, wszValue );
 
@@ -200,13 +162,13 @@ void CTFItemToolTipPanel::ShowToolTip( CEconItemDefinition *pItemData )
 				Color attrcolor;
 				switch ( pStatic->effect_type )
 				{
-				case ATTRIB_EFFECT_NEUTRAL:
-					attrcolor = pScheme->GetColor( "ItemAttribNeutral", COLOR_WHITE );
-					break;
 				case ATTRIB_EFFECT_POSITIVE:
 					attrcolor = pScheme->GetColor( "ItemAttribPositive", COLOR_WHITE );
 					break;
 				case ATTRIB_EFFECT_NEGATIVE:
+					attrcolor = pScheme->GetColor( "ItemAttribNeutral", COLOR_WHITE );
+					break;			
+				case ATTRIB_EFFECT_NEUTRAL:
 				default:
 					attrcolor = pScheme->GetColor( "ItemAttribNegative", COLOR_WHITE );
 					break;
@@ -221,17 +183,34 @@ void CTFItemToolTipPanel::ShowToolTip( CEconItemDefinition *pItemData )
 	InvalidateLayout( true );
 }
 
-void CTFItemToolTipPanel::HideToolTip()
+void CTFItemToolTipPanel::HideToolTip( void )
 {
 	Hide();
 }
 
-void CTFItemToolTipPanel::Show()
+void CTFItemToolTipPanel::AdjustToolTipSize( void )
 {
-	BaseClass::Show();
-}
+	// Place attributes one under the other.
+	int x, y;
+	m_pAttributeText->GetPos( x, y );
 
-void CTFItemToolTipPanel::Hide()
-{
-	BaseClass::Hide();
+	int iTotalHeight = y;
+	for ( int i = 0; i < m_pAttributes.Count(); i++ )
+	{
+		CExLabel *pLabel = m_pAttributes[i];
+
+		if ( pLabel->IsVisible() )
+		{
+			pLabel->SetPos( x, iTotalHeight );
+
+			int twide, ttall;
+			pLabel->GetTextImage()->GetContentSize( twide, ttall );
+			pLabel->SetTall( ttall );
+
+			iTotalHeight += ttall;
+		}
+	}
+
+	// Set the tooltip size based on attribute list size.
+	SetTall( iTotalHeight + YRES( 10 ) );
 }

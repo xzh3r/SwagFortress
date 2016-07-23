@@ -15,15 +15,14 @@ class CTFItemToolTipPanel : public CTFToolTipPanel
 
 public:
 	CTFItemToolTipPanel( vgui::Panel* parent, const char *panelName );
-	virtual bool Init();
 	virtual ~CTFItemToolTipPanel();
 	void ApplySchemeSettings( vgui::IScheme *pScheme );
 	void OnChildSettingsApplied( KeyValues *pInResourceData, Panel *pChild );
-	void PerformLayout();
-	void Show();
-	void Hide();
 	void ShowToolTip( CEconItemDefinition *pItemData );
-	void HideToolTip();
+	void HideToolTip( void );
+	void AdjustToolTipSize( void );
+
+	const char *GetResFilename( void ) { return "resource/UI/main_menu/ItemToolTipPanel.res"; }
 
 private:
 	int iItemID;

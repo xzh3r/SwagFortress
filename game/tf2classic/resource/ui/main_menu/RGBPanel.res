@@ -107,8 +107,7 @@
 		"maxvalue" 			"255"
 		"labelwidth" 		"25"
 		"bordervisible"		"0"
-		"cvar_name"			"tf2c_setmerccolor_r"
-		"command"			""
+		"command"			"tf2c_setmerccolor_r"
 		
 		"SubButton"
 		{
@@ -118,6 +117,10 @@
 			"border_default"	"AdvSlider"
 			"border_armed"		"AdvSlider"	
 			"border_depressed"	"AdvSlider"	
+		}
+		"TitleLabel"
+		{
+			"labelText"		"R"
 		}
 	}	
 	
@@ -136,8 +139,7 @@
 		"maxvalue" 			"255"
 		"labelwidth" 		"25"
 		"bordervisible"		"0"
-		"command"			""
-		"cvar_name"			"tf2c_setmerccolor_g"
+		"command"			"tf2c_setmerccolor_g"
 		
 		"SubButton"
 		{
@@ -147,6 +149,10 @@
 			"border_default"	"AdvSlider"
 			"border_armed"		"AdvSlider"	
 			"border_depressed"	"AdvSlider"	
+		}
+		"TitleLabel"
+		{
+			"labelText"		"G"
 		}
 	}	
 	
@@ -165,8 +171,7 @@
 		"maxvalue" 			"255"
 		"labelwidth" 		"25"
 		"bordervisible"		"0"
-		"command"			""
-		"cvar_name"			"tf2c_setmerccolor_b"
+		"command"			"tf2c_setmerccolor_b"
 		
 		"SubButton"
 		{
@@ -176,6 +181,10 @@
 			"border_default"	"AdvSlider"
 			"border_armed"		"AdvSlider"	
 			"border_depressed"	"AdvSlider"	
+		}
+		"TitleLabel"
+		{
+			"labelText"		"B"
 		}
 	}	
 	

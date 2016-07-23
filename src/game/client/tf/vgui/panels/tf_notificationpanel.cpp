@@ -64,11 +64,11 @@ void CTFNotificationPanel::PerformLayout()
 	BaseClass::PerformLayout();
 
 	// Adjust message box size based on text height.
-	int x, y, wide, tall;
 	int iWindowHeight = m_iMinHeight;
 
 	if ( m_pMessageLabel )
 	{
+		int x, y, wide, tall;
 		m_pMessageLabel->GetPos( x, y );
 		m_pMessageLabel->GetTextImage()->GetContentSize( wide, tall );
 
