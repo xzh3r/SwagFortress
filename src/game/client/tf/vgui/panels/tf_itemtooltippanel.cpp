@@ -166,11 +166,11 @@ void CTFItemToolTipPanel::ShowToolTip( CEconItemDefinition *pItemData )
 					attrcolor = pScheme->GetColor( "ItemAttribPositive", COLOR_WHITE );
 					break;
 				case ATTRIB_EFFECT_NEGATIVE:
-					attrcolor = pScheme->GetColor( "ItemAttribNeutral", COLOR_WHITE );
+					attrcolor = pScheme->GetColor( "ItemAttribNegative", COLOR_WHITE );
 					break;			
 				case ATTRIB_EFFECT_NEUTRAL:
 				default:
-					attrcolor = pScheme->GetColor( "ItemAttribNegative", COLOR_WHITE );
+					attrcolor = pScheme->GetColor( "ItemAttribNeutral", COLOR_WHITE );
 					break;
 				}
 
