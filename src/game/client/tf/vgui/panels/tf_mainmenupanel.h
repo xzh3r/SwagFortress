@@ -6,7 +6,7 @@
 #include <vgui_controls/HTML.h>
 
 class CAvatarImagePanel;
-class CTFAdvButton;
+class CTFButton;
 class CTFBlogPanel;
 class CTFServerlistPanel;
 class CTFAdvSlider;
@@ -51,7 +51,7 @@ private:
 	void GetRandomMusic(char *pszBuf, int iBufLength);
 
 	CExLabel			*m_pVersionLabel;
-	CTFAdvButton		*m_pNotificationButton;
+	CTFButton		*m_pNotificationButton;
 	CAvatarImagePanel	*m_pProfileAvatar; 
 	vgui::ImagePanel	*m_pFakeBGImage;
 
@@ -99,7 +99,7 @@ public:
 private:
 	static bool ServerSortFunc(vgui::SectionedListPanel *list, int itemID1, int itemID2);
 	vgui::SectionedListPanel	*m_pServerList;
-	CTFAdvButton				*m_pConnectButton;
+	CTFButton				*m_pConnectButton;
 	CTFAdvSlider				*m_pListSlider;
 	CPanelAnimationVarAliasType(int, m_iServerWidth, "server_width", "35", "proportional_int");
 	CPanelAnimationVarAliasType(int, m_iPlayersWidth, "players_width", "35", "proportional_int");

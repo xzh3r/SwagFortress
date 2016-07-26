@@ -222,7 +222,7 @@
 	
 	"BackButton"
 	{
-		"ControlName"	"CTFAdvButton"
+		"ControlName"	"CTFButton"
 		"fieldName"		"BackButton"
 		"xpos"			"c-245"
 		"ypos"			"r60"
@@ -232,16 +232,12 @@
 		"visible"		"1"
 		"enabled"		"1"
 		"command"		"back"		
-		
-		"SubButton"
-		{
-			"labelText" 		"<< Back (&Q)"
-			"textAlignment"		"center"
-			"font"				"TallTextSmall"
-			"border_default"	"AdvRoundedButtonDefault"
-			"border_armed"		"AdvRoundedButtonArmed"
-			"border_depressed"	"AdvRoundedButtonDepressed"	
-		}
+		"labelText" 		"<< Back (&Q)"
+		"textAlignment"		"center"
+		"font"				"TallTextSmall"
+		"border_default"	"AdvRoundedButtonDefault"
+		"border_armed"		"AdvRoundedButtonArmed"
+		"border_depressed"	"AdvRoundedButtonDepressed"
 	}	
 
 	"ParticleLabel"
@@ -311,253 +307,193 @@
 		"offset"			"3"
 	
 	
-		"scout_blue"
+		"scout"
 		{
-			"ControlName"		"CTFAdvButton"
-			"fieldName"			"scout_blue"
+			"ControlName"		"CTFButton"
+			"fieldName"			"scout"
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
-			"command"			"select_scout"
+			"command"			"select_scout"		
+			"labelText" 		""
+			"image_armedcolor"		"HudProgressBarActive"
+			"bordervisible"		"0"
 			
-			"SubButton"
+			"SubImage"
 			{
-				"labelText" 		""
-				"textAlignment"		"south"
-				"font"				"TallTextSmall"
-				"selectedFgColor_override"		"HudProgressBarActive"
-				"bordervisible"		"0"
-				
-				"SubImage"
-				{
-					"image" 			"class_icons/scout"	
-					"imagewidth"		"55"
-				}
+				"image" 			"class_icons/scout"	
+				"imagewidth"		"55"
 			}
 		}
 	
-		"soldier_blue"
+		"soldier"
 		{
-			"ControlName"		"CTFAdvButton"
-			"fieldName"			"soldier_blue"
+			"ControlName"		"CTFButton"
+			"fieldName"			"soldier"
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
-			"command"			"select_soldier"
+			"command"			"select_soldier"	
+			"labelText" 		""
+			"image_armedcolor"		"HudProgressBarActive"
+			"bordervisible"		"0"
 			
-			"SubButton"
+			"SubImage"
 			{
-				"labelText" 		""
-				"textAlignment"		"south"
-				"font"				"TallTextSmall"
-				"selectedFgColor_override"		"HudProgressBarActive"
-				"bordervisible"		"0"
-				
-				"SubImage"
-				{
-					"image" 			"class_icons/soldier"	
-					"imagewidth"		"55"
-				}
+				"image" 			"class_icons/soldier"	
+				"imagewidth"		"55"
 			}
 		}
 	
-		"pyro_blue"
+		"pyro"
 		{
-			"ControlName"		"CTFAdvButton"
-			"fieldName"			"pyro_blue"
+			"ControlName"		"CTFButton"
+			"fieldName"			"pyro"
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
 			"command"			"select_pyro"
+			"labelText" 		""
+			"image_armedcolor"		"HudProgressBarActive"
+			"bordervisible"		"0"
 			
-			"SubButton"
+			"SubImage"
 			{
-				"labelText" 		""
-				"textAlignment"		"south"
-				"font"				"TallTextSmall"
-				"selectedFgColor_override"		"HudProgressBarActive"
-				"bordervisible"		"0"
-				
-				"SubImage"
-				{
-					"image" 			"class_icons/pyro"	
-					"imagewidth"		"55"
-				}
+				"image" 			"class_icons/pyro"	
+				"imagewidth"		"55"
 			}
 		}
 	
-		"demoman_blue"
+		"demoman"
 		{
-			"ControlName"		"CTFAdvButton"
-			"fieldName"			"demoman_blue"
+			"ControlName"		"CTFButton"
+			"fieldName"			"demoman"
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
 			"command"			"select_demoman"
+			"labelText" 		""
+			"image_armedcolor"		"HudProgressBarActive"
+			"bordervisible"		"0"
 			
-			"SubButton"
+			"SubImage"
 			{
-				"labelText" 		""
-				"textAlignment"		"south"
-				"font"				"TallTextSmall"
-				"selectedFgColor_override"		"HudProgressBarActive"
-				"bordervisible"		"0"
-				
-				"SubImage"
-				{
-					"image" 			"class_icons/demo"	
-					"imagewidth"		"55"
-				}
+				"image" 			"class_icons/demo"	
+				"imagewidth"		"55"
 			}
 		}
 	
-		"heavyweapons_blue"
+		"heavyweapons"
 		{
-			"ControlName"		"CTFAdvButton"
-			"fieldName"			"heavyweapons_blue"
+			"ControlName"		"CTFButton"
+			"fieldName"			"heavyweapons"
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
 			"command"			"select_heavyweapons"
+			"labelText" 		""
+			"image_armedcolor"		"HudProgressBarActive"
+			"bordervisible"		"0"
 			
-			"SubButton"
+			"SubImage"
 			{
-				"labelText" 		""
-				"textAlignment"		"south"
-				"font"				"TallTextSmall"
-				"selectedFgColor_override"		"HudProgressBarActive"
-				"bordervisible"		"0"
-				
-				"SubImage"
-				{
-					"image" 			"class_icons/heavy"	
-					"imagewidth"		"55"
-				}
+				"image" 			"class_icons/heavy"	
+				"imagewidth"		"55"
 			}
 		}
 	
-		"engineer_blue"
+		"engineer"
 		{
-			"ControlName"		"CTFAdvButton"
-			"fieldName"			"engineer_blue"
+			"ControlName"		"CTFButton"
+			"fieldName"			"engineer"
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
 			"command"			"select_engineer"
+			"labelText" 		""
+			"image_armedcolor"		"HudProgressBarActive"
+			"bordervisible"		"0"
 			
-			"SubButton"
+			"SubImage"
 			{
-				"labelText" 		""
-				"textAlignment"		"south"
-				"font"				"TallTextSmall"
-				"selectedFgColor_override"		"HudProgressBarActive"
-				"bordervisible"		"0"
-				
-				"SubImage"
-				{
-					"image" 			"class_icons/engineer"	
-					"imagewidth"		"55"
-				}
+				"image" 			"class_icons/engineer"	
+				"imagewidth"		"55"
 			}
 		}
 	
-		"medic_blue"
+		"medic"
 		{
-			"ControlName"		"CTFAdvButton"
-			"fieldName"			"medic_blue"
+			"ControlName"		"CTFButton"
+			"fieldName"			"medic"
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
 			"command"			"select_medic"
+			"labelText" 		""
+			"image_armedcolor"		"HudProgressBarActive"
+			"bordervisible"		"0"	
 			
-			"SubButton"
+			"SubImage"
 			{
-				"labelText" 		""
-				"textAlignment"		"south"
-				"font"				"TallTextSmall"
-				"selectedFgColor_override"		"HudProgressBarActive"
-				"bordervisible"		"0"	
-				
-				"SubImage"
-				{
-					"image" 			"class_icons/medic"	
-					"imagewidth"		"55"
-				}
+				"image" 			"class_icons/medic"	
+				"imagewidth"		"55"
 			}
 		}
 	
-		"sniper_blue"
+		"sniper"
 		{
-			"ControlName"		"CTFAdvButton"
-			"fieldName"			"sniper_blue"
+			"ControlName"		"CTFButton"
+			"fieldName"			"sniper"
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
 			"command"			"select_sniper"
+			"labelText" 		""
+			"image_armedcolor"		"HudProgressBarActive"
+			"bordervisible"		"0"
 			
-			"SubButton"
+			"SubImage"
 			{
-				"labelText" 		""
-				"textAlignment"		"south"
-				"font"				"TallTextSmall"
-				"selectedFgColor_override"		"HudProgressBarActive"
-				"bordervisible"		"0"
-				
-				"SubImage"
-				{
-					"image" 			"class_icons/sniper"	
-					"imagewidth"		"55"
-				}
+				"image" 			"class_icons/sniper"	
+				"imagewidth"		"55"
 			}
 		}
 	
-		"spy_blue"
+		"spy"
 		{
-			"ControlName"		"CTFAdvButton"
-			"fieldName"			"spy_blue"
+			"ControlName"		"CTFButton"
+			"fieldName"			"spy"
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
-			"command"			"select_spy"
+			"command"			"select_spy"		
+			"labelText" 		""
+			"image_armedcolor"		"HudProgressBarActive"
+			"bordervisible"		"0"
 			
-			"SubButton"
+			"SubImage"
 			{
-				"labelText" 		""
-				"textAlignment"		"south"
-				"font"				"TallTextSmall"
-				"selectedFgColor_override"		"HudProgressBarActive"
-				"bordervisible"		"0"
-				
-				"SubImage"
-				{
-					"image" 			"class_icons/spy"	
-					"imagewidth"		"55"
-				}
+				"image" 			"class_icons/spy"	
+				"imagewidth"		"55"
 			}
 		}
 	
-		"merc_blue"
+		"merc"
 		{
-			"ControlName"		"CTFAdvButton"
-			"fieldName"			"merc_blue"
+			"ControlName"		"CTFButton"
+			"fieldName"			"merc"
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
 			"command"			"select_merc"
+			"labelText" 		""
+			"image_armedcolor"		"HudProgressBarActive"
+			"bordervisible"		"0"
 			
-			"SubButton"
+			"SubImage"
 			{
-				"labelText" 		""
-				"textAlignment"		"south"
-				"font"				"TallTextSmall"
-				"selectedFgColor_override"		"HudProgressBarActive"
-				"bordervisible"		"0"
-				
-				"SubImage"
-				{
-					"image" 			"class_icons/allclass"	
-					"imagewidth"		"55"
-				}
+				"image" 			"class_icons/allclass"	
+				"imagewidth"		"55"
 			}
 		}
 	}

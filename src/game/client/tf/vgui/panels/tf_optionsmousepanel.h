@@ -14,7 +14,7 @@
 #include "tf_dialogpanelbase.h"
 
 class CPanelListPanel;
-class CTFAdvButton;
+class CTFButton;
 class CTFCvarToggleCheckButton;
 class CCvarSlider;
 

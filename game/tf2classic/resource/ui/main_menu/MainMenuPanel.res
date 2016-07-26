@@ -217,7 +217,7 @@
 	
 	"ServerBrowserButton"
 	{
-		"ControlName"			"CTFAdvButton"
+		"ControlName"			"CTFButton"
 		"fieldName"				"ServerBrowserButton"
 		"xpos"					"35"
 		"ypos"					"200"
@@ -227,29 +227,28 @@
 		"visible"				"1"
 		"enabled"				"1"		
 		"command"				"gamemenucommand OpenServerBrowser"
+		"labelText" 			"#GameUI_GameMenu_FindServers"
+		"xshift" 			"10"
+		"yshift" 			"0"
+		"textAlignment"		"west"
+		"font"				"HudFontSmallBold"
+		"defaultFgColor_override"		"MainMenuTextDefault"
+		"armedFgColor_override"			"MainMenuTextArmed"
+		"depressedFgColor_override"		"MainMenuTextDepressed"
+		"image_drawcolor"		"MainMenuTextDefault"
+		"image_armedcolor"		"MainMenuTextArmed"
+		"image_depressedcolor"	"MainMenuTextDepressed"
 		
-		"SubButton"
+		"SubImage"
 		{
-			"labelText" 		"#GameUI_GameMenu_FindServers"
-			"xshift" 			"10"
-			"yshift" 			"0"
-			"textAlignment"		"west"
-			"font"				"HudFontSmallBold"
-			"defaultFgColor_override"		"MainMenuTextDefault"
-			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDepressed"
-			
-			"SubImage"
-			{
-				"image" 			"../vgui/glyph_server_browser"
-				"imagewidth"		"18"	
-			}
+			"image" 			"../vgui/glyph_server_browser"
+			"imagewidth"		"18"	
 		}
 	}
 	
 	"MultiplayerGameButton"
 	{
-		"ControlName"			"CTFAdvButton"
+		"ControlName"			"CTFButton"
 		"fieldName"				"MultiplayerGameButton"
 		"xpos"					"258"
 		"ypos"					"203"
@@ -258,31 +257,27 @@
 		"tall"					"24"
 		"visible"				"1"
 		"enabled"				"1"
-		"command"				"gamemenucommand OpenCreateMultiplayerGameDialog"
+		"command"				"gamemenucommand OpenCreateMultiplayerGameDialog"	
+		"labelText" 		""
+		"tooltip" 			"Create Server"
+		"textAlignment"		"west"
+		"font"				"HudFontSmallBold"
+		"defaultFgColor_override"		"MainMenuTextArmed"
+		"armedFgColor_override"			"MainMenuTextArmed"
+		"depressedFgColor_override"		"MainMenuTextDefault"
+		"border_default"				"MainMenuAdvButtonDepressed"
+		"border_depressed"				"MainMenuAdvButton"
 		
-		"SubButton"
+		"SubImage"
 		{
-			"labelText" 		""
-			"tooltip" 			"Create Server"
-			"textAlignment"		"west"
-			"font"				"HudFontSmallBold"
-			"defaultFgColor_override"		"MainMenuTextArmed"
-			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDefault"
-			"border_default"				"MainMenuAdvButtonDepressed"
-			"border_depressed"				"MainMenuAdvButton"	
-			
-			"SubImage"
-			{
-				"image" 			"../vgui/glyph_create"
-				"imagewidth"		"16"	
-			}
+			"image" 			"../vgui/glyph_create"
+			"imagewidth"		"16"	
 		}
 	}
 	
 	"LoadoutButton"
 	{
-		"ControlName"			"CTFAdvButton"
+		"ControlName"			"CTFButton"
 		"fieldName"				"LoadoutButton"
 		"xpos"					"35"
 		"ypos"					"235"
@@ -291,30 +286,29 @@
 		"tall"					"30"
 		"visible"				"1"
 		"enabled"				"1"
-		"command"				"newloadout"
+		"command"				"newloadout"	
+		"labelText" 		"Loadout"
+		"xshift" 			"10"
+		"yshift" 			"0"
+		"textAlignment"		"west"
+		"font"				"HudFontSmallBold"
+		"defaultFgColor_override"		"MainMenuTextDefault"
+		"armedFgColor_override"			"MainMenuTextArmed"
+		"depressedFgColor_override"		"MainMenuTextDepressed"
+		"image_drawcolor"		"MainMenuTextDefault"
+		"image_armedcolor"		"MainMenuTextArmed"
+		"image_depressedcolor"	"MainMenuTextDepressed"
 		
-		"SubButton"
+		"SubImage"
 		{
-			"labelText" 		"Loadout"
-			"xshift" 			"10"
-			"yshift" 			"0"
-			"textAlignment"		"west"
-			"font"				"HudFontSmallBold"
-			"defaultFgColor_override"		"MainMenuTextDefault"
-			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDepressed"
-			
-			"SubImage"
-			{
-				"image" 			"../vgui/glyph_items"
-				"imagewidth"		"18"	
-			}
+			"image" 			"../vgui/glyph_items"
+			"imagewidth"		"18"	
 		}
 	}
 	
 	"OptionsDialogButton"
 	{
-		"ControlName"			"CTFAdvButton"
+		"ControlName"			"CTFButton"
 		"fieldName"				"OptionsDialogButton"
 		"xpos"					"35"
 		"ypos"					"270"
@@ -323,30 +317,29 @@
 		"tall"					"30"
 		"visible"				"1"
 		"enabled"				"1"
-		"command"				"newoptionsdialog"
+		"command"				"newoptionsdialog"	
+		"labelText" 		"#GameUI_GameMenu_Options"
+		"xshift" 			"10"
+		"yshift" 			"0"	
+		"textAlignment"		"west"	
+		"font"				"HudFontSmallBold"
+		"defaultFgColor_override"		"MainMenuTextDefault"
+		"armedFgColor_override"			"MainMenuTextArmed"
+		"depressedFgColor_override"		"MainMenuTextDepressed"
+		"image_drawcolor"		"MainMenuTextDefault"
+		"image_armedcolor"		"MainMenuTextArmed"
+		"image_depressedcolor"	"MainMenuTextDepressed"
 		
-		"SubButton"
+		"SubImage"
 		{
-			"labelText" 		"#GameUI_GameMenu_Options"
-			"xshift" 			"10"
-			"yshift" 			"0"	
-			"textAlignment"		"west"	
-			"font"				"HudFontSmallBold"
-			"defaultFgColor_override"		"MainMenuTextDefault"
-			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDepressed"
-			
-			"SubImage"
-			{
-				"image" 			"../vgui/glyph_options"
-				"imagewidth"		"18"
-			}
+			"image" 			"../vgui/glyph_options"
+			"imagewidth"		"18"
 		}
 	}			
 	
 	"OptionsOldButton"
 	{
-		"ControlName"			"CTFAdvButton"
+		"ControlName"			"CTFButton"
 		"fieldName"				"OptionsOldButton"		
 		"xpos"					"258"
 		"ypos"					"273"
@@ -356,30 +349,26 @@
 		"visible"				"1"
 		"enabled"				"1"
 		"command"				"gamemenucommand openoptionsdialog"
-		
-		"SubButton"
-		{
-			"labelText" 		""
-			"tooltip" 			"Options"
-			"textAlignment"		"west"
-			"font"				"HudFontSmallBold"
-			"defaultFgColor_override"		"MainMenuTextArmed"
-			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDefault"
-			"border_default"				"MainMenuAdvButtonDepressed"
-			"border_depressed"				"MainMenuAdvButton"
+		"labelText" 		""
+		"tooltip" 			"Options"
+		"textAlignment"		"west"
+		"font"				"HudFontSmallBold"
+		"defaultFgColor_override"		"MainMenuTextArmed"
+		"armedFgColor_override"			"MainMenuTextArmed"
+		"depressedFgColor_override"		"MainMenuTextDefault"
+		"border_default"				"MainMenuAdvButtonDepressed"
+		"border_depressed"				"MainMenuAdvButton"
 
-			"SubImage"
-			{
-				"image" 			"../vgui/glyph_steamworkshop"
-				"imagewidth"		"16"
-			}
+		"SubImage"
+		{
+			"image" 			"../vgui/glyph_steamworkshop"
+			"imagewidth"		"16"
 		}
 	}	
 	
 	"QuitButton"
 	{
-		"ControlName"			"CTFAdvButton"
+		"ControlName"			"CTFButton"
 		"fieldName"				"QuitButton"
 		"xpos"					"35"
 		"ypos"					"305"
@@ -388,30 +377,29 @@
 		"tall"					"30"
 		"visible"				"1"
 		"enabled"				"1"
-		"command"				"newquit"
+		"command"				"newquit"		
+		"labelText" 		"#GameUI_GameMenu_Quit"
+		"xshift" 			"10"
+		"yshift" 			"0"
+		"textAlignment"		"west"
+		"font"				"HudFontSmallBold"
+		"defaultFgColor_override"		"MainMenuTextDefault"
+		"armedFgColor_override"			"MainMenuTextArmed"
+		"depressedFgColor_override"		"MainMenuTextDepressed"
+		"image_drawcolor"		"MainMenuTextDefault"
+		"image_armedcolor"		"MainMenuTextArmed"
+		"image_depressedcolor"	"MainMenuTextDepressed"
 		
-		"SubButton"
+		"SubImage"
 		{
-			"labelText" 		"#GameUI_GameMenu_Quit"
-			"xshift" 			"10"
-			"yshift" 			"0"
-			"textAlignment"		"west"
-			"font"				"HudFontSmallBold"
-			"defaultFgColor_override"		"MainMenuTextDefault"
-			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDepressed"
-			
-			"SubImage"
-			{
-				"image" 			"../vgui/glyph_quit"
-				"imagewidth"		"18"
-			}
+			"image" 			"../vgui/glyph_quit"
+			"imagewidth"		"18"
 		}
 	}		
 	
 	"StatsButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"StatsButton"
 		"xpos"				"35"
 		"ypos"				"340"
@@ -423,21 +411,18 @@
 		"labelText" 		""
 		"command"			"newstats"
 		
-		"SubButton"
-		{
-			"labelText" 		""
-			"tooltip" 			"Stats"
-			"textAlignment"		"center"
-			"font"				"MenuSmallFont"
-			"border_default"	"AdvRoundedButtonDefault"
-			"border_armed"		"AdvRoundedButtonArmed"
-			"border_depressed"	"AdvRoundedButtonDepressed"
+		"labelText" 		""
+		"tooltip" 			"Stats"
+		"textAlignment"		"center"
+		"font"				"MenuSmallFont"
+		"border_default"	"AdvRoundedButtonDefault"
+		"border_armed"		"AdvRoundedButtonArmed"
+		"border_depressed"	"AdvRoundedButtonDepressed"
 
-			"SubImage"
-			{
-				"image" 			"../vgui/main_menu/glyph_stats"
-				"imagewidth"		"16"
-			}			
+		"SubImage"
+		{
+			"image" 			"../vgui/main_menu/glyph_stats"
+			"imagewidth"		"16"
 		}
 	}	
 	
@@ -478,7 +463,7 @@
 	
 	"RandomMusicButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"RandomMusicButton"
 		"xpos"				"83"
 		"ypos"				"340"
@@ -490,21 +475,18 @@
 		"labelText" 		""
 		"command"			"randommusic"			
 		
-		"SubButton"
+		"labelText" 		""
+		"tooltip" 			"Random music"
+		"textAlignment"		"center"
+		"font"				"MenuSmallFont"
+		"border_default"	"AdvRightButtonDefault"
+		"border_armed"		"AdvRightButtonArmed"
+		"border_depressed"	"AdvRightButtonDepressed"
+		
+		"SubImage"
 		{
-			"labelText" 		""
-			"tooltip" 			"Random music"
-			"textAlignment"		"center"
-			"font"				"MenuSmallFont"
-			"border_default"	"AdvRightButtonDefault"
-			"border_armed"		"AdvRightButtonArmed"
-			"border_depressed"	"AdvRightButtonDepressed"
-			
-			"SubImage"
-			{
-				"image" 			"../vgui/main_menu/glyph_random"
-				"imagewidth"		"16"
-			}
+			"image" 			"../vgui/main_menu/glyph_random"
+			"imagewidth"		"16"
 		}
 	}	
 	
@@ -544,7 +526,7 @@
 	
 	"NotificationButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"NotificationButton"
 		"xpos"				"263"
 		"ypos"				"340"
@@ -555,22 +537,19 @@
 		"enabled"			"1"
 		"command"			"shownotification"	
 		
-		"SubButton"
-		{
-			"labelText" 		""
-			"tooltip" 			"Show notification"
-			"textAlignment"		"center"
-			"font"				"MenuSmallFont"
-			"border_default"	"AdvRoundedButtonDefault"
-			"border_armed"		"AdvRoundedButtonArmed"
-			"border_depressed"	"AdvRoundedButtonDepressed"
+		"labelText" 		""
+		"tooltip" 			"Show notification"
+		"textAlignment"		"center"
+		"font"				"MenuSmallFont"
+		"border_default"	"AdvRoundedButtonDefault"
+		"border_armed"		"AdvRoundedButtonArmed"
+		"border_depressed"	"AdvRoundedButtonDepressed"
 
-			"SubImage"
-			{
-				"image" 			"../vgui/glyph_alert"
-				"imagewidth"		"18"
-			}			
-		}
+		"SubImage"
+		{
+			"image" 			"../vgui/glyph_alert"
+			"imagewidth"		"18"
+		}		
 	}		
 	
 	"VersionLabel"
@@ -594,7 +573,7 @@
 	
 	"TestButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"			"CTFButton"
 		"fieldName"			"TestButton"
 		"xpos"				"r100"
 		"ypos"				"r50"

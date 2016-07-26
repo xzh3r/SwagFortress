@@ -74,6 +74,7 @@
 		"Command"		"DefaultsOK"
 		"Default"		"0"
 	}
+	
 	"ClearKeyButton"
 	{
 		"ControlName"		"CTFAdvButton"
@@ -98,53 +99,6 @@
 		"Default"		"0"
 	}
 	
-	"OK"
-	{
-		"ControlName"		"CTFAdvButton"
-		"fieldName"		"OK"
-		"xpos"		"650"
-		"ypos"		"730"
-		"zpos"				"2"
-		"wide"		"80"
-		"tall"		"50"
-		"autoResize"		"0"
-		"pinCorner"		"0"
-		"visible"		"1"
-		"enabled"		"1"
-		"tabPosition"		"1"
-		"bgvisible"		"0"
-		"bordervisible"		"0"
-		"labelText"		"#GameUI_OK"
-		"textAlignment"		"center"
-		"dulltext"		"0"
-		"command"		"Ok"
-		"default"		"1"
-	}
-	
-	"Cancel"
-	{
-		"ControlName"		"CTFAdvButton"
-		"fieldName"		"Cancel"
-		"xpos"		"750"
-		"ypos"		"730"
-		"zpos"				"2"
-		"wide"		"100"
-		"tall"		"50"
-		"autoResize"		"0"
-		"pinCorner"		"0"
-		"visible"		"1"
-		"enabled"		"1"
-		"tabPosition"		"2"
-		"bgvisible"		"0"
-		"bordervisible"		"0"
-		"labelText"		"#GameUI_Cancel"
-		"textAlignment"		"center"
-		"dulltext"		"0"
-		"command"		"vguicancel"
-		"default"		"0"
-	}
-	
-
 	"KeyAdvancedButton"
 	{
 		"ControlName"		"CTFAdvButton"
@@ -168,6 +122,7 @@
 		"Command"		"Advanced"
 		"Default"		"1"
 	}
+	
 	"ChangeKeyButton"
 	{
 		"ControlName"		"CTFAdvButton"

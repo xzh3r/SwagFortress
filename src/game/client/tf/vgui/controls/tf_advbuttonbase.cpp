@@ -56,23 +56,6 @@ void CTFAdvButtonBase::Init()
 void CTFAdvButtonBase::ApplySettings( KeyValues *inResourceData )
 {
 	BaseClass::ApplySettings( inResourceData );
-
-	V_strncpy( m_szCommand, inResourceData->GetString( "command", "" ), sizeof( m_szCommand ) );
-
-	for ( KeyValues *pData = inResourceData->GetFirstSubKey(); pData != NULL; pData = pData->GetNextKey() )
-	{
-		if ( !Q_stricmp( pData->GetName(), "SubButton" ) )
-		{
-			V_strncpy( m_szToolTip, pData->GetString( "tooltip", "" ), sizeof( m_szToolTip ) );
-
-			//Q_strncpy( m_szDefaultColor, pData->GetString( "defaultFgColor_override", DEFAULT_COLOR ), sizeof( m_szDefaultColor ) );
-			//Q_strncpy( m_pArmedColor, pData->GetString( "armedFgColor_override", ARMED_COLOR ), sizeof( m_pArmedColor ) );
-			//Q_strncpy( m_szDepressedColor, pData->GetString( "depressedFgColor_override", DEPRESSED_COLOR ), sizeof( m_szDepressedColor ) );
-			//Q_strncpy( m_szSelectedColor, pData->GetString( "selectedFgColor_override", ARMED_COLOR ), sizeof( m_szSelectedColor ) );
-		}
-	}
-
-	m_bAutoChange = true;
 }
 
 //-----------------------------------------------------------------------------
@@ -160,6 +143,8 @@ CTFButtonBase::CTFButtonBase( Panel *parent, const char *panelName, const char *
 	_armedBorder = NULL;
 	_selectedBorder = NULL;
 
+	m_szToolTip[0] = '\0';
+
 	m_iImageWidth = 0;
 
 	// Set default border.
@@ -167,10 +152,9 @@ CTFButtonBase::CTFButtonBase( Panel *parent, const char *panelName, const char *
 	V_strncpy( m_szArmedBG, ADVBUTTON_ARMED_BG, sizeof( m_szArmedBG ) );
 	V_strncpy( m_szDepressedBG, ADVBUTTON_DEPRESSED_BG, sizeof( m_szDepressedBG ) );
 
-	// Set default image params.
-	V_strncpy( m_szImageColorDefault, ADVBUTTON_DEFAULT_COLOR, sizeof( m_szImageColorDefault ) );
-	V_strncpy( m_szImageColorArmed, ADVBUTTON_ARMED_COLOR, sizeof( m_szImageColorArmed ) );
-	V_strncpy( m_szImageColorDepressed, ADVBUTTON_DEPRESSED_COLOR, sizeof( m_szImageColorDepressed ) );
+	REGISTER_COLOR_AS_OVERRIDABLE( m_colorImageDefault, "image_drawcolor" );
+	REGISTER_COLOR_AS_OVERRIDABLE( m_colorImageArmed, "image_armedcolor" );
+	REGISTER_COLOR_AS_OVERRIDABLE( m_colorImageDepressed, "image_depressedcolor" );
 }
 
 //-----------------------------------------------------------------------------
@@ -202,9 +186,14 @@ void CTFButtonBase::ApplySchemeSettings( IScheme *pScheme )
 	SetArmedBorder( pScheme->GetBorder( m_szArmedBG ) );
 	SetDepressedBorder( pScheme->GetBorder( m_szDepressedBG ) );
 
-	// It shouldn't interfere with the button.
+	// Image shouldn't interfere with the button.
 	m_pButtonImage->SetMouseInputEnabled( false );
 	m_pButtonImage->SetShouldScaleImage( true );
+
+	// Set default image colors.
+	m_colorImageDefault = pScheme->GetColor( ADVBUTTON_DEFAULT_COLOR, COLOR_WHITE );
+	m_colorImageArmed = pScheme->GetColor( ADVBUTTON_ARMED_COLOR, COLOR_WHITE );
+	m_colorImageDepressed = pScheme->GetColor( ADVBUTTON_DEPRESSED_COLOR, COLOR_WHITE );
 }
 
 void CTFButtonBase::ApplySettings( KeyValues *inResourceData )
@@ -216,6 +205,8 @@ void CTFButtonBase::ApplySettings( KeyValues *inResourceData )
 	m_bBorderVisible = inResourceData->GetBool( "bordervisible", m_bBorderVisible );
 	_activationType = (ActivationType_t)inResourceData->GetInt( "button_activation_type", ACTIVATE_ONPRESSEDANDRELEASED );
 
+	V_strncpy( m_szToolTip, inResourceData->GetString( "tooltip" ), sizeof( m_szToolTip ) );
+
 	V_strncpy( m_szDefaultBG, inResourceData->GetString( "border_default", ADVBUTTON_DEFAULT_BG ), sizeof( m_szDefaultBG ) );
 	V_strncpy( m_szArmedBG, inResourceData->GetString( "border_armed", ADVBUTTON_ARMED_BG ), sizeof( m_szArmedBG ) );
 	V_strncpy( m_szDepressedBG, inResourceData->GetString( "border_depressed", ADVBUTTON_DEPRESSED_BG ), sizeof( m_szDepressedBG ) );
@@ -223,14 +214,14 @@ void CTFButtonBase::ApplySettings( KeyValues *inResourceData )
 	KeyValues *pImageKey = inResourceData->FindKey( "SubImage" );
 	if ( pImageKey )
 	{
-		// Workaround for this not being an editable panel.
+		// Workaround for this not being an EditablePanel.
 		if ( m_pButtonImage )
 			m_pButtonImage->ApplySettings( pImageKey );
 
 		m_iImageWidth = pImageKey->GetInt( "imagewidth", 0 );
 	}
 
-	InvalidateLayout( false, true );
+	InvalidateLayout( false, true ); // Force ApplySchemeSettings to run.
 }
 
 //-----------------------------------------------------------------------------
@@ -320,6 +311,53 @@ void CTFButtonBase::SetMouseEnteredState( MouseState flag )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
+void CTFButtonBase::SetArmed( bool bState )
+{
+	BaseClass::SetArmed( bState );
+
+	// Show tooltip if we have one.
+	if ( m_szToolTip[0] != '\0' )
+	{
+		if ( bState )
+		{
+			ShowToolTip();
+		}
+		else
+		{
+			MAINMENU_ROOT->HideToolTip();
+		}
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFButtonBase::SetSelected( bool bState )
+{
+	BaseClass::SetSelected( bState );
+
+	// Sometimes SetArmed( false ) won't get called...
+	if ( !bState )
+	{
+		SetArmed( false );
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: For quickly setting button borders.
+//-----------------------------------------------------------------------------
+void CTFButtonBase::SetBordersByName( const char *pszBorderDefault, const char *pszBorderArmed, const char *pszBorderDepressed )
+{
+	V_strncpy( m_szDefaultBG, pszBorderDefault, sizeof( m_szDefaultBG ) );
+	V_strncpy( m_szArmedBG,  pszBorderArmed, sizeof( m_szArmedBG ) );
+	V_strncpy( m_szDepressedBG, pszBorderDepressed, sizeof( m_szDepressedBG ) );
+
+	InvalidateLayout( false, true );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
 void CTFButtonBase::SetFontByString( const char *sFont )
 {
 	IScheme *pScheme = scheme()->GetIScheme( GetScheme() );
@@ -354,4 +392,20 @@ void CTFButtonBase::SetImageSize( int iWide, int iTall )
 {
 	if ( m_pButtonImage )
 		m_pButtonImage->SetSize( iWide, iTall );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFButtonBase::ShowToolTip( void )
+{
+	MAINMENU_ROOT->ShowToolTip( m_szToolTip );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFButtonBase::SetToolTip( const char *pszText )
+{
+	V_strncpy( m_szToolTip, pszText, sizeof( m_szToolTip ) );
 }

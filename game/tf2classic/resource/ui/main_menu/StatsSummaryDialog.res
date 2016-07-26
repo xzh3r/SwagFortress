@@ -1772,7 +1772,7 @@
 	
 	"ResetStatsButton"
 	{
-		"ControlName"	"CTFAdvButton"
+		"ControlName"	"CTFButton"
 		"fieldName"		"ResetStatsButton"
 		"xpos"			"430"
 		"ypos"			"232"
@@ -1782,21 +1782,17 @@
 		"visible"		"1"
 		"enabled"		"1"
 		"Command"		"resetstatsbutton"
-		
-		"SubButton"
-		{
-			"labelText" 		"Reset stats"
-			"textAlignment"		"center"
-			"font"				"TallTextSmall"
-			"border_default"	"AdvRoundedButtonDefault"
-			"border_armed"		"AdvRoundedButtonArmed"
-			"border_depressed"	"AdvRoundedButtonDepressed"	
-		}	
+		"labelText" 		"Reset stats"
+		"textAlignment"		"center"
+		"font"				"TallTextSmall"
+		"border_default"	"AdvRoundedButtonDefault"
+		"border_armed"		"AdvRoundedButtonArmed"
+		"border_depressed"	"AdvRoundedButtonDepressed"
 	}
 	
 	"CloseButton"
 	{
-		"ControlName"	"CTFAdvButton"
+		"ControlName"	"CTFButton"
 		"fieldName"		"CloseButton"
 		"xpos"			"520"
 		"ypos"			"232"
@@ -1806,15 +1802,11 @@
 		"visible"		"1"
 		"enabled"		"1"
 		"Command"		"vguicancel"
-		
-		"SubButton"
-		{
-			"labelText" 		"Close"
-			"textAlignment"		"center"
-			"font"				"TallTextSmall"
-			"border_default"	"AdvRoundedButtonDefault"
-			"border_armed"		"AdvRoundedButtonArmed"
-			"border_depressed"	"AdvRoundedButtonDepressed"	
-		}
+		"labelText" 		"Close"
+		"textAlignment"		"center"
+		"font"				"TallTextSmall"
+		"border_default"	"AdvRoundedButtonDefault"
+		"border_armed"		"AdvRoundedButtonArmed"
+		"border_depressed"	"AdvRoundedButtonDepressed"
 	}
 }

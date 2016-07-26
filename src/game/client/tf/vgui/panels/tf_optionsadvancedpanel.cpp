@@ -231,9 +231,7 @@ void CTFOptionsAdvancedPanel::CreateControls()
 			pBox->MakeReadyForUse();
 
 			pBox->SetFont( hFont );
-
-			// FIXME: Add tooltips to CTFButtonBase.
-			//pBox->SetToolTip( pObj->tooltip );
+			pBox->SetToolTip( pObj->tooltip );
 
 			pCtrl->pControl = pBox;
 			break;

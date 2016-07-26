@@ -7,7 +7,7 @@
 class CTFAdvModelPanel;
 class CTFWeaponSetPanel;
 class CModelPanel;
-class CTFAdvButton;
+class CTFButton;
 class CTFRGBPanel;
 class CTFAdvItemButton;
 
@@ -48,7 +48,7 @@ private:
 	CTFWeaponSetPanel *m_pWeaponSetPanel;
 	CTFRGBPanel		*m_pRGBPanel;
 	CUtlVector<CTFAdvItemButton *> m_pWeaponIcons[INVENTORY_ROWNUM];
-	CTFAdvButton *m_pSlideButtons[INVENTORY_ROWNUM * 2];
+	CTFButton *m_pSlideButtons[INVENTORY_ROWNUM * 2];
 	int m_RawIDPos[INVENTORY_ROWNUM];
 	MESSAGE_FUNC( UpdateModelPanels, "ControlModified" );
 	int	m_iCurrentClass;

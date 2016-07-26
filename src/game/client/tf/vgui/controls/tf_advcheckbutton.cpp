@@ -76,12 +76,12 @@ void CTFCheckButton::ApplySchemeSettings( IScheme *pScheme )
 
 	if ( m_pCheckImage->GetImage() == NULL )
 	{
-		// Set default image if we're not overriding it.
+		// Set default check image if we're not overriding it.
 		m_pCheckImage->SetImage( DEFAULT_CHECKIMAGE );
 	}
 
 	m_pCheckImage->SetMouseInputEnabled( false );
-	m_pCheckImage->SetDrawColor( pScheme->GetColor( m_szImageColorDefault, Color( 255, 255, 255, 255 ) ) );
+	m_pCheckImage->SetDrawColor( m_colorImageDefault );
 	m_pCheckImage->SetShouldScaleImage( true );
 
 	// Show check image above everything.
@@ -89,7 +89,7 @@ void CTFCheckButton::ApplySchemeSettings( IScheme *pScheme )
 
 	// The actual button takes up the whole panel width so it's easier to press but we want to only show the checkbox border.
 	m_pBGBorder->SetMouseInputEnabled( false );
-	m_pBGBorder->SetBorder( pScheme->GetBorder( ADVCHECKBUTTON_DEFAULT_BG ) );
+	m_pBGBorder->SetBorder( _defaultBorder );
 	m_pBGBorder->SetVisible( true );
 }
 
@@ -120,26 +120,26 @@ void CTFCheckButton::PerformLayout()
 	// Set color and border based on our state.
 	if ( IsDepressed() )
 	{
-		m_pButtonImage->SetDrawColor( pScheme->GetColor( m_szImageColorDepressed, COLOR_WHITE ) );
-		m_pCheckImage->SetDrawColor( pScheme->GetColor( m_szImageColorDepressed, COLOR_WHITE ) );
+		m_pButtonImage->SetDrawColor( m_colorImageDepressed );
+		m_pCheckImage->SetDrawColor( m_colorImageDepressed );
 		m_pBGBorder->SetBorder( _depressedBorder );
 	}
 	else if ( IsArmed() )
 	{
-		m_pButtonImage->SetDrawColor( pScheme->GetColor( m_szImageColorArmed, COLOR_WHITE ) );
-		m_pCheckImage->SetDrawColor( pScheme->GetColor( m_szImageColorArmed, COLOR_WHITE ) );
+		m_pButtonImage->SetDrawColor( m_colorImageArmed );
+		m_pCheckImage->SetDrawColor( m_colorImageDepressed );
 		m_pBGBorder->SetBorder( _armedBorder );
 	}
 	else if ( IsSelected() )
 	{
-		m_pButtonImage->SetDrawColor( pScheme->GetColor( m_szImageColorDepressed, COLOR_WHITE ) );
-		m_pCheckImage->SetDrawColor( pScheme->GetColor( m_szImageColorDepressed, Color( 255, 255, 255, 255 ) ) );
+		m_pButtonImage->SetDrawColor( m_colorImageDepressed );
+		m_pCheckImage->SetDrawColor( m_colorImageDepressed );
 		m_pBGBorder->SetBorder( _depressedBorder );
 	}
 	else
 	{
-		m_pButtonImage->SetDrawColor( pScheme->GetColor( m_szImageColorDefault, COLOR_WHITE ) );
-		m_pCheckImage->SetDrawColor( pScheme->GetColor( m_szImageColorDefault, COLOR_WHITE ) );
+		m_pButtonImage->SetDrawColor( m_colorImageDefault );
+		m_pCheckImage->SetDrawColor( m_colorImageDefault );
 		m_pBGBorder->SetBorder( _defaultBorder );
 	}
 }

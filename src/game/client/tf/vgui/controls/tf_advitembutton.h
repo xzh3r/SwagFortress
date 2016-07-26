@@ -11,19 +11,20 @@
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-class CTFAdvItemButton : public CTFAdvButton
+class CTFAdvItemButton : public CTFButton
 {
 	friend class CTFButton;
 public:
-	DECLARE_CLASS_SIMPLE(CTFAdvItemButton, CTFAdvButton);
+	DECLARE_CLASS_SIMPLE(CTFAdvItemButton, CTFButton);
 
 	CTFAdvItemButton(vgui::Panel *parent, const char *panelName, const char *text);
 	~CTFAdvItemButton();
 
-	void Init();
-	void ApplySchemeSettings( vgui::IScheme *pScheme );
-	void PerformLayout();
-	void SendAnimation(MouseState flag);
+	virtual void Init();
+	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
+	virtual void PerformLayout();
+	virtual void ShowToolTip();
+
 	void SetItemDefinition(CEconItemDefinition *pItemData);
 	void SetLoadoutSlot( int iSlot, int iPreset );
 

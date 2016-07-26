@@ -89,7 +89,7 @@
 	
 	"ConfirmButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"ConfirmButton"
 		"xpos"				"265"
 		"ypos"				"170"
@@ -99,21 +99,17 @@
 		"visible"			"1"
 		"enabled"			"1"
 		"command"			"quitconfirm"
-		
-		"SubButton"
-		{
-			"labelText" 		"Quit"
-			"textAlignment"		"center"
-			"font"				"TallTextSmall"
-			"border_default"	"AdvRoundedButtonDefault"
-			"border_armed"		"AdvRoundedButtonArmed"
-			"border_depressed"	"AdvRoundedButtonDepressed"	
-		}		
+		"labelText" 		"Quit"
+		"textAlignment"		"center"
+		"font"				"TallTextSmall"
+		"border_default"	"AdvRoundedButtonDefault"
+		"border_armed"		"AdvRoundedButtonArmed"
+		"border_depressed"	"AdvRoundedButtonDepressed"		
 	}			
 
 	"CancelButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"CancelButton"
 		"xpos"				"325"
 		"ypos"				"170"
@@ -123,16 +119,12 @@
 		"visible"			"1"
 		"enabled"			"1"
 		"command"			"vguicancel"	
-		
-		"SubButton"
-		{
-			"labelText" 		"Cancel"
-			"textAlignment"		"center"
-			"font"				"TallTextSmall"
-			"border_default"	"AdvRoundedButtonDefault"
-			"border_armed"		"AdvRoundedButtonArmed"
-			"border_depressed"	"AdvRoundedButtonDepressed"	
-		}		
+		"labelText" 		"Cancel"
+		"textAlignment"		"center"
+		"font"				"TallTextSmall"
+		"border_default"	"AdvRoundedButtonDefault"
+		"border_armed"		"AdvRoundedButtonArmed"
+		"border_depressed"	"AdvRoundedButtonDepressed"	
 	}	
 }
 		

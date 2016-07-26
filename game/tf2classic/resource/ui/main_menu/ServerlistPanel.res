@@ -99,7 +99,7 @@
 	
 	"ConnectButton"
 	{
-		"ControlName"	"CTFAdvButton"
+		"ControlName"	"CTFButton"
 		"fieldName"		"ConnectButton"
 		"xpos"			"200"
 		"ypos"			"370"
@@ -109,16 +109,12 @@
 		"visible"		"1"
 		"enabled"		"1"
 		"command"		""
-		
-		"SubButton"
-		{
-			"labelText" 		"connect"
-			"textAlignment"		"center"
-			//"font"				"Link"
-			"font"				"ItemFontNameLarge"
-			"defaultFgColor_override"		"MainMenuTextDefault"
-			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDepressed"	
-		}
+		"labelText" 		"connect"
+		"textAlignment"		"center"
+		//"font"				"Link"
+		"font"				"ItemFontNameLarge"
+		"image_drawcolor"		"MainMenuTextDefault"
+		"image_armedcolor"			"MainMenuTextArmed"
+		"image_depressedcolor"		"MainMenuTextDepressed"
 	}
 }		

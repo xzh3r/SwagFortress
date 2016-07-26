@@ -17,7 +17,7 @@
 	
 	"CloseButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"CloseButton"
 		"xpos"				"250"
 		"ypos"				"5"
@@ -28,21 +28,12 @@
 		"enabled"			"1"
 		"bordervisible"		"0"	
 		"command"			"vguicancel"	
-		
-		"SubButton"
-		{
-			"labelText" 		""
-			"bordervisible"		"0"
-			"tooltip" 			"Close"
-			"textAlignment"		"west"
-			"font"				"MenuSmallFont"
-			"border_default"	"MainMenuAdvButtonDepressed"
-			"border_armed"		"MainMenuAdvButtonArmed"
-			"border_depressed"	"MainMenuTextDefault"	
-			"defaultFgColor_override"		"LightRed"
-			"armedFgColor_override"			"LighterRed"
-			"depressedFgColor_override"		"MainMenuTextDefault"	
-		}
+		"labelText" 		""
+		"bordervisible"		"0"
+		"tooltip" 			"Close"
+		"image_drawcolor"		"LightRed"
+		"image_armedcolor"			"LighterRed"
+		"image_depressedcolor"		"MainMenuTextDefault"
 		
 		"SubImage"
 		{
@@ -53,7 +44,7 @@
 	
 	"PrevButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"PrevButton"
 		"xpos"				"220"
 		"ypos"				"105"
@@ -64,21 +55,12 @@
 		"enabled"			"1"
 		"bordervisible"		"0"	
 		"command"			"Prev"	
-		
-		"SubButton"
-		{
-			"labelText" 		""
-			"bordervisible"		"0"
-			"tooltip" 			"Prev"
-			"textAlignment"		"west"
-			"font"				"MenuSmallFont"
-			"border_default"	"MainMenuAdvButtonDepressed"
-			"border_armed"		"MainMenuAdvButtonArmed"
-			"border_depressed"	"MainMenuTextDefault"	
-			"defaultFgColor_override"		"TanDark"
-			"armedFgColor_override"			"LightRed"
-			"depressedFgColor_override"		"MainMenuTextDefault"	
-		}
+		"labelText" 		""
+		"bordervisible"		"0"
+		"tooltip" 			"Prev"
+		"image_drawcolor"		"TanDark"
+		"image_armedcolor"			"LightRed"
+		"image_depressedcolor"		"MainMenuTextDefault"
 		
 		"SubImage"
 		{
@@ -89,7 +71,7 @@
 	
 	"NextButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"NextButton"
 		"xpos"				"250"
 		"ypos"				"105"
@@ -100,21 +82,12 @@
 		"enabled"			"1"
 		"bordervisible"		"0"	
 		"command"			"Next"	
-		
-		"SubButton"
-		{
-			"labelText" 		""
-			"bordervisible"		"0"
-			"tooltip" 			"Next"
-			"textAlignment"		"west"
-			"font"				"MenuSmallFont"
-			"border_default"	"MainMenuAdvButtonDepressed"
-			"border_armed"		"MainMenuAdvButtonArmed"
-			"border_depressed"	"MainMenuTextDefault"	
-			"defaultFgColor_override"		"TanDark"
-			"armedFgColor_override"			"LightRed"
-			"depressedFgColor_override"		"MainMenuTextDefault"	
-		}
+		"labelText" 		""
+		"bordervisible"		"0"
+		"tooltip" 			"Next"
+		"image_drawcolor"		"TanDark"
+		"image_armedcolor"			"LightRed"
+		"image_depressedcolor"		"MainMenuTextDefault"
 		
 		"SubImage"
 		{
@@ -125,7 +98,7 @@
 	
 	"RemoveButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"RemoveButton"
 		"xpos"				"250"
 		"ypos"				"30"
@@ -136,21 +109,12 @@
 		"enabled"			"1"
 		"bordervisible"		"0"	
 		"command"			"Remove"	
-		
-		"SubButton"
-		{
-			"labelText" 		""
-			"bordervisible"		"0"
-			"tooltip" 			"Remove"
-			"textAlignment"		"west"
-			"font"				"MenuSmallFont"
-			"border_default"	"MainMenuAdvButtonDepressed"
-			"border_armed"		"MainMenuAdvButtonArmed"
-			"border_depressed"	"MainMenuTextDefault"	
-			"defaultFgColor_override"		"LightRed"
-			"armedFgColor_override"			"LighterRed"
-			"depressedFgColor_override"		"MainMenuTextDefault"	
-		}
+		"labelText" 		""
+		"bordervisible"		"0"
+		"tooltip" 			"Remove"
+		"image_drawcolor"		"LightRed"
+		"image_armedcolor"			"LighterRed"
+		"image_depressedcolor"		"MainMenuTextDefault"
 		
 		"SubImage"
 		{

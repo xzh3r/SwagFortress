@@ -70,7 +70,7 @@ void CTFMainMenuPanel::ApplySchemeSettings(vgui::IScheme *pScheme)
 
 	LoadControlSettings("resource/UI/main_menu/MainMenuPanel.res");
 	m_pVersionLabel = dynamic_cast<CExLabel *>(FindChildByName("VersionLabel"));
-	m_pNotificationButton = dynamic_cast<CTFAdvButton *>(FindChildByName("NotificationButton"));
+	m_pNotificationButton = dynamic_cast<CTFButton *>(FindChildByName("NotificationButton"));
 	m_pProfileAvatar = dynamic_cast<CAvatarImagePanel *>(FindChildByName("AvatarImage"));
 	m_pFakeBGImage = dynamic_cast<vgui::ImagePanel *>(FindChildByName("FakeBGImage"));
 
@@ -369,7 +369,7 @@ CTFServerlistPanel::CTFServerlistPanel(vgui::Panel* parent, const char *panelNam
 {
 	m_iSize = 0;
 	m_pServerList = new vgui::SectionedListPanel(this, "ServerList");
-	m_pConnectButton = new CTFAdvButton(this, "ConnectButton", "Connect");
+	m_pConnectButton = new CTFButton(this, "ConnectButton", "Connect");
 	m_pListSlider = new CTFAdvSlider(this, "ListSlider", "");
 }
 
@@ -439,7 +439,7 @@ void CTFServerlistPanel::OnThink()
 
 			char szCommand[128];
 			Q_snprintf(szCommand, sizeof(szCommand), "connect %s", m_pServerList->GetItemData(i)->GetString("ServerIP", ""));
-			m_pConnectButton->SetCommandString(szCommand);
+			m_pConnectButton->SetCommand( szCommand );
 		}
 	}
 }

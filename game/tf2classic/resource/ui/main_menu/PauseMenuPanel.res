@@ -47,7 +47,7 @@
 		
 	"ResumeButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"ResumeButton"
 		"xpos"				"35"
 		"ypos"				"195"
@@ -57,18 +57,14 @@
 		"visible"			"1"
 		"enabled"			"1"
 		"command"			"gamemenucommand ResumeGame"
-		
-		"SubButton"
-		{
-			"labelText" 		"#GameUI_GameMenu_ResumeGame"
-			"xshift" 			"10"
-			"yshift" 			"0"
-			"textAlignment"		"west"
-			"font"				"HudFontSmallBold"
-			"defaultFgColor_override"		"MainMenuTextDefault"
-			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDepressed"	
-		}
+		"labelText" 		"#GameUI_GameMenu_ResumeGame"
+		"xshift" 			"10"
+		"yshift" 			"0"
+		"textAlignment"		"west"
+		"font"				"HudFontSmallBold"
+		"defaultFgColor_override"		"MainMenuTextDefault"
+		"armedFgColor_override"			"MainMenuTextArmed"
+		"depressedFgColor_override"		"MainMenuTextDepressed"
 		
 		"SubImage"
 		{
@@ -79,7 +75,7 @@
 	
 	"MuteButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"MuteButton"
 		"xpos"				"238"
 		"ypos"				"198"
@@ -89,19 +85,15 @@
 		"visible"			"1"
 		"enabled"			"1"
 		"command"			"gamemenucommand openplayerlistdialog"
-		
-		"SubButton"
-		{
-			"labelText" 		""
-			"tooltip" 			"Mute Players"
-			"textAlignment"		"west"
-			"font"				"HudFontSmallBold"
-			"defaultFgColor_override"		"MainMenuTextArmed"
-			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDefault"	
-			"border_default"				"MainMenuAdvButtonDepressed"
-			"border_depressed"				"MainMenuAdvButton"	
-		}
+		"labelText" 		""
+		"tooltip" 			"Mute Players"
+		"textAlignment"		"west"
+		"font"				"HudFontSmallBold"
+		"defaultFgColor_override"		"MainMenuTextArmed"
+		"armedFgColor_override"			"MainMenuTextArmed"
+		"depressedFgColor_override"		"MainMenuTextDefault"	
+		"border_default"				"MainMenuAdvButtonDepressed"
+		"border_depressed"				"MainMenuAdvButton"
 		
 		"SubImage"
 		{
@@ -112,7 +104,7 @@
 	
 	"ServerBrowserButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"ServerBrowserButton"
 		"xpos"				"35"
 		"ypos"				"230"
@@ -122,18 +114,17 @@
 		"visible"			"1"
 		"enabled"			"1"
 		"command"			"gamemenucommand OpenServerBrowser"
-		
-		"SubButton"
-		{
-			"labelText" 		"#GameUI_GameMenu_FindServers"
-			"xshift" 			"10"
-			"yshift" 			"0"
-			"textAlignment"		"west"
-			"font"				"HudFontSmallBold"
-			"defaultFgColor_override"		"MainMenuTextDefault"
-			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDepressed"	
-		}
+		"labelText" 		"#GameUI_GameMenu_FindServers"
+		"xshift" 			"10"
+		"yshift" 			"0"
+		"textAlignment"		"west"
+		"font"				"HudFontSmallBold"
+		"defaultFgColor_override"		"MainMenuTextDefault"
+		"armedFgColor_override"			"MainMenuTextArmed"
+		"depressedFgColor_override"		"MainMenuTextDepressed"
+		"image_drawcolor"		"MainMenuTextDefault"
+		"image_armedcolor"		"MainMenuTextArmed"
+		"image_depressedcolor"	"MainMenuTextDepressed"
 		
 		"SubImage"
 		{
@@ -144,7 +135,7 @@
 	
 	"MultiplayerGameButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"MultiplayerGameButton"
 		"xpos"				"238"
 		"ypos"				"233"
@@ -154,19 +145,15 @@
 		"visible"			"1"
 		"enabled"			"1"
 		"command"			"gamemenucommand OpenCreateMultiplayerGameDialog"
-		
-		"SubButton"
-		{
-			"labelText" 		""
-			"tooltip" 			"Create Server"
-			"textAlignment"		"west"
-			"font"				"HudFontSmallBold"
-			"defaultFgColor_override"		"MainMenuTextArmed"
-			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDefault"	
-			"border_default"				"MainMenuAdvButtonDepressed"
-			"border_depressed"				"MainMenuAdvButton"	
-		}
+		"labelText" 		""
+		"tooltip" 			"Create Server"
+		"textAlignment"		"west"
+		"font"				"HudFontSmallBold"
+		"defaultFgColor_override"		"MainMenuTextArmed"
+		"armedFgColor_override"			"MainMenuTextArmed"
+		"depressedFgColor_override"		"MainMenuTextDefault"
+		"border_default"				"MainMenuAdvButtonDepressed"
+		"border_depressed"				"MainMenuAdvButton"
 		
 		"SubImage"
 		{
@@ -177,7 +164,7 @@
 	
 	"LoadoutButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"LoadoutButton"
 		"xpos"				"35"
 		"ypos"				"265"
@@ -187,18 +174,17 @@
 		"visible"			"1"
 		"enabled"			"1"
 		"command"			"newloadout"
-		
-		"SubButton"
-		{
-			"labelText" 		"Loadout"
-			"xshift" 			"10"
-			"yshift" 			"0"
-			"textAlignment"		"west"
-			"font"				"HudFontSmallBold"
-			"defaultFgColor_override"		"MainMenuTextDefault"
-			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDepressed"	
-		}
+		"labelText" 		"Loadout"
+		"xshift" 			"10"
+		"yshift" 			"0"
+		"textAlignment"		"west"
+		"font"				"HudFontSmallBold"
+		"defaultFgColor_override"		"MainMenuTextDefault"
+		"armedFgColor_override"			"MainMenuTextArmed"
+		"depressedFgColor_override"		"MainMenuTextDepressed"
+		"image_drawcolor"		"MainMenuTextDefault"
+		"image_armedcolor"		"MainMenuTextArmed"
+		"image_depressedcolor"	"MainMenuTextDepressed"
 		
 		"SubImage"
 		{
@@ -209,7 +195,7 @@
 	
 	"OptionsDialogButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"OptionsDialogButton"
 		"xpos"				"35"
 		"ypos"				"300"
@@ -219,18 +205,17 @@
 		"visible"			"1"
 		"enabled"			"1"
 		"command"			"newoptionsdialog"
-		
-		"SubButton"
-		{
-			"labelText" 		"#GameUI_GameMenu_Options"
-			"xshift" 			"10"
-			"yshift" 			"0"
-			"textAlignment"		"west"
-			"font"				"HudFontSmallBold"
-			"defaultFgColor_override"		"MainMenuTextDefault"
-			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDepressed"	
-		}
+		"labelText" 		"#GameUI_GameMenu_Options"
+		"xshift" 			"10"
+		"yshift" 			"0"
+		"textAlignment"		"west"
+		"font"				"HudFontSmallBold"
+		"defaultFgColor_override"		"MainMenuTextDefault"
+		"armedFgColor_override"			"MainMenuTextArmed"
+		"depressedFgColor_override"		"MainMenuTextDepressed"
+		"image_drawcolor"		"MainMenuTextDefault"
+		"image_armedcolor"		"MainMenuTextArmed"
+		"image_depressedcolor"	"MainMenuTextDepressed"
 		
 		"SubImage"
 		{
@@ -241,7 +226,7 @@
 	
 	"OptionsOldButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"OptionsOldButton"
 		"xpos"				"238"
 		"ypos"				"303"
@@ -251,19 +236,15 @@
 		"visible"			"1"
 		"enabled"			"1"
 		"command"			"gamemenucommand openoptionsdialog"
-		
-		"SubButton"
-		{
-			"labelText" 		""
-			"tooltip" 			"Options"
-			"textAlignment"		"west"
-			"font"				"HudFontSmallBold"
-			"defaultFgColor_override"		"MainMenuTextArmed"
-			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDefault"	
-			"border_default"				"MainMenuAdvButtonDepressed"
-			"border_depressed"				"MainMenuAdvButton"	
-		}
+		"labelText" 		""
+		"tooltip" 			"Options"
+		"textAlignment"		"west"
+		"font"				"HudFontSmallBold"
+		"defaultFgColor_override"		"MainMenuTextArmed"
+		"armedFgColor_override"			"MainMenuTextArmed"
+		"depressedFgColor_override"		"MainMenuTextDefault"	
+		"border_default"				"MainMenuAdvButtonDepressed"
+		"border_depressed"				"MainMenuAdvButton"
 		
 		"SubImage"
 		{
@@ -274,7 +255,7 @@
 	
 	"DisconnectButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"DisconnectButton"
 		"xpos"				"35"
 		"ypos"				"335"
@@ -284,18 +265,17 @@
 		"visible"			"1"
 		"enabled"			"1"
 		"command"			"gamemenucommand Disconnect"
-		
-		"SubButton"
-		{
-			"labelText" 		"#GameUI_GameMenu_Disconnect"
-			"xshift" 			"10"
-			"yshift" 			"0"
-			"textAlignment"		"west"
-			"font"				"HudFontSmallBold"
-			"defaultFgColor_override"		"MainMenuTextDefault"
-			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDepressed"	
-		}
+		"labelText" 		"#GameUI_GameMenu_Disconnect"
+		"xshift" 			"10"
+		"yshift" 			"0"
+		"textAlignment"		"west"
+		"font"				"HudFontSmallBold"
+		"defaultFgColor_override"		"MainMenuTextDefault"
+		"armedFgColor_override"			"MainMenuTextArmed"
+		"depressedFgColor_override"		"MainMenuTextDepressed"
+		"image_drawcolor"		"MainMenuTextDefault"
+		"image_armedcolor"		"MainMenuTextArmed"
+		"image_depressedcolor"	"MainMenuTextDepressed"
 		
 		"SubImage"
 		{
@@ -306,7 +286,7 @@
 
 	"QuitButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"QuitButton"
 		"xpos"				"35"
 		"ypos"				"370"
@@ -316,18 +296,17 @@
 		"visible"			"1"
 		"enabled"			"1"
 		"command"			"newquit"
-		
-		"SubButton"
-		{
-			"labelText" 		"#GameUI_GameMenu_Quit"
-			"xshift" 			"10"
-			"yshift" 			"0"
-			"textAlignment"		"west"
-			"font"				"HudFontSmallBold"
-			"defaultFgColor_override"		"MainMenuTextDefault"
-			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDepressed"	
-		}
+		"labelText" 		"#GameUI_GameMenu_Quit"
+		"xshift" 			"10"
+		"yshift" 			"0"
+		"textAlignment"		"west"
+		"font"				"HudFontSmallBold"
+		"defaultFgColor_override"		"MainMenuTextDefault"
+		"armedFgColor_override"			"MainMenuTextArmed"
+		"depressedFgColor_override"		"MainMenuTextDepressed"
+		"image_drawcolor"		"MainMenuTextDefault"
+		"image_armedcolor"		"MainMenuTextArmed"
+		"image_depressedcolor"	"MainMenuTextDepressed"
 		
 		"SubImage"
 		{
@@ -338,7 +317,7 @@
 	
 	"NotificationButton"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"NotificationButton"
 		"xpos"				"278"
 		"ypos"				"390"
@@ -349,18 +328,14 @@
 		"enabled"			"1"
 		"bordervisible"		"1"	
 		"command"			"shownotification"	
-		
-		"SubButton"
-		{
-			"labelText" 		""
-			"bordervisible"		"0"
-			"tooltip" 			"Show notification"
-			"textAlignment"		"center"
-			"font"				"MenuSmallFont"
-			"border_default"	"AdvRoundedButtonDefault"
-			"border_armed"		"AdvRoundedButtonArmed"
-			"border_depressed"	"AdvRoundedButtonDepressed"	
-		}
+		"labelText" 		""
+		"bordervisible"		"0"
+		"tooltip" 			"Show notification"
+		"textAlignment"		"center"
+		"font"				"MenuSmallFont"
+		"border_default"	"AdvRoundedButtonDefault"
+		"border_armed"		"AdvRoundedButtonArmed"
+		"border_depressed"	"AdvRoundedButtonDepressed"
 		
 		"SubImage"
 		{

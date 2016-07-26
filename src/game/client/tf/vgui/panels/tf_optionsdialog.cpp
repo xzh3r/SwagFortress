@@ -77,7 +77,7 @@ void CTFOptionsDialog::SetCurrentPanel(OptionPanel pCurrentPanel)
 	GetPanel(pCurrentPanel)->Show();
 	m_pOptionsCurrent = pCurrentPanel;
 
-	dynamic_cast<CTFAdvButton *>(FindChildByName("Defaults"))->SetVisible((pCurrentPanel == PANEL_KEYBOARD));
+	dynamic_cast<CTFButton *>(FindChildByName("Defaults"))->SetVisible((pCurrentPanel == PANEL_KEYBOARD));
 }
 
 CTFDialogPanelBase*	CTFOptionsDialog::GetPanel(int iPanel)
@@ -90,7 +90,7 @@ void CTFOptionsDialog::ApplySchemeSettings(vgui::IScheme *pScheme)
 	BaseClass::ApplySchemeSettings(pScheme);
 
 	LoadControlSettings("resource/UI/main_menu/OptionsDialog.res");
-	dynamic_cast<CTFAdvButton *>(FindChildByName("Defaults"))->SetVisible(false);
+	dynamic_cast<CTFButton *>(FindChildByName("Defaults"))->SetVisible(false);
 }
 
 void CTFOptionsDialog::Show()

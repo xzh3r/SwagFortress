@@ -36,7 +36,7 @@
 	
 	"OK"
 	{
-		"ControlName"	"CTFAdvButton"
+		"ControlName"	"CTFButton"
 		"fieldName"		"OK"
 		"xpos"			"200"
 		"ypos"			"370"
@@ -45,22 +45,18 @@
 		"tall"			"20"
 		"visible"		"1"
 		"enabled"		"1"
-		"command"		"Ok"
-		
-		"SubButton"
-		{
-			"labelText" 		"#GameUI_OK"
-			"textAlignment"		"center"
-			"font"				"TallTextSmall"
-			"border_default"	"AdvRoundedButtonDefault"
-			"border_armed"		"AdvRoundedButtonArmed"
-			"border_depressed"	"AdvRoundedButtonDepressed"	
-		}
+		"command"		"Ok"	
+		"labelText" 		"#GameUI_OK"
+		"textAlignment"		"center"
+		"font"				"TallTextSmall"
+		"border_default"	"AdvRoundedButtonDefault"
+		"border_armed"		"AdvRoundedButtonArmed"
+		"border_depressed"	"AdvRoundedButtonDepressed"
 	}
 	
 	"Cancel"
 	{
-		"ControlName"	"CTFAdvButton"
+		"ControlName"	"CTFButton"
 		"fieldName"		"Cancel"
 		"xpos"			"255"
 		"ypos"			"370"
@@ -70,21 +66,17 @@
 		"visible"		"1"
 		"enabled"		"1"
 		"command"		"vguicancel"
-		
-		"SubButton"
-		{
-			"labelText" 		"#GameUI_Cancel"
-			"textAlignment"		"center"
-			"font"				"TallTextSmall"
-			"border_default"	"AdvRoundedButtonDefault"
-			"border_armed"		"AdvRoundedButtonArmed"
-			"border_depressed"	"AdvRoundedButtonDepressed"	
-		}
+		"labelText" 		"#GameUI_Cancel"
+		"textAlignment"		"center"
+		"font"				"TallTextSmall"
+		"border_default"	"AdvRoundedButtonDefault"
+		"border_armed"		"AdvRoundedButtonArmed"
+		"border_depressed"	"AdvRoundedButtonDepressed"
 	}	
 	
 	"Apply"
 	{
-		"ControlName"	"CTFAdvButton"
+		"ControlName"	"CTFButton"
 		"fieldName"		"Apply"
 		"xpos"			"320"
 		"ypos"			"370"
@@ -94,21 +86,17 @@
 		"visible"		"1"
 		"enabled"		"1"
 		"command"		"Apply"
-		
-		"SubButton"
-		{
-			"labelText" 		"#GameUI_Apply"
-			"textAlignment"		"center"
-			"font"				"TallTextSmall"
-			"border_default"	"AdvRoundedButtonDefault"
-			"border_armed"		"AdvRoundedButtonArmed"
-			"border_depressed"	"AdvRoundedButtonDepressed"	
-		}
+		"labelText" 		"#GameUI_Apply"
+		"textAlignment"		"center"
+		"font"				"TallTextSmall"
+		"border_default"	"AdvRoundedButtonDefault"
+		"border_armed"		"AdvRoundedButtonArmed"
+		"border_depressed"	"AdvRoundedButtonDepressed"
 	}
 
 	"Defaults"
 	{
-		"ControlName"		"CTFAdvButton"
+		"ControlName"		"CTFButton"
 		"fieldName"			"Defaults"
 		"xpos"				"20"
 		"ypos"				"370"
@@ -117,16 +105,12 @@
 		"visible"			"1"
 		"enabled"			"1"
 		"Command"			"DefaultsOK"
-		
-		"SubButton"
-		{
-			"labelText" 		"#GameUI_UseDefaults"
-			"textAlignment"		"center"
-			"font"				"TallTextSmall"
-			"border_default"	"AdvRoundedButtonDefault"
-			"border_armed"		"AdvRoundedButtonArmed"
-			"border_depressed"	"AdvRoundedButtonDepressed"	
-		}
+		"labelText" 		"#GameUI_UseDefaults"
+		"textAlignment"		"center"
+		"font"				"TallTextSmall"
+		"border_default"	"AdvRoundedButtonDefault"
+		"border_armed"		"AdvRoundedButtonArmed"
+		"border_depressed"	"AdvRoundedButtonDepressed"
 	}
 	
 	
@@ -145,123 +129,103 @@
 		
 		"AdvButton"
 		{
-			"ControlName"		"CTFAdvButton"
+			"ControlName"		"CTFButton"
 			"fieldName"			"AdvButton"
 			"visible"			"1"
 			"enabled"			"1"
 			"bordervisible"			"1"		
 			"command"				"newoptionsadv"
-			
-			"SubButton"
-			{
-				"labelText"			"#GameUI_Multiplayer"
-				"xshift" 			"0"
-				"yshift"			"-3"
-				"stayselectedonclick"	"1"
-				"textAlignment"		"center"	
-				"font"				"TallTextSmall"
-				"border_default"		"AdvLeftButtonDefault"
-				"border_armed"			"AdvLeftButtonArmed"
-				"border_depressed"		"AdvLeftButtonDepressed"
-				"selectedFgColor_override"		"255 255 180 255"
-			}
+			"labelText"			"#GameUI_Multiplayer"
+			"xshift" 			"0"
+			"yshift"			"-3"
+			"stayselectedonclick"	"1"
+			"textAlignment"		"center"	
+			"font"				"TallTextSmall"
+			"border_default"		"AdvLeftButtonDefault"
+			"border_armed"			"AdvLeftButtonArmed"
+			"border_depressed"		"AdvLeftButtonDepressed"
+			"selectedFgColor_override"		"255 255 180 255"
 		}
 		
 		
 		"MouseButton"
 		{
-			"ControlName"		"CTFAdvButton"
+			"ControlName"		"CTFButton"
 			"fieldName"			"MouseButton"
 			"visible"			"1"
 			"enabled"			"1"
 			"bordervisible"			"1"	
 			"command"				"newoptionsmouse"
-			
-			"SubButton"
-			{
-				"labelText"			"#GameUI_Mouse"
-				"xshift" 			"0"
-				"yshift"			"-3"
-				"stayselectedonclick"	"1"
-				"textAlignment"		"center"	
-				"font"				"TallTextSmall"
-				"border_default"		"AdvSquareButtonDefault"
-				"border_armed"			"AdvSquareButtonArmed"
-				"border_depressed"		"AdvSquareButtonDepressed"	
-				"selectedFgColor_override"		"255 255 180 255"
-			}
+			"labelText"			"#GameUI_Mouse"
+			"xshift" 			"0"
+			"yshift"			"-3"
+			"stayselectedonclick"	"1"
+			"textAlignment"		"center"	
+			"font"				"TallTextSmall"
+			"border_default"		"AdvSquareButtonDefault"
+			"border_armed"			"AdvSquareButtonArmed"
+			"border_depressed"		"AdvSquareButtonDepressed"	
+			"selectedFgColor_override"		"255 255 180 255"
 		}
 		
 		"KeyboardButton"
 		{
-			"ControlName"		"CTFAdvButton"
+			"ControlName"		"CTFButton"
 			"fieldName"			"KeyboardButton"
 			"visible"			"1"
 			"enabled"			"1"
 			"bordervisible"			"1"	
 			"command"				"newoptionskeyboard"
-			
-			"SubButton"
-			{
-				"labelText"			"#GameUI_Keyboard"
-				"xshift" 			"0"
-				"yshift"			"-3"	
-				"stayselectedonclick"	"1"
-				"textAlignment"		"center"
-				"font"				"TallTextSmall"
-				"border_default"		"AdvSquareButtonDefault"
-				"border_armed"			"AdvSquareButtonArmed"
-				"border_depressed"		"AdvSquareButtonDepressed"
-				"selectedFgColor_override"		"255 255 180 255"	
-			}
+			"labelText"			"#GameUI_Keyboard"
+			"xshift" 			"0"
+			"yshift"			"-3"
+			"stayselectedonclick"	"1"
+			"textAlignment"		"center"
+			"font"				"TallTextSmall"
+			"border_default"		"AdvSquareButtonDefault"
+			"border_armed"			"AdvSquareButtonArmed"
+			"border_depressed"		"AdvSquareButtonDepressed"
+			"selectedFgColor_override"		"255 255 180 255"
 		}
 		
 		"AudioButton"
 		{
-			"ControlName"		"CTFAdvButton"
+			"ControlName"		"CTFButton"
 			"fieldName"			"AudioButton"
 			"visible"			"1"
 			"enabled"			"1"
 			"bordervisible"			"1"	
 			"command"				"newoptionsaudio"
-			
-			"SubButton"
-			{
-				"labelText"			"#GameUI_Audio"
-				"xshift" 			"0"
-				"yshift"			"-3"
-				"stayselectedonclick"	"1"
-				"textAlignment"		"center"	
-				"font"				"TallTextSmall"
-				"border_default"		"AdvSquareButtonDefault"
-				"border_armed"			"AdvSquareButtonArmed"
-				"border_depressed"		"AdvSquareButtonDepressed"	
-				"selectedFgColor_override"		"255 255 180 255"
-			}
+			"labelText"			"#GameUI_Audio"
+			"xshift" 			"0"
+			"yshift"			"-3"
+			"stayselectedonclick"	"1"
+			"textAlignment"		"center"	
+			"font"				"TallTextSmall"
+			"border_default"		"AdvSquareButtonDefault"
+			"border_armed"			"AdvSquareButtonArmed"
+			"border_depressed"		"AdvSquareButtonDepressed"	
+			"selectedFgColor_override"		"255 255 180 255"
 		}
 		
 		"VideoButton"
 		{
-			"ControlName"		"CTFAdvButton"
+			"ControlName"		"CTFButton"
 			"fieldName"			"VideoButton"
 			"visible"			"1"
 			"enabled"			"1"
 			"bordervisible"			"1"	
 			"command"				"newoptionsvideo"
-			
-			"SubButton"
-			{
-				"labelText"			"#GameUI_Video"
-				"xshift" 			"0"
-				"yshift"			"-3"
-				"stayselectedonclick"	"1"
-				"textAlignment"		"center"	
-				"font"				"TallTextSmall"
-				"border_default"		"AdvRightButtonDefault"
-				"border_armed"			"AdvRightButtonArmed"
-				"border_depressed"		"AdvRightButtonDepressed"	
-				"selectedFgColor_override"		"255 255 180 255"
-			}
+			"labelText"			"#GameUI_Video"
+			"xshift" 			"0"
+			"yshift"			"-3"
+			"stayselectedonclick"	"1"
+			"textAlignment"		"center"	
+			"font"				"TallTextSmall"
+			"border_default"		"AdvRightButtonDefault"
+			"border_armed"			"AdvRightButtonArmed"
+			"border_depressed"		"AdvRightButtonDepressed"	
+			"selectedFgColor_override"		"255 255 180 255"
 		}
 	}
 

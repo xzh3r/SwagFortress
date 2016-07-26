@@ -94,14 +94,20 @@ public:
 	virtual void OnMousePressed( vgui::MouseCode code );
 	virtual void OnMouseReleased( vgui::MouseCode code );
 	virtual MouseState GetState() { return iState; };
-	//virtual void SetParent(CTFAdvButtonBase *m_pButton) { m_pParent = m_pButton; };
-	//virtual char *GetCommandStr() { return m_pParent->m_szCommand; };
+	virtual void SetArmed( bool bState );
+	virtual void SetSelected( bool bState );
+	
+
+	void SetBordersByName( const char *pszBorderDefault, const char *pszBorderArmed, const char *pszBorderDepressed );
 	void SetFontByString( const char *sFont );
 
 	virtual void SetImage( const char *sImage );
 	virtual void SetImageInset( int iInsetX, int iInsetY );
 	virtual void SetImageSize( int iWide, int iTall );
 	virtual int GetImageWidth( void ) { return m_iImageWidth; }
+
+	virtual void ShowToolTip( void );
+	virtual void SetToolTip( const char *pszText );
 
 protected:
 	virtual void	SetMouseEnteredState( MouseState flag );
@@ -117,9 +123,11 @@ protected:
 	char			m_szArmedBG[64];
 	char			m_szDepressedBG[64];
 
-	char			m_szImageColorDefault[64];
-	char			m_szImageColorArmed[64];
-	char			m_szImageColorDepressed[64];
+	Color			m_colorImageDefault;
+	Color			m_colorImageArmed;
+	Color			m_colorImageDepressed;
+
+	char			m_szToolTip[256];
 };
 
 
