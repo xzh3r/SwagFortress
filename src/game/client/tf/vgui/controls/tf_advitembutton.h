@@ -4,8 +4,6 @@
 #pragma once
 #endif
 
-#include <vgui_controls/EditablePanel.h>
-#include "tf_imagepanel.h"
 #include "tf_advbutton.h"
 
 //-----------------------------------------------------------------------------

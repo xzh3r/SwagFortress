@@ -1,16 +1,5 @@
 ﻿#include "cbase.h"
 #include "tf_advbuttonbase.h"
-#include "vgui_controls/Frame.h"
-#include <vgui/ISurface.h>
-#include <vgui/IVGui.h>
-#include <vgui/IInput.h>
-#include "vgui_controls/Button.h"
-#include "vgui_controls/ImagePanel.h"
-#include "tf_controls.h"
-#include <filesystem.h>
-#include <vgui_controls/AnimationController.h>
-#include "panels/tf_tooltippanel.h"
-#include "basemodelpanel.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -24,7 +13,7 @@ DECLARE_BUILD_FACTORY_DEFAULT_TEXT( CTFAdvButtonBase, CTFAdvButtonBase );
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CTFAdvButtonBase::CTFAdvButtonBase( vgui::Panel *parent, const char *panelName, const char *text ) : vgui::EditablePanel( parent, panelName )
+CTFAdvButtonBase::CTFAdvButtonBase( Panel *parent, const char *panelName, const char *text ) : EditablePanel( parent, panelName )
 {
 	Init();
 }

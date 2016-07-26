@@ -23,10 +23,15 @@ DECLARE_BUILD_FACTORY_DEFAULT_TEXT( CTFButton, CTFButton );
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CTFButton::CTFButton( vgui::Panel *parent, const char *panelName, const char *text ) : CTFButtonBase( parent, panelName, text )
+CTFButton::CTFButton( Panel *parent, const char *panelName, const char *text ) : CTFButtonBase( parent, panelName, text )
 {
 	m_flXShift = 0.0;
 	m_flYShift = 0.0;
+
+	m_bGlowing = false;
+	m_bAnimationIn = false;
+	m_flActionThink = -1.0f;
+	m_flAnimationThink = -1.0f;
 }
 
 //-----------------------------------------------------------------------------
@@ -164,7 +169,7 @@ void CTFButton::SetArmed( bool bState )
 		AnimationController::PublicValue_t p_AnimRest( m_iOrigX, m_iOrigY );
 		AnimationController::PublicValue_t p_AnimHover( m_iOrigX + m_flXShift, m_iOrigY + m_flYShift );
 
-		GetAnimationController()->RunAnimationCommand( this, "Position", bState ? p_AnimHover : p_AnimRest, 0.0f, 0.1f, vgui::AnimationController::INTERPOLATOR_LINEAR, NULL );
+		GetAnimationController()->RunAnimationCommand( this, "Position", bState ? p_AnimHover : p_AnimRest, 0.0f, 0.1f, AnimationController::INTERPOLATOR_LINEAR, NULL );
 	}
 }
 
@@ -192,6 +197,6 @@ void CTFButton::SetGlowing( bool Glowing )
 		float m_fAlpha = 255.0f;
 		float m_fDelay = 0.0f;
 		float m_fDuration = 0.0f;
-		vgui::GetAnimationController()->RunAnimationCommand( this, "Alpha", m_fAlpha, m_fDelay, m_fDuration, vgui::AnimationController::INTERPOLATOR_LINEAR );
+		vgui::GetAnimationController()->RunAnimationCommand( this, "Alpha", m_fAlpha, m_fDelay, m_fDuration, AnimationController::INTERPOLATOR_LINEAR );
 	}
 }

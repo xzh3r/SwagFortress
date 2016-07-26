@@ -5,8 +5,6 @@
 #endif
 
 #include "tf_mainmenu.h"
-#include <vgui_controls/EditablePanel.h>
-#include "tf_imagepanel.h"
 #include "tf_controls.h"
 
 class CTFButtonBase;

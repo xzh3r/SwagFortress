@@ -1,18 +1,5 @@
 ﻿#include "cbase.h"
 #include "tf_advitembutton.h"
-#include "vgui_controls/Frame.h"
-#include <vgui/ISurface.h>
-#include <vgui/IVGui.h>
-#include <vgui/IInput.h>
-#include "vgui_controls/Button.h"
-#include "vgui_controls/ImagePanel.h"
-#include "tf_controls.h"
-#include <filesystem.h>
-#include <vgui_controls/AnimationController.h>
-#include "basemodelpanel.h"
-#include "panels/tf_dialogpanelbase.h"
-#include "inputsystem/iinputsystem.h"
-#include "tf_inventory.h"
 
 using namespace vgui;
 
@@ -24,7 +11,7 @@ DECLARE_BUILD_FACTORY_DEFAULT_TEXT( CTFAdvItemButton, CTFAdvItemButtonBase );
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CTFAdvItemButton::CTFAdvItemButton( vgui::Panel *parent, const char *panelName, const char *text ) : CTFButton( parent, panelName, text )
+CTFAdvItemButton::CTFAdvItemButton( Panel *parent, const char *panelName, const char *text ) : CTFButton( parent, panelName, text )
 {
 	Init();
 }
@@ -43,8 +30,6 @@ void CTFAdvItemButton::Init()
 {
 	m_pItemDefinition = NULL;
 	m_iLoadoutSlot = TF_LOADOUT_SLOT_PRIMARY;
-	SetContentAlignment( Label::a_south );
-	SetTextInset( 0, -10 );
 }
 
 void CTFAdvItemButton::ApplySchemeSettings( IScheme *pScheme )
@@ -54,6 +39,9 @@ void CTFAdvItemButton::ApplySchemeSettings( IScheme *pScheme )
 	// Don't want to darken weapon images.
 	m_colorImageDefault = COLOR_WHITE;
 	m_colorImageArmed = COLOR_WHITE;
+
+	SetContentAlignment( Label::a_south );
+	SetTextInset( 0, -10 );
 }
 
 void CTFAdvItemButton::PerformLayout()

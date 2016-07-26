@@ -1,15 +1,5 @@
 ﻿#include "cbase.h"
 #include "tf_advcheckbutton.h"
-#include "vgui_controls/Frame.h"
-#include <vgui/ISurface.h>
-#include <vgui/IVGui.h>
-#include <vgui/IInput.h>
-#include "vgui_controls/Button.h"
-#include "vgui_controls/ImagePanel.h"
-#include "tf_controls.h"
-#include <filesystem.h>
-#include <vgui_controls/AnimationController.h>
-#include "basemodelpanel.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -27,7 +17,7 @@ DECLARE_BUILD_FACTORY_DEFAULT_TEXT( CTFCheckButton, CTFCheckButton );
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CTFCheckButton::CTFCheckButton( vgui::Panel *parent, const char *panelName, const char *text ) : CTFButtonBase( parent, panelName, text )
+CTFCheckButton::CTFCheckButton( Panel *parent, const char *panelName, const char *text ) : CTFButtonBase( parent, panelName, text )
 {
 	m_pCheckImage = new ImagePanel( this, "SubCheckImage" );
 	m_pBGBorder = new EditablePanel( this, "BackgroundPanel" );
@@ -39,7 +29,7 @@ CTFCheckButton::CTFCheckButton( vgui::Panel *parent, const char *panelName, cons
 	// Set default border.
 	V_strncpy( m_szDefaultBG, ADVCHECKBUTTON_DEFAULT_BG, sizeof( m_szDefaultBG ) );
 	V_strncpy( m_szArmedBG, ADVCHECKBUTTON_ARMED_BG, sizeof( m_szArmedBG ) );
-	V_strncpy( m_szDepressedBG, ADVCHECKBUTTON_ARMED_BG, sizeof( m_szDepressedBG ) );
+	V_strncpy( m_szDepressedBG, ADVCHECKBUTTON_DEPRESSED_BG, sizeof( m_szDepressedBG ) );
 }
 
 void CTFCheckButton::ApplySettings( KeyValues *inResourceData )
