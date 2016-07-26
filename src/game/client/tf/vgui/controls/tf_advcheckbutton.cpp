@@ -22,9 +22,9 @@ CTFCheckButton::CTFCheckButton( Panel *parent, const char *panelName, const char
 	m_pCheckImage = new ImagePanel( this, "SubCheckImage" );
 	m_pBGBorder = new EditablePanel( this, "BackgroundPanel" );
 
-	iState = MOUSE_DEFAULT;
 	m_bBorderVisible = false;
 	m_bChecked = false;
+	m_bInverted = false;
 
 	// Set default border.
 	V_strncpy( m_szDefaultBG, ADVCHECKBUTTON_DEFAULT_BG, sizeof( m_szDefaultBG ) );
@@ -34,6 +34,10 @@ CTFCheckButton::CTFCheckButton( Panel *parent, const char *panelName, const char
 
 void CTFCheckButton::ApplySettings( KeyValues *inResourceData )
 {
+	BaseClass::ApplySettings( inResourceData );
+
+	m_bInverted = inResourceData->GetBool( "inverted" );
+
 	KeyValues *pCheckImageKey = inResourceData->FindKey( "SubCheckImage" );
 
 	if ( pCheckImageKey )
@@ -41,8 +45,6 @@ void CTFCheckButton::ApplySettings( KeyValues *inResourceData )
 		if ( m_pCheckImage )
 			m_pCheckImage->ApplySettings( pCheckImageKey );
 	}
-
-	BaseClass::ApplySettings( inResourceData );
 }
 
 //-----------------------------------------------------------------------------
@@ -62,7 +64,7 @@ void CTFCheckButton::ApplySchemeSettings( IScheme *pScheme )
 	SetReleasedSound( "ui/buttonclickrelease.wav" );
 
 	// Show it above checkbox BG.
-	m_pButtonImage->SetZPos( GetZPos() + 1 );
+	m_pButtonImage->SetZPos( 1 );
 
 	if ( m_pCheckImage->GetImage() == NULL )
 	{
@@ -75,7 +77,7 @@ void CTFCheckButton::ApplySchemeSettings( IScheme *pScheme )
 	m_pCheckImage->SetShouldScaleImage( true );
 
 	// Show check image above everything.
-	m_pCheckImage->SetZPos( GetZPos() + 2 );
+	m_pCheckImage->SetZPos( 2 );
 
 	// The actual button takes up the whole panel width so it's easier to press but we want to only show the checkbox border.
 	m_pBGBorder->SetMouseInputEnabled( false );
@@ -97,15 +99,13 @@ void CTFCheckButton::PerformLayout()
 	m_pCheckImage->SetPos( GetWide() - GetTall() + iShift, iShift );
 	m_pCheckImage->SetWide( iWidth );
 	m_pCheckImage->SetTall( iWidth );
-	m_pCheckImage->SetVisible( IsChecked() );
+
+	// If it's inverted than we want to show check mark and when the box is off.
+	m_pCheckImage->SetVisible( m_bInverted ? !IsChecked() : IsChecked() );
 
 	m_pBGBorder->SetPos( GetWide() - GetTall(), 0 );
 	m_pBGBorder->SetWide( GetTall() );
 	m_pBGBorder->SetTall( GetTall() );
-
-	IScheme *pScheme = scheme()->GetIScheme( GetScheme() );
-	if ( !pScheme )
-		return;
 
 	// Set color and border based on our state.
 	if ( IsDepressed() )
@@ -117,7 +117,7 @@ void CTFCheckButton::PerformLayout()
 	else if ( IsArmed() )
 	{
 		m_pButtonImage->SetDrawColor( m_colorImageArmed );
-		m_pCheckImage->SetDrawColor( m_colorImageDepressed );
+		m_pCheckImage->SetDrawColor( m_colorImageArmed );
 		m_pBGBorder->SetBorder( _armedBorder );
 	}
 	else if ( IsSelected() )

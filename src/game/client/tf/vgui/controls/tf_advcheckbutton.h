@@ -32,6 +32,7 @@ private:
 	vgui::EditablePanel		*m_pBGBorder;
 
 	bool					m_bChecked;
+	bool					m_bInverted;
 };
 
 

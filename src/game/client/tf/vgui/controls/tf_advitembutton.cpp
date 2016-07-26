@@ -1,17 +1,17 @@
 ﻿#include "cbase.h"
 #include "tf_advitembutton.h"
 
-using namespace vgui;
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-DECLARE_BUILD_FACTORY_DEFAULT_TEXT( CTFAdvItemButton, CTFAdvItemButtonBase );
+using namespace vgui;
+
+DECLARE_BUILD_FACTORY_DEFAULT_TEXT( CTFItemButton, CTFItemButton );
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CTFAdvItemButton::CTFAdvItemButton( Panel *parent, const char *panelName, const char *text ) : CTFButton( parent, panelName, text )
+CTFItemButton::CTFItemButton( Panel *parent, const char *panelName, const char *text ) : CTFButton( parent, panelName, text )
 {
 	Init();
 }
@@ -19,20 +19,20 @@ CTFAdvItemButton::CTFAdvItemButton( Panel *parent, const char *panelName, const 
 //-----------------------------------------------------------------------------
 // Purpose: Destructor
 //-----------------------------------------------------------------------------
-CTFAdvItemButton::~CTFAdvItemButton()
+CTFItemButton::~CTFItemButton()
 {
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CTFAdvItemButton::Init()
+void CTFItemButton::Init()
 {
 	m_pItemDefinition = NULL;
 	m_iLoadoutSlot = TF_LOADOUT_SLOT_PRIMARY;
 }
 
-void CTFAdvItemButton::ApplySchemeSettings( IScheme *pScheme )
+void CTFItemButton::ApplySchemeSettings( IScheme *pScheme )
 {
 	BaseClass::ApplySchemeSettings( pScheme );
 
@@ -44,7 +44,7 @@ void CTFAdvItemButton::ApplySchemeSettings( IScheme *pScheme )
 	SetTextInset( 0, -10 );
 }
 
-void CTFAdvItemButton::PerformLayout()
+void CTFItemButton::PerformLayout()
 {
 	BaseClass::PerformLayout();
 
@@ -58,13 +58,23 @@ void CTFAdvItemButton::PerformLayout()
 // ---------------------------------------------------------------------------- -
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CTFAdvItemButton::ShowToolTip( void )
+void CTFItemButton::ShowToolTip( bool bShow )
 {
 	// Using a custom tooltip.
-	MAINMENU_ROOT->ShowItemToolTip( m_pItemDefinition );
+	if ( m_pItemDefinition )
+	{
+		if ( bShow )
+		{
+			MAINMENU_ROOT->ShowItemToolTip( m_pItemDefinition );
+		}
+		else
+		{
+			MAINMENU_ROOT->HideItemToolTip();
+		}
+	}
 }
 
-void CTFAdvItemButton::SetItemDefinition( CEconItemDefinition *pItemData )
+void CTFItemButton::SetItemDefinition( CEconItemDefinition *pItemData )
 {
 	m_pItemDefinition = pItemData;
 
@@ -78,7 +88,7 @@ void CTFAdvItemButton::SetItemDefinition( CEconItemDefinition *pItemData )
 	SetReleasedSound( NULL );
 }
 
-void CTFAdvItemButton::SetLoadoutSlot( int iSlot, int iPreset )
+void CTFItemButton::SetLoadoutSlot( int iSlot, int iPreset )
 {
 	m_iLoadoutSlot = iSlot;
 

@@ -127,7 +127,11 @@ CTFButtonBase::CTFButtonBase( Panel *parent, const char *panelName, const char *
 {
 	m_pButtonImage = new ImagePanel( this, "SubImage" );
 
-	iState = MOUSE_DEFAULT;
+	// Shuts up "parent not sized" warnings.
+	SetTall( 50 );
+	SetWide( 100 );
+
+	m_iMouseState = MOUSE_DEFAULT;
 	m_bBorderVisible = true;
 	_armedBorder = NULL;
 	_selectedBorder = NULL;
@@ -239,7 +243,7 @@ void CTFButtonBase::OnCursorEntered()
 {
 	BaseClass::OnCursorEntered();
 
-	if ( iState != MOUSE_ENTERED )
+	if ( m_iMouseState != MOUSE_ENTERED )
 	{
 		SetMouseEnteredState( MOUSE_ENTERED );
 	}
@@ -252,7 +256,7 @@ void CTFButtonBase::OnCursorExited()
 {
 	BaseClass::OnCursorExited();
 
-	if ( iState != MOUSE_EXITED )
+	if ( m_iMouseState != MOUSE_EXITED )
 	{
 		SetMouseEnteredState( MOUSE_EXITED );
 	}
@@ -265,7 +269,7 @@ void CTFButtonBase::OnMousePressed( MouseCode code )
 {
 	BaseClass::OnMousePressed( code );
 
-	if ( code == MOUSE_LEFT && iState != MOUSE_PRESSED )
+	if ( code == MOUSE_LEFT && m_iMouseState != MOUSE_PRESSED )
 	{
 		SetMouseEnteredState( MOUSE_PRESSED );
 	}
@@ -278,7 +282,7 @@ void CTFButtonBase::OnMouseReleased( MouseCode code )
 {
 	BaseClass::OnMouseReleased( code );
 
-	if ( code == MOUSE_LEFT && iState == MOUSE_ENTERED )
+	if ( code == MOUSE_LEFT && m_iMouseState == MOUSE_ENTERED )
 	{
 		SetMouseEnteredState( MOUSE_ENTERED );
 	}
@@ -294,7 +298,19 @@ void CTFButtonBase::OnMouseReleased( MouseCode code )
 //-----------------------------------------------------------------------------
 void CTFButtonBase::SetMouseEnteredState( MouseState flag )
 {
-	iState = flag;
+	m_iMouseState = flag;
+
+	// Can't use SetArmed for that since we want to show tooltips for selected buttons, too.
+	switch ( m_iMouseState )
+	{
+	case MOUSE_ENTERED:
+		ShowToolTip( true );
+		break;
+	case MOUSE_EXITED:
+	case MOUSE_DEFAULT:
+		ShowToolTip( false );
+		break;
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -303,19 +319,6 @@ void CTFButtonBase::SetMouseEnteredState( MouseState flag )
 void CTFButtonBase::SetArmed( bool bState )
 {
 	BaseClass::SetArmed( bState );
-
-	// Show tooltip if we have one.
-	if ( m_szToolTip[0] != '\0' )
-	{
-		if ( bState )
-		{
-			ShowToolTip();
-		}
-		else
-		{
-			MAINMENU_ROOT->HideToolTip();
-		}
-	}
 }
 
 //-----------------------------------------------------------------------------
@@ -386,9 +389,19 @@ void CTFButtonBase::SetImageSize( int iWide, int iTall )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CTFButtonBase::ShowToolTip( void )
+void CTFButtonBase::ShowToolTip( bool bShow )
 {
-	MAINMENU_ROOT->ShowToolTip( m_szToolTip );
+	if ( m_szToolTip[0] != '\0' )
+	{
+		if ( bShow )
+		{
+			MAINMENU_ROOT->ShowToolTip( m_szToolTip );
+		}
+		else
+		{
+			MAINMENU_ROOT->HideToolTip();
+		}
+	}
 }
 
 //-----------------------------------------------------------------------------

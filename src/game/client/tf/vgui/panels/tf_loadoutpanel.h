@@ -9,7 +9,7 @@ class CTFWeaponSetPanel;
 class CModelPanel;
 class CTFButton;
 class CTFRGBPanel;
-class CTFAdvItemButton;
+class CTFItemButton;
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -25,7 +25,7 @@ public:
 	void ApplySchemeSettings( vgui::IScheme *pScheme );
 	void PerformLayout();
 
-	void SetupWeaponIcon( CTFAdvItemButton *pButton, int iSlot, int iPreset );
+	void SetupWeaponIcon( CTFItemButton *pButton, int iSlot, int iPreset );
 
 	void OnCommand( const char* command );
 	void Hide();
@@ -47,7 +47,7 @@ private:
 	CTFAdvModelPanel *m_pClassModelPanel;
 	CTFWeaponSetPanel *m_pWeaponSetPanel;
 	CTFRGBPanel		*m_pRGBPanel;
-	CUtlVector<CTFAdvItemButton *> m_pWeaponIcons[INVENTORY_ROWNUM];
+	CUtlVector<CTFItemButton *> m_pWeaponIcons[INVENTORY_ROWNUM];
 	CTFButton *m_pSlideButtons[INVENTORY_ROWNUM * 2];
 	int m_RawIDPos[INVENTORY_ROWNUM];
 	MESSAGE_FUNC( UpdateModelPanels, "ControlModified" );

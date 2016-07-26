@@ -321,7 +321,8 @@
 			
 			"SubImage"
 			{
-				"image" 			"class_icons/scout"	
+				"image" 			"class_icons/scout"
+				"scaleImage"		"1"
 				"imagewidth"		"55"
 			}
 		}
@@ -340,7 +341,8 @@
 			
 			"SubImage"
 			{
-				"image" 			"class_icons/soldier"	
+				"image" 			"class_icons/soldier"
+				"scaleImage"		"1"
 				"imagewidth"		"55"
 			}
 		}
@@ -359,7 +361,8 @@
 			
 			"SubImage"
 			{
-				"image" 			"class_icons/pyro"	
+				"image" 			"class_icons/pyro"
+				"scaleImage"		"1"
 				"imagewidth"		"55"
 			}
 		}
@@ -378,7 +381,8 @@
 			
 			"SubImage"
 			{
-				"image" 			"class_icons/demo"	
+				"image" 			"class_icons/demo"
+				"scaleImage"		"1"
 				"imagewidth"		"55"
 			}
 		}
@@ -397,7 +401,8 @@
 			
 			"SubImage"
 			{
-				"image" 			"class_icons/heavy"	
+				"image" 			"class_icons/heavy"
+				"scaleImage"		"1"
 				"imagewidth"		"55"
 			}
 		}
@@ -416,7 +421,8 @@
 			
 			"SubImage"
 			{
-				"image" 			"class_icons/engineer"	
+				"image" 			"class_icons/engineer"
+				"scaleImage"		"1"
 				"imagewidth"		"55"
 			}
 		}
@@ -435,7 +441,8 @@
 			
 			"SubImage"
 			{
-				"image" 			"class_icons/medic"	
+				"image" 			"class_icons/medic"
+				"scaleImage"		"1"
 				"imagewidth"		"55"
 			}
 		}
@@ -454,7 +461,8 @@
 			
 			"SubImage"
 			{
-				"image" 			"class_icons/sniper"	
+				"image" 			"class_icons/sniper"
+				"scaleImage"		"1"
 				"imagewidth"		"55"
 			}
 		}
@@ -473,7 +481,8 @@
 			
 			"SubImage"
 			{
-				"image" 			"class_icons/spy"	
+				"image" 			"class_icons/spy"
+				"scaleImage"		"1"
 				"imagewidth"		"55"
 			}
 		}
@@ -492,7 +501,8 @@
 			
 			"SubImage"
 			{
-				"image" 			"class_icons/allclass"	
+				"image" 			"class_icons/allclass"
+				"scaleImage"		"1"
 				"imagewidth"		"55"
 			}
 		}

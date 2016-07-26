@@ -318,7 +318,7 @@ void CTFAdvSlider::SendAnimation( MouseState flag )
 CTFScrollButton::CTFScrollButton( vgui::Panel *parent, const char *panelName, const char *text ) : CTFButtonBase( parent, panelName, text )
 {
 	m_pParent = dynamic_cast<CTFAdvSlider *>( parent );
-	iState = MOUSE_DEFAULT;
+	m_iMouseState = MOUSE_DEFAULT;
 	vgui::ivgui()->AddTickSignal( GetVPanel() );
 }
 
@@ -361,7 +361,7 @@ void CTFScrollButton::OnCursorEntered()
 {
 	Button::OnCursorEntered();
 
-	if ( iState != MOUSE_ENTERED && iState != MOUSE_PRESSED )
+	if ( m_iMouseState != MOUSE_ENTERED && m_iMouseState != MOUSE_PRESSED )
 	{
 		SetMouseEnteredState( MOUSE_ENTERED );
 	}
@@ -374,7 +374,7 @@ void CTFScrollButton::OnCursorExited()
 {
 	Button::OnCursorExited();
 
-	if ( iState != MOUSE_EXITED && iState != MOUSE_PRESSED )
+	if ( m_iMouseState != MOUSE_EXITED && m_iMouseState != MOUSE_PRESSED )
 	{
 		SetMouseEnteredState( MOUSE_EXITED );
 	}
@@ -387,7 +387,7 @@ void CTFScrollButton::OnMousePressed( vgui::MouseCode code )
 {
 	Button::OnMousePressed( code );
 
-	if ( code == MOUSE_LEFT && iState != MOUSE_PRESSED )
+	if ( code == MOUSE_LEFT && m_iMouseState != MOUSE_PRESSED )
 	{
 		SetMouseEnteredState( MOUSE_PRESSED );
 	}
@@ -405,7 +405,7 @@ void CTFScrollButton::OnMouseReleased( vgui::MouseCode code )
 		m_pParent->RunCommand();
 	}
 
-	if ( code == MOUSE_LEFT && iState == MOUSE_ENTERED )
+	if ( code == MOUSE_LEFT && m_iMouseState == MOUSE_ENTERED )
 	{
 		SetMouseEnteredState( MOUSE_ENTERED );
 	}

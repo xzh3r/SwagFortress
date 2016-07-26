@@ -19,16 +19,16 @@
 		"ControlName"	"ImagePanel"
 		"fieldName"		"Logo"
 		"xpos"			"25"
-		"ypos"			"25"	
-		"zpos"			"3"		
+		"ypos"			"25"
+		"zpos"			"3"
 		"wide"			"450"
 		"tall"			"225"
 		"visible"		"1"
 		"enabled"		"1"
-		"image"			"../vgui/main_menu/TF2_Classic_Logo"
+		"image"			"main_menu/TF2_Classic_Logo"
 		"alpha"			"255"
-		"scaleImage"	"1"	
-	}	
+		"scaleImage"	"1"
+	}
 	
 	"MainMenuBG"
 	{
@@ -44,7 +44,7 @@
 		"border"			"MainMenuAdvButtonDepressed"
 		"font"				"MenuMainTitle"
 	}
-		
+	
 	"ResumeButton"
 	{
 		"ControlName"		"CTFButton"
@@ -68,10 +68,11 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/icon_resume"
-			"imagewidth"		"18"	
+			"image" 			"icon_resume"
+			"scaleImage"		"1"
+			"imagewidth"		"18"
 		}
-	}		
+	}
 	
 	"MuteButton"
 	{
@@ -91,16 +92,17 @@
 		"font"				"HudFontSmallBold"
 		"defaultFgColor_override"		"MainMenuTextArmed"
 		"armedFgColor_override"			"MainMenuTextArmed"
-		"depressedFgColor_override"		"MainMenuTextDefault"	
+		"depressedFgColor_override"		"MainMenuTextDefault"
 		"border_default"				"MainMenuAdvButtonDepressed"
 		"border_depressed"				"MainMenuAdvButton"
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_muted"
-			"imagewidth"		"16"	
+			"image" 			"glyph_muted"
+			"scaleImage"		"1"
+			"imagewidth"		"16"
 		}
-	}	
+	}
 	
 	"ServerBrowserButton"
 	{
@@ -128,10 +130,11 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_server_browser"
-			"imagewidth"		"18"	
+			"image" 			"glyph_server_browser"
+			"scaleImage"		"1"
+			"imagewidth"		"18"
 		}
-	}	
+	}
 	
 	"MultiplayerGameButton"
 	{
@@ -157,8 +160,9 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_create"
-			"imagewidth"		"16"	
+			"image" 			"glyph_create"
+			"scaleImage"		"1"
+			"imagewidth"		"16"
 		}
 	}
 	
@@ -188,10 +192,11 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_items"
-			"imagewidth"		"18"	
+			"image" 			"glyph_items"
+			"scaleImage"		"1"
+			"imagewidth"		"18"
 		}
-	}	
+	}
 	
 	"OptionsDialogButton"
 	{
@@ -219,10 +224,11 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_options"
-			"imagewidth"		"18"	
+			"image" 			"glyph_options"
+			"scaleImage"		"1"
+			"imagewidth"		"18"
 		}
-	}				
+	}
 	
 	"OptionsOldButton"
 	{
@@ -242,16 +248,17 @@
 		"font"				"HudFontSmallBold"
 		"defaultFgColor_override"		"MainMenuTextArmed"
 		"armedFgColor_override"			"MainMenuTextArmed"
-		"depressedFgColor_override"		"MainMenuTextDefault"	
+		"depressedFgColor_override"		"MainMenuTextDefault"
 		"border_default"				"MainMenuAdvButtonDepressed"
 		"border_depressed"				"MainMenuAdvButton"
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_steamworkshop"
-			"imagewidth"		"16"	
+			"image" 			"glyph_steamworkshop"
+			"scaleImage"		"1"
+			"imagewidth"		"16"
 		}
-	}				
+	}
 	
 	"DisconnectButton"
 	{
@@ -279,11 +286,12 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_view"
-			"imagewidth"		"18"	
+			"image" 			"glyph_view"
+			"scaleImage"		"1"
+			"imagewidth"		"18"
 		}
-	}	
-
+	}
+	
 	"QuitButton"
 	{
 		"ControlName"		"CTFButton"
@@ -310,10 +318,11 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_quit"
-			"imagewidth"		"18"	
+			"image" 			"glyph_quit"
+			"scaleImage"		"1"
+			"imagewidth"		"18"
 		}
-	}		
+	}
 	
 	"NotificationButton"
 	{
@@ -326,8 +335,8 @@
 		"tall"				"20"
 		"visible"			"0"
 		"enabled"			"1"
-		"bordervisible"		"1"	
-		"command"			"shownotification"	
+		"bordervisible"		"1"
+		"command"			"shownotification"
 		"labelText" 		""
 		"bordervisible"		"0"
 		"tooltip" 			"Show notification"
@@ -339,9 +348,9 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_alert"
+			"image" 			"glyph_alert"
+			"scaleImage"		"1"
 			"imagewidth"		"18"
 		}
-	}				
+	}
 }
-		

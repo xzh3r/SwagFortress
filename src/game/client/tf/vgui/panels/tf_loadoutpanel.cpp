@@ -184,13 +184,13 @@ CTFLoadoutPanel::CTFLoadoutPanel( Panel *parent, const char *panelName ) : CTFDi
 	{
 		for ( int j = 0; j < INVENTORY_COLNUM; j++ )
 		{
-			m_pWeaponIcons[i].AddToTail( new CTFAdvItemButton( m_pWeaponSetPanel, "WeaponIcons", "DUK" ) );
+			m_pWeaponIcons[i].AddToTail( new CTFItemButton( m_pWeaponSetPanel, "WeaponIcons", "DUK" ) );
 		}
 	}
 
 	for ( int i = 0; i < INVENTORY_ROWNUM * 2; i++ )
 	{
-		m_pSlideButtons[i] = new CTFAdvItemButton( m_pWeaponSetPanel, "SlideButton", "DUK" );
+		m_pSlideButtons[i] = new CTFItemButton( m_pWeaponSetPanel, "SlideButton", "DUK" );
 	}
 
 	g_TFWeaponScriptParser.InitParser( "scripts/tf_weapon_*.txt", true, false );
@@ -251,7 +251,7 @@ void CTFLoadoutPanel::ApplySchemeSettings( IScheme *pScheme )
 	{
 		for ( int iPreset = 0; iPreset < m_pWeaponIcons[iSlot].Count(); iPreset++ )
 		{
-			CTFAdvItemButton *pWeaponButton = m_pWeaponIcons[iSlot][iPreset];
+			CTFItemButton *pWeaponButton = m_pWeaponIcons[iSlot][iPreset];
 			SetupWeaponIcon( pWeaponButton, iSlot, iPreset );
 		}
 
@@ -260,6 +260,7 @@ void CTFLoadoutPanel::ApplySchemeSettings( IScheme *pScheme )
 
 		pSlideButtonL->SetSize( YRES( 10 ), PANEL_TALL );
 		pSlideButtonL->SetPos( 0, iSlot * ( PANEL_TALL + PANEL_Y_OFFSET ) );
+		pSlideButtonL->SetZPos( 1 );
 		pSlideButtonL->SetText( "<" );
 		pSlideButtonL->SetBordersByName( "AdvLeftButtonDefault", "AdvLeftButtonArmed", "AdvLeftButtonDepressed" );
 		char szCommand[64];
@@ -269,6 +270,7 @@ void CTFLoadoutPanel::ApplySchemeSettings( IScheme *pScheme )
 		pSlideButtonR->SetSize( YRES( 10 ), PANEL_TALL );
 		pSlideButtonR->SetPos( m_pWeaponSetPanel->GetWide() - YRES( 10 ), iSlot * ( PANEL_TALL + PANEL_Y_OFFSET ) );
 		pSlideButtonR->SetText( ">" );
+		pSlideButtonR->SetZPos( 1 );
 		pSlideButtonR->SetBordersByName( "AdvRightButtonDefault", "AdvRightButtonArmed", "AdvRightButtonDepressed" );
 		Q_snprintf( szCommand, sizeof( szCommand ), "SlideR%i", iSlot );
 		pSlideButtonR->SetCommand( szCommand );
@@ -280,7 +282,7 @@ void CTFLoadoutPanel::PerformLayout()
 	BaseClass::PerformLayout();
 }
 
-void CTFLoadoutPanel::SetupWeaponIcon( CTFAdvItemButton *pButton, int iSlot, int iPreset )
+void CTFLoadoutPanel::SetupWeaponIcon( CTFItemButton *pButton, int iSlot, int iPreset )
 {
 	pButton->SetSize( PANEL_WIDE, PANEL_TALL );
 	pButton->SetPos( ( iPreset - m_RawIDPos[iSlot] ) * ( PANEL_WIDE + PANEL_X_OFFSET ), iSlot * ( PANEL_TALL + PANEL_Y_OFFSET ) );
@@ -396,7 +398,7 @@ void CTFLoadoutPanel::SideRow( int iRow, int iDir )
 
 	for ( int iPreset = 0; iPreset < m_pWeaponIcons[iRow].Count(); iPreset++ )
 	{
-		CTFAdvItemButton *m_pWeaponButton = m_pWeaponIcons[iRow][iPreset];
+		CTFItemButton *m_pWeaponButton = m_pWeaponIcons[iRow][iPreset];
 		int _x, _y;
 		m_pWeaponButton->GetPos( _x, _y );
 		int x = ( iPreset - m_RawIDPos[iRow] ) * ( PANEL_WIDE + PANEL_X_OFFSET );
@@ -414,7 +416,7 @@ void CTFLoadoutPanel::ResetRows()
 		m_RawIDPos[iSlot] = 0;
 		for ( int iPreset = 0; iPreset < m_pWeaponIcons[iSlot].Count(); iPreset++ )
 		{
-			CTFAdvItemButton *m_pWeaponButton = m_pWeaponIcons[iSlot][iPreset];
+			CTFItemButton *m_pWeaponButton = m_pWeaponIcons[iSlot][iPreset];
 			m_pWeaponButton->SetPos( iPreset * ( PANEL_WIDE + PANEL_X_OFFSET ), iSlot * ( PANEL_TALL + PANEL_Y_OFFSET ) );
 		}
 	}
@@ -645,14 +647,14 @@ void CTFLoadoutPanel::DefaultLayout()
 				if ( iColumn >= m_pWeaponIcons[iRow].Count() )
 				{
 					// Out of weapon icons, add a new one.
-					CTFAdvItemButton *pButton = new CTFAdvItemButton( m_pWeaponSetPanel, "WeaponIcons", "DUK" );
+					CTFItemButton *pButton = new CTFItemButton( m_pWeaponSetPanel, "WeaponIcons", "DUK" );
 					pButton->MakeReadyForUse();
 					SetupWeaponIcon( pButton, iRow, iColumn );
 
 					m_pWeaponIcons[iRow].AddToTail( pButton );
 				}
 
-				CTFAdvItemButton *pWeaponButton = m_pWeaponIcons[iRow][iColumn];
+				CTFItemButton *pWeaponButton = m_pWeaponIcons[iRow][iColumn];
 				CEconItemView *pItem = NULL;
 
 				if ( iSlot != -1 )

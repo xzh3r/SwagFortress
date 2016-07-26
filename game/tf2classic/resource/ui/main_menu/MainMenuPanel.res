@@ -12,39 +12,39 @@
 		"pinCorner"			"0"
 		"visible"			"1"
 		"enabled"			"1"
-	}	
+	}
 	
 	"FakeBGImage"
 	{
 		"ControlName"	"ImagePanel"
 		"fieldName"		"FakeBGImage"
 		"xpos"			"0"
-		"ypos"			"0"	
-		"zpos"			"200"		
+		"ypos"			"0"
+		"zpos"			"200"
 		"wide"			"f0"
 		"tall"			"f0"
 		"visible"		"0"
 		"enabled"		"1"
 		"image"			"../console/background03_widescreen"
 		"alpha"			"255"
-		"scaleImage"	"1"	
-	}	
+		"scaleImage"	"1"
+	}
 	
 	"Logo"
 	{
 		"ControlName"	"ImagePanel"
 		"fieldName"		"Logo"
 		"xpos"			"15"
-		"ypos"			"15"	
-		"zpos"			"3"		
+		"ypos"			"15"
+		"zpos"			"3"
 		"wide"			"450"
 		"tall"			"225"
 		"visible"		"1"
 		"enabled"		"1"
-		"image"			"../vgui/main_menu/TF2_Classic_Logo_NoCircle"
+		"image"			"main_menu/TF2_Classic_Logo_NoCircle"
 		"alpha"			"255"
-		"scaleImage"	"1"	
-	}	
+		"scaleImage"	"1"
+	}
 	
 	"LogoCircle"
 	{
@@ -106,7 +106,7 @@
 		"map_width"			"115"
 		"scroll_width"		"3"
 		"border"			"MainMenuAdvButtonDepressed"
-	}	
+	}
 	
 	"AvatarBG"
 	{
@@ -136,9 +136,9 @@
 		"visible"		"1"
 		"enabled"		"1"
 		"image"			""
-		"scaleImage"		"1"	
+		"scaleImage"		"1"
 		"color_outline"		"52 48 45 255"
-	}	
+	}
 	
 	"WelcomeBG"
 	{
@@ -194,7 +194,7 @@
 		"textAlignment"		"west"
 		"font"				"HudFontMediumSmallBold_Shadow"
 		"fgcolor"			"AdvTextDefault"
-	}	
+	}
 	
 	"NicknameLabel"
 	{
@@ -225,7 +225,7 @@
 		"wide"					"250"
 		"tall"					"30"
 		"visible"				"1"
-		"enabled"				"1"		
+		"enabled"				"1"
 		"command"				"gamemenucommand OpenServerBrowser"
 		"labelText" 			"#GameUI_GameMenu_FindServers"
 		"xshift" 			"10"
@@ -241,8 +241,9 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_server_browser"
-			"imagewidth"		"18"	
+			"image"			"glyph_server_browser"
+			"scaleImage"		"1"
+			"imagewidth"		"18"
 		}
 	}
 	
@@ -257,7 +258,7 @@
 		"tall"					"24"
 		"visible"				"1"
 		"enabled"				"1"
-		"command"				"gamemenucommand OpenCreateMultiplayerGameDialog"	
+		"command"				"gamemenucommand OpenCreateMultiplayerGameDialog"
 		"labelText" 		""
 		"tooltip" 			"Create Server"
 		"textAlignment"		"west"
@@ -270,8 +271,9 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_create"
-			"imagewidth"		"16"	
+			"image"			"glyph_create"
+			"scaleImage"		"1"
+			"imagewidth"		"16"
 		}
 	}
 	
@@ -286,7 +288,7 @@
 		"tall"					"30"
 		"visible"				"1"
 		"enabled"				"1"
-		"command"				"newloadout"	
+		"command"				"newloadout"
 		"labelText" 		"Loadout"
 		"xshift" 			"10"
 		"yshift" 			"0"
@@ -301,8 +303,9 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_items"
-			"imagewidth"		"18"	
+			"image"			"glyph_items"
+			"scaleImage"		"1"
+			"imagewidth"		"18"
 		}
 	}
 	
@@ -317,11 +320,11 @@
 		"tall"					"30"
 		"visible"				"1"
 		"enabled"				"1"
-		"command"				"newoptionsdialog"	
+		"command"				"newoptionsdialog"
 		"labelText" 		"#GameUI_GameMenu_Options"
 		"xshift" 			"10"
-		"yshift" 			"0"	
-		"textAlignment"		"west"	
+		"yshift" 			"0"
+		"textAlignment"		"west"
 		"font"				"HudFontSmallBold"
 		"defaultFgColor_override"		"MainMenuTextDefault"
 		"armedFgColor_override"			"MainMenuTextArmed"
@@ -332,15 +335,16 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_options"
+			"image"			"glyph_options"
+			"scaleImage"		"1"
 			"imagewidth"		"18"
 		}
-	}			
+	}
 	
 	"OptionsOldButton"
 	{
 		"ControlName"			"CTFButton"
-		"fieldName"				"OptionsOldButton"		
+		"fieldName"				"OptionsOldButton"
 		"xpos"					"258"
 		"ypos"					"273"
 		"zpos"					"6"
@@ -358,13 +362,14 @@
 		"depressedFgColor_override"		"MainMenuTextDefault"
 		"border_default"				"MainMenuAdvButtonDepressed"
 		"border_depressed"				"MainMenuAdvButton"
-
+		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_steamworkshop"
+			"image"			"glyph_steamworkshop"
+			"scaleImage"		"1"
 			"imagewidth"		"16"
 		}
-	}	
+	}
 	
 	"QuitButton"
 	{
@@ -377,7 +382,7 @@
 		"tall"					"30"
 		"visible"				"1"
 		"enabled"				"1"
-		"command"				"newquit"		
+		"command"				"newquit"
 		"labelText" 		"#GameUI_GameMenu_Quit"
 		"xshift" 			"10"
 		"yshift" 			"0"
@@ -392,10 +397,11 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_quit"
+			"image"			"glyph_quit"
+			"scaleImage"		"1"
 			"imagewidth"		"18"
 		}
-	}		
+	}
 	
 	"StatsButton"
 	{
@@ -418,13 +424,14 @@
 		"border_default"	"AdvRoundedButtonDefault"
 		"border_armed"		"AdvRoundedButtonArmed"
 		"border_depressed"	"AdvRoundedButtonDepressed"
-
+		
 		"SubImage"
 		{
-			"image" 			"../vgui/main_menu/glyph_stats"
+			"image"		"main_menu/glyph_stats"
+			"scaleImage"		"1"
 			"imagewidth"		"16"
 		}
-	}	
+	}
 	
 
 	"MusicToggleCheck"
@@ -441,6 +448,7 @@
 		"labelText" 		""
 		"cvar_name"			"tf2c_mainmenu_music"
 		"autochange"			"1"
+		"inverted"			"1"
 		
 		"labelText" 		""
 		"tooltip" 			"Music Toggle"
@@ -452,14 +460,16 @@
 		
 		"SubImage"
 		{
-			"image" 		"../vgui/main_menu/glyph_speaker"
+			"image"			"main_menu/glyph_speaker"
+			"scaleImage"		"1"
 			"imagewidth"		"16"
 		}
 		"SubCheckImage"
 		{
-			"image" 		"../vgui/main_menu/glyph_disabled"	
+			"image" 		"main_menu/glyph_disabled"
+			"scaleImage"	"1"
 		}
-	}	
+	}
 	
 	"RandomMusicButton"
 	{
@@ -473,7 +483,7 @@
 		"visible"			"1"
 		"enabled"			"1"
 		"labelText" 		""
-		"command"			"randommusic"			
+		"command"			"randommusic"
 		
 		"labelText" 		""
 		"tooltip" 			"Random music"
@@ -485,10 +495,10 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/main_menu/glyph_random"
+			"image" 			"main_menu/glyph_random"
 			"imagewidth"		"16"
 		}
-	}	
+	}
 	
 
 	"BlogToggleCheck"
@@ -505,7 +515,7 @@
 		"labelText" 		""
 		"cvar_name"			"tf2c_mainmenu_showblog"
 		"autochange"			"1"
-
+		"inverted"			"1"
 		"tooltip" 			"Blog panel Toggle"
 		"textAlignment"		"center"
 		"font"				"MenuSmallFont"
@@ -515,14 +525,16 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_tv"
+			"image" 			"glyph_tv"
+			"scaleImage"		"1"
 			"imagewidth"		"16"
 		}
 		"SubCheckImage"
 		{
-			"image" 		"../vgui/main_menu/glyph_disabled"
+			"image" 		"main_menu/glyph_disabled"
+			"scaleImage"	"1"
 		}
-	}	
+	}
 	
 	"NotificationButton"
 	{
@@ -535,7 +547,7 @@
 		"tall"				"20"
 		"visible"			"0"
 		"enabled"			"1"
-		"command"			"shownotification"	
+		"command"			"shownotification"
 		
 		"labelText" 		""
 		"tooltip" 			"Show notification"
@@ -544,13 +556,14 @@
 		"border_default"	"AdvRoundedButtonDefault"
 		"border_armed"		"AdvRoundedButtonArmed"
 		"border_depressed"	"AdvRoundedButtonDepressed"
-
+		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_alert"
+			"image" 			"glyph_alert"
+			"scaleImage"		"1"
 			"imagewidth"		"18"
-		}		
-	}		
+		}
+	}
 	
 	"VersionLabel"
 	{
@@ -569,7 +582,7 @@
 		"textAlignment"		"north-east"
 		"fgcolor"			"HudOffWhite"
 		"font"				"MenuSmallFont"
-	}	
+	}
 	
 	"TestButton"
 	{
@@ -585,11 +598,10 @@
 		"labelText" 		"Test"
 		"bgvisible"			"1"
 		"textAlignment"		"center"
-		"command"			"testnotification"	
+		"command"			"testnotification"
 		"DefaultTextColor"		"MainMenuTextDefault"
 		"ArmedTextColor"		"MainMenuTextArmed"
-		"DepressedTextColor"	"MainMenuTextDepressed"		
+		"DepressedTextColor"	"MainMenuTextDepressed"
 		"font"				"HudFontSmallBold"
-	}				
+	}
 }
-		

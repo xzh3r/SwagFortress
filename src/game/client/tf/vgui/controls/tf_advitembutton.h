@@ -9,21 +9,21 @@
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-class CTFAdvItemButton : public CTFButton
+class CTFItemButton : public CTFButton
 {
 	friend class CTFButton;
 public:
-	DECLARE_CLASS_SIMPLE(CTFAdvItemButton, CTFButton);
+	DECLARE_CLASS_SIMPLE( CTFItemButton, CTFButton );
 
-	CTFAdvItemButton(vgui::Panel *parent, const char *panelName, const char *text);
-	~CTFAdvItemButton();
+	CTFItemButton( vgui::Panel *parent, const char *panelName, const char *text );
+	~CTFItemButton();
 
 	virtual void Init();
 	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
 	virtual void PerformLayout();
-	virtual void ShowToolTip();
+	virtual void ShowToolTip( bool bShow );
 
-	void SetItemDefinition(CEconItemDefinition *pItemData);
+	void SetItemDefinition( CEconItemDefinition *pItemData );
 	void SetLoadoutSlot( int iSlot, int iPreset );
 
 protected:

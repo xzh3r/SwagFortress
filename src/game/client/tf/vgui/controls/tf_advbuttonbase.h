@@ -91,7 +91,7 @@ public:
 	virtual void OnCursorEntered();
 	virtual void OnMousePressed( vgui::MouseCode code );
 	virtual void OnMouseReleased( vgui::MouseCode code );
-	virtual MouseState GetState() { return iState; };
+	virtual MouseState GetState() { return m_iMouseState; };
 	virtual void SetArmed( bool bState );
 	virtual void SetSelected( bool bState );
 	
@@ -104,7 +104,7 @@ public:
 	virtual void SetImageSize( int iWide, int iTall );
 	virtual int GetImageWidth( void ) { return m_iImageWidth; }
 
-	virtual void ShowToolTip( void );
+	virtual void ShowToolTip( bool bShow );
 	virtual void SetToolTip( const char *pszText );
 
 protected:
@@ -112,7 +112,7 @@ protected:
 	vgui::IBorder			*_armedBorder;
 	vgui::IBorder			*_selectedBorder;
 	bool			m_bBorderVisible;
-	MouseState		iState;
+	MouseState		m_iMouseState;
 
 	vgui::ImagePanel *m_pButtonImage;
 	int				m_iImageWidth;

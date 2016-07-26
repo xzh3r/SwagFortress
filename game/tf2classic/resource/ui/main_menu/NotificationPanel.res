@@ -37,7 +37,8 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/glyph_close_x"
+			"image" 			"glyph_close_x"
+			"scaleImage"		"1"
 			"imagewidth"		"24"
 		}
 	}	
@@ -64,7 +65,8 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/blog_back_solid"
+			"image" 			"blog_back_solid"
+			"scaleImage"		"1"
 			"imagewidth"		"24"
 		}
 	}	
@@ -91,7 +93,8 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/blog_forward_solid"
+			"image" 			"blog_forward_solid"
+			"scaleImage"		"1"
 			"imagewidth"		"24"
 		}
 	}	
@@ -118,7 +121,8 @@
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/icon_trash_on"
+			"image" 			"icon_trash_on"
+			"scaleImage"		"1"
 			"imagewidth"		"24"
 		}
 	}	
