@@ -15,7 +15,7 @@
 
 class CPanelListPanel;
 class CTFAdvButton;
-class CCvarToggleCheckButton;
+class CTFCvarToggleCheckButton;
 class CCvarSlider;
 
 namespace vgui
@@ -55,20 +55,20 @@ private:
 
 	vgui::Label					*pTitleMouse;
 	vgui::Label					*pTitleJoystick;
-	CCvarToggleCheckButton		*m_pReverseMouseCheckBox;
-	CCvarToggleCheckButton		*m_pRawInputCheckBox;
-	CCvarToggleCheckButton		*m_pMouseFilterCheckBox;
+	CTFCvarToggleCheckButton		*m_pReverseMouseCheckBox;
+	CTFCvarToggleCheckButton		*m_pRawInputCheckBox;
+	CTFCvarToggleCheckButton		*m_pMouseFilterCheckBox;
 
 	CCvarSlider					*m_pMouseSensitivitySlider;
     vgui::TextEntry             *m_pMouseSensitivityLabel;
 
-	CCvarToggleCheckButton		*m_pMouseAccelCheckBox;
+	CTFCvarToggleCheckButton		*m_pMouseAccelCheckBox;
 	CCvarSlider					*m_pMouseAccelSlider;
 
-	CCvarToggleCheckButton		*m_pJoystickCheckBox;
-	CCvarToggleCheckButton		*m_pJoystickSouthpawCheckBox;
-	CCvarToggleCheckButton		*m_pQuickInfoCheckBox;
-	CCvarToggleCheckButton		*m_pReverseJoystickCheckBox;
+	CTFCvarToggleCheckButton		*m_pJoystickCheckBox;
+	CTFCvarToggleCheckButton		*m_pJoystickSouthpawCheckBox;
+	CTFCvarToggleCheckButton		*m_pQuickInfoCheckBox;
+	CTFCvarToggleCheckButton		*m_pReverseJoystickCheckBox;
 
 	CCvarSlider					*m_pJoyYawSensitivitySlider;
 	vgui::Label					*m_pJoyYawSensitivityPreLabel;

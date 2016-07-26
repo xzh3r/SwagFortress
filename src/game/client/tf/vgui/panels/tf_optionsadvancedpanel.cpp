@@ -14,7 +14,7 @@
 #include "controls/tf_advslider.h"
 #include "controls/tf_advbutton.h"
 #include "controls/tf_advpanellistpanel.h"
-#include "controls/tf_advcheckbutton.h"
+#include "controls/tf_cvartogglecheckbutton.h"
 #include "controls/tf_advbutton.h"
 #include "controls/tf_scriptobject.h"
 #include "filesystem.h"
@@ -108,7 +108,7 @@ void CTFOptionsAdvancedPanel::GatherCurrentValues()
 		return;
 
 	// OK
-	CTFAdvCheckButton *pBox;
+	CTFCheckButton *pBox;
 	TextEntry *pEdit;
 	ComboBox *pCombo;
 	CTFAdvSlider *pScroll;
@@ -135,8 +135,8 @@ void CTFOptionsAdvancedPanel::GatherCurrentValues()
 		switch (pObj->type)
 		{
 		case O_BOOL:
-			pBox = (CTFAdvCheckButton *)pList->pControl;
-			sprintf(szValue, "%d", pBox->IsSelected() ? 1 : 0);
+			pBox = (CTFCheckButton *)pList->pControl;
+			sprintf(szValue, "%d", pBox->IsChecked() ? 1 : 0);
 			break;
 		case O_NUMBER:
 			pEdit = (TextEntry *)pList->pControl;
@@ -201,7 +201,7 @@ void CTFOptionsAdvancedPanel::CreateControls()
 	pObj = m_pDescription->pObjList;
 	
 	mpcontrol_t	*pCtrl;
-	CTFAdvCheckButton *pBox;
+	CTFCvarToggleCheckButton *pBox;
 	TextEntry *pEdit;
 	ComboBox *pCombo;
 	CTFAdvSlider *pScroll;
@@ -227,14 +227,13 @@ void CTFOptionsAdvancedPanel::CreateControls()
 		switch (pCtrl->type)
 		{
 		case O_BOOL:
-			pBox = new CTFAdvCheckButton(pCtrl, "DescCheckButton", pObj->prompt);
+			pBox = new CTFCvarToggleCheckButton( pCtrl, "DescCheckButton", pObj->prompt, pObj->cvarname );
 			pBox->MakeReadyForUse();
 
-			pBox->SetSelected(pObj->fcurValue != 0.0f ? true : false);
-			pBox->SetCommandString(pObj->cvarname);
-			pBox->GetButton()->SetFont( hFont );
+			pBox->SetFont( hFont );
 
-			pBox->SetToolTip( pObj->tooltip );
+			// FIXME: Add tooltips to CTFButtonBase.
+			//pBox->SetToolTip( pObj->tooltip );
 
 			pCtrl->pControl = pBox;
 			break;
@@ -281,7 +280,7 @@ void CTFOptionsAdvancedPanel::CreateControls()
 
 			pTitle->SetBorder( GETSCHEME()->GetBorder( "AdvSettingsTitleBorder" ) );
 			pTitle->SetFont( GETSCHEME()->GetFont( "MenuSmallFont", true ) );
-			pTitle->SetFgColor( GETSCHEME()->GetColor( DEFAULT_COLOR, COLOR_WHITE ) );
+			pTitle->SetFgColor( GETSCHEME()->GetColor( ADVBUTTON_DEFAULT_COLOR, COLOR_WHITE ) );
 
 			pCtrl->pControl = pTitle;
 			break;

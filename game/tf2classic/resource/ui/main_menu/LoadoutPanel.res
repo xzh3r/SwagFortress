@@ -19,10 +19,10 @@
 	{
 		"ControlName"		"ImagePanel"
 		"fieldName"			"BackgroundImage"
-		"xpos"				"100"
+		"xpos"				"c-320"
 		"ypos"				"20"
 		"zpos"				"-2"
-		"wide"				"f+200"
+		"wide"				"640"
 		"tall"				"f+40"
 		"autoResize"		"0"
 		"pinCorner"			"0"
@@ -307,7 +307,7 @@
 		"tall"				"63"
 		"visible"			"1"
 		"enabled"			"1"
-		"bordervisible"		"0"		
+		"bordervisible"		"0"
 		"offset"			"3"
 	
 	
@@ -318,7 +318,6 @@
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
-			"bordervisible"		"0"		
 			"command"			"select_scout"
 			
 			"SubButton"
@@ -327,12 +326,13 @@
 				"textAlignment"		"south"
 				"font"				"TallTextSmall"
 				"selectedFgColor_override"		"HudProgressBarActive"
-			}
-			
-			"SubImage"
-			{
-				"image" 			"class_icons/scout"	
-				"imagewidth"		"55"
+				"bordervisible"		"0"
+				
+				"SubImage"
+				{
+					"image" 			"class_icons/scout"	
+					"imagewidth"		"55"
+				}
 			}
 		}
 	
@@ -343,7 +343,6 @@
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
-			"bordervisible"		"0"		
 			"command"			"select_soldier"
 			
 			"SubButton"
@@ -352,12 +351,13 @@
 				"textAlignment"		"south"
 				"font"				"TallTextSmall"
 				"selectedFgColor_override"		"HudProgressBarActive"
-			}
-			
-			"SubImage"
-			{
-				"image" 			"class_icons/soldier"	
-				"imagewidth"		"55"
+				"bordervisible"		"0"
+				
+				"SubImage"
+				{
+					"image" 			"class_icons/soldier"	
+					"imagewidth"		"55"
+				}
 			}
 		}
 	
@@ -368,7 +368,6 @@
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
-			"bordervisible"		"0"	
 			"command"			"select_pyro"
 			
 			"SubButton"
@@ -377,12 +376,13 @@
 				"textAlignment"		"south"
 				"font"				"TallTextSmall"
 				"selectedFgColor_override"		"HudProgressBarActive"
-			}
-			
-			"SubImage"
-			{
-				"image" 			"class_icons/pyro"	
-				"imagewidth"		"55"
+				"bordervisible"		"0"
+				
+				"SubImage"
+				{
+					"image" 			"class_icons/pyro"	
+					"imagewidth"		"55"
+				}
 			}
 		}
 	
@@ -393,7 +393,6 @@
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
-			"bordervisible"		"0"	
 			"command"			"select_demoman"
 			
 			"SubButton"
@@ -402,12 +401,13 @@
 				"textAlignment"		"south"
 				"font"				"TallTextSmall"
 				"selectedFgColor_override"		"HudProgressBarActive"
-			}
-			
-			"SubImage"
-			{
-				"image" 			"class_icons/demo"	
-				"imagewidth"		"55"
+				"bordervisible"		"0"
+				
+				"SubImage"
+				{
+					"image" 			"class_icons/demo"	
+					"imagewidth"		"55"
+				}
 			}
 		}
 	
@@ -418,7 +418,6 @@
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
-			"bordervisible"		"0"	
 			"command"			"select_heavyweapons"
 			
 			"SubButton"
@@ -427,12 +426,13 @@
 				"textAlignment"		"south"
 				"font"				"TallTextSmall"
 				"selectedFgColor_override"		"HudProgressBarActive"
-			}
-			
-			"SubImage"
-			{
-				"image" 			"class_icons/heavy"	
-				"imagewidth"		"55"
+				"bordervisible"		"0"
+				
+				"SubImage"
+				{
+					"image" 			"class_icons/heavy"	
+					"imagewidth"		"55"
+				}
 			}
 		}
 	
@@ -443,7 +443,6 @@
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
-			"bordervisible"		"0"	
 			"command"			"select_engineer"
 			
 			"SubButton"
@@ -452,12 +451,13 @@
 				"textAlignment"		"south"
 				"font"				"TallTextSmall"
 				"selectedFgColor_override"		"HudProgressBarActive"
-			}
-			
-			"SubImage"
-			{
-				"image" 			"class_icons/engineer"	
-				"imagewidth"		"55"
+				"bordervisible"		"0"
+				
+				"SubImage"
+				{
+					"image" 			"class_icons/engineer"	
+					"imagewidth"		"55"
+				}
 			}
 		}
 	
@@ -468,7 +468,6 @@
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
-			"bordervisible"		"0"	
 			"command"			"select_medic"
 			
 			"SubButton"
@@ -477,12 +476,13 @@
 				"textAlignment"		"south"
 				"font"				"TallTextSmall"
 				"selectedFgColor_override"		"HudProgressBarActive"
-			}
-			
-			"SubImage"
-			{
-				"image" 			"class_icons/medic"	
-				"imagewidth"		"55"
+				"bordervisible"		"0"	
+				
+				"SubImage"
+				{
+					"image" 			"class_icons/medic"	
+					"imagewidth"		"55"
+				}
 			}
 		}
 	
@@ -493,7 +493,6 @@
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
-			"bordervisible"		"0"	
 			"command"			"select_sniper"
 			
 			"SubButton"
@@ -502,12 +501,13 @@
 				"textAlignment"		"south"
 				"font"				"TallTextSmall"
 				"selectedFgColor_override"		"HudProgressBarActive"
-			}
-			
-			"SubImage"
-			{
-				"image" 			"class_icons/sniper"	
-				"imagewidth"		"55"
+				"bordervisible"		"0"
+				
+				"SubImage"
+				{
+					"image" 			"class_icons/sniper"	
+					"imagewidth"		"55"
+				}
 			}
 		}
 	
@@ -518,7 +518,6 @@
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
-			"bordervisible"		"0"	
 			"command"			"select_spy"
 			
 			"SubButton"
@@ -527,12 +526,13 @@
 				"textAlignment"		"south"
 				"font"				"TallTextSmall"
 				"selectedFgColor_override"		"HudProgressBarActive"
-			}
-			
-			"SubImage"
-			{
-				"image" 			"class_icons/spy"	
-				"imagewidth"		"55"
+				"bordervisible"		"0"
+				
+				"SubImage"
+				{
+					"image" 			"class_icons/spy"	
+					"imagewidth"		"55"
+				}
 			}
 		}
 	
@@ -543,7 +543,6 @@
 			"scaleimage"		"0"	
 			"visible"			"1"
 			"enabled"			"1"
-			"bordervisible"		"0"	
 			"command"			"select_merc"
 			
 			"SubButton"
@@ -552,12 +551,13 @@
 				"textAlignment"		"south"
 				"font"				"TallTextSmall"
 				"selectedFgColor_override"		"HudProgressBarActive"
-			}
-			
-			"SubImage"
-			{
-				"image" 			"class_icons/allclass"	
-				"imagewidth"		"55"
+				"bordervisible"		"0"
+				
+				"SubImage"
+				{
+					"image" 			"class_icons/allclass"	
+					"imagewidth"		"55"
+				}
 			}
 		}
 	}

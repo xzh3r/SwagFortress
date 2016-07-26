@@ -17,7 +17,7 @@
 class CPanelListPanel;
 class CLabeledCommandComboBox;
 class CCvarSlider;
-class CCvarToggleCheckButton;
+class CTFCvarToggleCheckButton;
 class CTFAdvSlider;
 class CTFAdvCheckButton;
 typedef struct IVoiceTweak_s IVoiceTweak;
@@ -76,7 +76,7 @@ private:
    CTFAdvSlider			*m_pMicrophoneVolume;
    vgui::Label             *m_pReceiveSliderLabel;
    CCvarSlider             *m_pReceiveVolume;
-   CCvarToggleCheckButton  *m_pVoiceEnableCheckButton;
+   CTFCvarToggleCheckButton  *m_pVoiceEnableCheckButton;
    int                     m_nMicVolumeValue;
    bool                    m_bMicBoostSelected;
    float                   m_fReceiveVolume;

@@ -80,7 +80,6 @@ void CAdvTabs::ApplySettings(KeyValues *inResourceData)
 			pButton->SetPos(i * (iWide + iOffset), 0);
 			pButton->SetZPos(i - 1);
 			pButton->SetSize(iWide, iTall);
-			pButton->SetShouldScaleImage(true);
 		}
 	}
 

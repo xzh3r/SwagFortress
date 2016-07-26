@@ -13,6 +13,15 @@ using namespace vgui;
 
 DECLARE_BUILD_FACTORY_DEFAULT_TEXT( CTFAdvSlider, CTFAdvButtonBase );
 
+#define ADVSLIDER_BG		"AdvSlider"
+
+//#define ADVSLIDER_DEFAULT_BORDER	"TFFatLineBorder"
+//#define ADVSLIDER_ARMED_BORDER		"TFFatLineBorderOpaque"
+//#define ADVSLIDER_DEPRESSED_BORDER	"TFFatLineBorderRedBGOpaque"
+#define ADVSLIDER_DEFAULT_BORDER		"AdvRoundedButtonDefault"
+#define ADVSLIDER_ARMED_BORDER		"AdvRoundedButtonArmed"
+#define ADVSLIDER_DEPRESSED_BORDER	"AdvRoundedButtonDepressed"
+
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
@@ -22,6 +31,7 @@ CTFAdvSlider::CTFAdvSlider( vgui::Panel *parent, const char *panelName, const ch
 	m_pTitleLabel = new CExLabel( this, "TitleLabel", text );
 	m_pValueLabel = new CExLabel( this, "ValueLabel", "0" );
 	m_pBGBorder = new EditablePanel( this, "BackgroundPanel" );
+
 	Init();
 }
 
@@ -30,10 +40,6 @@ CTFAdvSlider::CTFAdvSlider( vgui::Panel *parent, const char *panelName, const ch
 //-----------------------------------------------------------------------------
 CTFAdvSlider::~CTFAdvSlider()
 {
-	delete m_pButton;
-	delete m_pTitleLabel;
-	delete m_pValueLabel;
-	delete m_pBGBorder;
 }
 
 //-----------------------------------------------------------------------------
@@ -42,14 +48,11 @@ CTFAdvSlider::~CTFAdvSlider()
 void CTFAdvSlider::Init()
 {
 	BaseClass::Init();
-	Q_strncpy( pDefaultBG, DEFAULT_BG, sizeof( pDefaultBG ) );
-	Q_strncpy( pArmedBG, ARMED_BG, sizeof( pArmedBG ) );
-	Q_strncpy( pDepressedBG, DEPRESSED_BG, sizeof( pDepressedBG ) );
+
 	m_flMinValue = 0.0;
 	m_flMaxValue = 100.0;
 	m_flLabelWidth = 0.0;
 	m_flValue = -1.0;
-	m_bBorderVisible = false;
 	m_bVertical = false;
 	m_bValueVisible = true;
 	m_bShowFrac = false;
@@ -76,14 +79,30 @@ void CTFAdvSlider::ApplySettings( KeyValues *inResourceData )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CTFAdvSlider::ApplySchemeSettings( vgui::IScheme *pScheme )
+void CTFAdvSlider::ApplySchemeSettings( IScheme *pScheme )
 {
 	BaseClass::ApplySchemeSettings( pScheme );
 
-	m_pTitleLabel->SetFgColor( pScheme->GetColor( pDefaultColor, Color( 255, 255, 255, 255 ) ) );
+	m_pTitleLabel->SetFgColor( pScheme->GetColor( ADVBUTTON_DEFAULT_COLOR, Color( 255, 255, 255, 255 ) ) );
 	m_pTitleLabel->SetFont( m_pButton->GetFont() );
-	m_pValueLabel->SetFgColor( pScheme->GetColor( pDefaultColor, Color( 255, 255, 255, 255 ) ) );
+	m_pValueLabel->SetFgColor( pScheme->GetColor( ADVBUTTON_DEFAULT_COLOR, Color( 255, 255, 255, 255 ) ) );
 	m_pValueLabel->SetFont( m_pButton->GetFont() );
+
+	m_pButton->SetZPos( 3 );
+
+	m_pBGBorder->SetBorder( pScheme->GetBorder( ADVSLIDER_BG ) );
+	m_pBGBorder->SetVisible( true );
+	m_pBGBorder->SetZPos( 1 );
+
+	m_pTitleLabel->SetVisible( true );
+	m_pTitleLabel->SetPos( 0, 0 );
+	m_pTitleLabel->SetTextInset( 5, 0 );
+	m_pTitleLabel->SetZPos( 3 );
+	m_pTitleLabel->SetContentAlignment( Label::a_west );
+
+	m_pValueLabel->SetVisible( m_bValueVisible );
+	m_pValueLabel->SetZPos( 3 );
+	m_pValueLabel->SetContentAlignment( Label::a_center );
 }
 
 //-----------------------------------------------------------------------------
@@ -93,42 +112,29 @@ void CTFAdvSlider::PerformLayout()
 {
 	BaseClass::PerformLayout();
 
-	float fBorder = ( m_flLabelWidth > 0.0 ? m_flLabelWidth : GetWide() / 2.0 + XRES( 6 ) );
-	float fShift = XRES( 16 );
+	float fBorder = ( m_flLabelWidth > 0.0 ? m_flLabelWidth : GetWide() / 2.0 + YRES( 8 ) );
+	float fShift = YRES( 20 );
 
 	SetBorder( NULL );
+
 	m_pButton->SetPos( fBorder, 0 );
-	m_pButton->SetZPos( 3 );
 	if ( !m_bVertical )
-		m_pButton->SetSize( XRES( 8 ), GetTall() );  //scroll wide
+		m_pButton->SetSize( YRES( 10 ), GetTall() );  //scroll wide
 	else
-		m_pButton->SetSize( GetPanelWide(), YRES( 8 ) );  //scroll wide	
+		m_pButton->SetSize( GetPanelWide(), YRES( 10 ) );  //scroll wide	
 
 	m_pBGBorder->SetPos( fBorder, 0 );
 	m_pBGBorder->SetWide( GetWide() - fBorder - fShift );
-	m_pBGBorder->SetBorder( GETSCHEME()->GetBorder( pSelectedBG ) );
-	m_pBGBorder->SetVisible( true );
-	m_pBGBorder->SetZPos( 1 );
 	m_pBGBorder->SetTall( GetTall() );
 
-	m_pTitleLabel->SetVisible( true );
-	m_pTitleLabel->SetPos( 0, 0 );
-	m_pTitleLabel->SetTextInset( 5, 0 );
-	m_pTitleLabel->SetZPos( 3 );
 	m_pTitleLabel->SetWide( fBorder );
 	m_pTitleLabel->SetTall( GetTall() );
-	//pTitleLabel->SetFont(GetFont());
-	m_pTitleLabel->SetContentAlignment( vgui::Label::a_west );
 
-	m_pValueLabel->SetVisible( m_bValueVisible );
 	m_pValueLabel->SetPos( GetWide() - fShift, 0 );
-	m_pValueLabel->SetZPos( 3 );
 	m_pValueLabel->SetWide( fShift );
 	m_pValueLabel->SetTall( GetTall() );
-	//pValueLabel->SetFont(GetFont());
-	m_pValueLabel->SetContentAlignment( vgui::Label::a_center );
 
-	//Msg("LAYOUT slide %s\n", m_szText);
+
 	UpdateValue();
 }
 
@@ -324,20 +330,19 @@ void CTFScrollButton::ApplySettings( KeyValues *inResourceData )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CTFScrollButton::ApplySchemeSettings( vgui::IScheme *pScheme )
+void CTFScrollButton::ApplySchemeSettings( IScheme *pScheme )
 {
 	BaseClass::ApplySchemeSettings( pScheme );
 
-	SetDefaultColor( pScheme->GetColor( DEFAULT_COLOR, Color( 255, 255, 255, 255 ) ), Color( 0, 0, 0, 0 ) );
-	SetArmedColor( pScheme->GetColor( ARMED_COLOR, Color( 255, 255, 255, 255 ) ), Color( 0, 0, 0, 0 ) );
-	SetDepressedColor( pScheme->GetColor( DEPRESSED_COLOR, Color( 255, 255, 255, 255 ) ), Color( 0, 0, 0, 0 ) );
-	SetSelectedColor( pScheme->GetColor( DEPRESSED_COLOR, Color( 255, 255, 255, 255 ) ), Color( 0, 0, 0, 0 ) );
-	//pButton->SetFont(pScheme->GetFont(m_szFont, true));
+	SetDefaultColor( pScheme->GetColor( ADVBUTTON_DEFAULT_COLOR, COLOR_WHITE ), Color( 0, 0, 0, 0 ) );
+	SetArmedColor( pScheme->GetColor( ADVBUTTON_ARMED_COLOR, COLOR_WHITE ), Color( 0, 0, 0, 0 ) );
+	SetDepressedColor( pScheme->GetColor( ADVBUTTON_DEPRESSED_COLOR, COLOR_WHITE ), Color( 0, 0, 0, 0 ) );
+	SetSelectedColor( pScheme->GetColor( ADVBUTTON_DEPRESSED_COLOR, COLOR_WHITE ), Color( 0, 0, 0, 0 ) );
 
-	SetDefaultBorder( pScheme->GetBorder( m_pParent->pDefaultBorder ) );
-	SetArmedBorder( pScheme->GetBorder( m_pParent->pArmedBorder ) );
-	SetDepressedBorder( pScheme->GetBorder( m_pParent->pDepressedBorder ) );
-	SetSelectedBorder( pScheme->GetBorder( m_pParent->pDepressedBorder ) );
+	SetDefaultBorder( pScheme->GetBorder( ADVSLIDER_DEFAULT_BORDER ) );
+	SetArmedBorder( pScheme->GetBorder( ADVSLIDER_ARMED_BORDER ) );
+	SetDepressedBorder( pScheme->GetBorder( ADVSLIDER_DEPRESSED_BORDER ) );
+	SetSelectedBorder( pScheme->GetBorder( ADVSLIDER_DEPRESSED_BORDER ) );
 
 	SetArmedSound( "ui/buttonrollover.wav" );
 	SetDepressedSound( "ui/buttonclick.wav" );
@@ -354,7 +359,8 @@ void CTFScrollButton::PerformLayout()
 //-----------------------------------------------------------------------------
 void CTFScrollButton::OnCursorEntered()
 {
-	BaseClass::BaseClass::OnCursorEntered();
+	Button::OnCursorEntered();
+
 	if ( iState != MOUSE_ENTERED && iState != MOUSE_PRESSED )
 	{
 		SetMouseEnteredState( MOUSE_ENTERED );
@@ -366,7 +372,8 @@ void CTFScrollButton::OnCursorEntered()
 //-----------------------------------------------------------------------------
 void CTFScrollButton::OnCursorExited()
 {
-	BaseClass::BaseClass::OnCursorExited();
+	Button::OnCursorExited();
+
 	if ( iState != MOUSE_EXITED && iState != MOUSE_PRESSED )
 	{
 		SetMouseEnteredState( MOUSE_EXITED );
@@ -378,7 +385,8 @@ void CTFScrollButton::OnCursorExited()
 //-----------------------------------------------------------------------------
 void CTFScrollButton::OnMousePressed( vgui::MouseCode code )
 {
-	BaseClass::BaseClass::OnMousePressed( code );
+	Button::OnMousePressed( code );
+
 	if ( code == MOUSE_LEFT && iState != MOUSE_PRESSED )
 	{
 		SetMouseEnteredState( MOUSE_PRESSED );
@@ -390,7 +398,7 @@ void CTFScrollButton::OnMousePressed( vgui::MouseCode code )
 //-----------------------------------------------------------------------------
 void CTFScrollButton::OnMouseReleased( vgui::MouseCode code )
 {
-	BaseClass::BaseClass::OnMouseReleased( code );
+	Button::OnMouseReleased( code );
 
 	if ( m_pParent )
 	{
@@ -414,6 +422,7 @@ void CTFScrollButton::OnMouseReleased( vgui::MouseCode code )
 void CTFScrollButton::SetMouseEnteredState( MouseState flag )
 {
 	BaseClass::SetMouseEnteredState( flag );
+
 	if ( m_pParent->IsEnabled() )
 		m_pParent->SendAnimation( flag );
 }

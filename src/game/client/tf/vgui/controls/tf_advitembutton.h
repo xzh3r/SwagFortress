@@ -8,11 +8,6 @@
 #include "tf_imagepanel.h"
 #include "tf_advbutton.h"
 
-using namespace vgui;
-
-class CTFButton;
-#define pImageColorSelected		(!m_bSelected ? pImageColorDefault : pSelectedColor) 
-
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
@@ -24,7 +19,9 @@ public:
 
 	CTFAdvItemButton(vgui::Panel *parent, const char *panelName, const char *text);
 	~CTFAdvItemButton();
+
 	void Init();
+	void ApplySchemeSettings( vgui::IScheme *pScheme );
 	void PerformLayout();
 	void SendAnimation(MouseState flag);
 	void SetItemDefinition(CEconItemDefinition *pItemData);

@@ -19,12 +19,12 @@ using namespace vgui;
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-DECLARE_BUILD_FACTORY_DEFAULT_TEXT(CTFAdvItemButton, CTFAdvItemButtonBase);
+DECLARE_BUILD_FACTORY_DEFAULT_TEXT( CTFAdvItemButton, CTFAdvItemButtonBase );
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CTFAdvItemButton::CTFAdvItemButton(vgui::Panel *parent, const char *panelName, const char *text) : CTFAdvButton(parent, panelName, text)
+CTFAdvItemButton::CTFAdvItemButton( vgui::Panel *parent, const char *panelName, const char *text ) : CTFAdvButton( parent, panelName, text )
 {
 	Init();
 }
@@ -48,28 +48,37 @@ void CTFAdvItemButton::Init()
 	m_pButton->SetTextInset( 0, -10 );
 }
 
+void CTFAdvItemButton::ApplySchemeSettings( IScheme *pScheme )
+{
+	BaseClass::ApplySchemeSettings( pScheme );
+}
+
 void CTFAdvItemButton::PerformLayout()
 {
 	BaseClass::PerformLayout();
 
-	int inset = YRES(45);
-	int wide = GetWide() - inset;
-	SetImageSize(wide, wide);
-	SetImageInset(inset / 2, -1 * wide / 5);
-	SetShouldScaleImage(true);
+	if ( m_pButton )
+	{
+		int inset = YRES( 45 );
+		int wide = GetWide() - inset;
+
+		m_pButton->SetImageSize( wide, wide );
+		m_pButton->SetImageInset( inset / 2, -1 * wide / 5 );
+	}
 };
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CTFAdvItemButton::SendAnimation(MouseState flag)
+void CTFAdvItemButton::SendAnimation( MouseState flag )
 {
-	BaseClass::SendAnimation(flag);
-	switch (flag)
+	BaseClass::SendAnimation( flag );
+
+	switch ( flag )
 	{
 	case MOUSE_DEFAULT:
 		if ( m_pItemDefinition )
-			MAINMENU_ROOT->ShowItemToolTip( m_pItemDefinition );
+			MAINMENU_ROOT->HideItemToolTip();
 		break;
 	case MOUSE_ENTERED:
 		if ( m_pItemDefinition )
@@ -86,13 +95,13 @@ void CTFAdvItemButton::SendAnimation(MouseState flag)
 	}
 }
 
-void CTFAdvItemButton::SetItemDefinition(CEconItemDefinition *pItemData)
+void CTFAdvItemButton::SetItemDefinition( CEconItemDefinition *pItemData )
 {
 	m_pItemDefinition = pItemData;
 
 	char szIcon[128];
 	Q_snprintf( szIcon, sizeof( szIcon ), "../%s_large", pItemData->image_inventory );
-	SetImage( szIcon );
+	m_pButton->SetImage( szIcon );
 
 	m_pButton->SetText( pItemData->GenerateLocalizedFullItemName() );
 

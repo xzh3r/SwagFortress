@@ -86,7 +86,7 @@
 		"tall"				"335"
 		"visible"			"1"
 		"enabled"			"1"
-		"border"			"MainMenuAdvButtonDepressed"	
+		"border"			"MainMenuAdvButtonDepressed"
 	}
 	
 	"ServerlistPanel"
@@ -105,7 +105,7 @@
 		"ping_width"		"17"
 		"map_width"			"115"
 		"scroll_width"		"3"
-		"border"			"MainMenuAdvButtonDepressed"	
+		"border"			"MainMenuAdvButtonDepressed"
 	}	
 	
 	"AvatarBG"
@@ -225,9 +225,8 @@
 		"wide"					"250"
 		"tall"					"30"
 		"visible"				"1"
-		"enabled"				"1"
-		"bordervisible"			"1"		
-		"command"				"gamemenucommand OpenServerBrowser"		
+		"enabled"				"1"		
+		"command"				"gamemenucommand OpenServerBrowser"
 		
 		"SubButton"
 		{
@@ -238,13 +237,13 @@
 			"font"				"HudFontSmallBold"
 			"defaultFgColor_override"		"MainMenuTextDefault"
 			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDepressed"	
-		}
-		
-		"SubImage"
-		{
-			"image" 			"../vgui/glyph_server_browser"
-			"imagewidth"		"18"	
+			"depressedFgColor_override"		"MainMenuTextDepressed"
+			
+			"SubImage"
+			{
+				"image" 			"../vgui/glyph_server_browser"
+				"imagewidth"		"18"	
+			}
 		}
 	}
 	
@@ -259,7 +258,6 @@
 		"tall"					"24"
 		"visible"				"1"
 		"enabled"				"1"
-		"bordervisible"			"1"
 		"command"				"gamemenucommand OpenCreateMultiplayerGameDialog"
 		
 		"SubButton"
@@ -270,15 +268,15 @@
 			"font"				"HudFontSmallBold"
 			"defaultFgColor_override"		"MainMenuTextArmed"
 			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDefault"	
+			"depressedFgColor_override"		"MainMenuTextDefault"
 			"border_default"				"MainMenuAdvButtonDepressed"
 			"border_depressed"				"MainMenuAdvButton"	
-		}
-		
-		"SubImage"
-		{
-			"image" 			"../vgui/glyph_create"
-			"imagewidth"		"16"	
+			
+			"SubImage"
+			{
+				"image" 			"../vgui/glyph_create"
+				"imagewidth"		"16"	
+			}
 		}
 	}
 	
@@ -293,7 +291,6 @@
 		"tall"					"30"
 		"visible"				"1"
 		"enabled"				"1"
-		"bordervisible"			"1"	
 		"command"				"newloadout"
 		
 		"SubButton"
@@ -305,13 +302,13 @@
 			"font"				"HudFontSmallBold"
 			"defaultFgColor_override"		"MainMenuTextDefault"
 			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDepressed"	
-		}
-		
-		"SubImage"
-		{
-			"image" 			"../vgui/glyph_items"
-			"imagewidth"		"18"	
+			"depressedFgColor_override"		"MainMenuTextDepressed"
+			
+			"SubImage"
+			{
+				"image" 			"../vgui/glyph_items"
+				"imagewidth"		"18"	
+			}
 		}
 	}
 	
@@ -326,7 +323,6 @@
 		"tall"					"30"
 		"visible"				"1"
 		"enabled"				"1"
-		"bordervisible"			"1"	
 		"command"				"newoptionsdialog"
 		
 		"SubButton"
@@ -338,14 +334,14 @@
 			"font"				"HudFontSmallBold"
 			"defaultFgColor_override"		"MainMenuTextDefault"
 			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDepressed"	
+			"depressedFgColor_override"		"MainMenuTextDepressed"
+			
+			"SubImage"
+			{
+				"image" 			"../vgui/glyph_options"
+				"imagewidth"		"18"
+			}
 		}
-		
-		"SubImage"
-		{
-			"image" 			"../vgui/glyph_options"
-			"imagewidth"		"18"
-		}		
 	}			
 	
 	"OptionsOldButton"
@@ -359,27 +355,25 @@
 		"tall"					"24"
 		"visible"				"1"
 		"enabled"				"1"
-		"bordervisible"			"1"	
 		"command"				"gamemenucommand openoptionsdialog"
 		
 		"SubButton"
 		{
 			"labelText" 		""
 			"tooltip" 			"Options"
-			"bordervisible"		"0"
 			"textAlignment"		"west"
 			"font"				"HudFontSmallBold"
 			"defaultFgColor_override"		"MainMenuTextArmed"
 			"armedFgColor_override"			"MainMenuTextArmed"
 			"depressedFgColor_override"		"MainMenuTextDefault"
 			"border_default"				"MainMenuAdvButtonDepressed"
-			"border_depressed"				"MainMenuAdvButton"		
-		}
-		
-		"SubImage"
-		{
-			"image" 			"../vgui/glyph_steamworkshop"
-			"imagewidth"		"16"
+			"border_depressed"				"MainMenuAdvButton"
+
+			"SubImage"
+			{
+				"image" 			"../vgui/glyph_steamworkshop"
+				"imagewidth"		"16"
+			}
 		}
 	}	
 	
@@ -394,26 +388,24 @@
 		"tall"					"30"
 		"visible"				"1"
 		"enabled"				"1"
-		"bordervisible"			"1"	
 		"command"				"newquit"
 		
 		"SubButton"
 		{
 			"labelText" 		"#GameUI_GameMenu_Quit"
-			"bordervisible"		"0"
 			"xshift" 			"10"
 			"yshift" 			"0"
 			"textAlignment"		"west"
 			"font"				"HudFontSmallBold"
 			"defaultFgColor_override"		"MainMenuTextDefault"
 			"armedFgColor_override"			"MainMenuTextArmed"
-			"depressedFgColor_override"		"MainMenuTextDepressed"	
-		}
-		
-		"SubImage"
-		{
-			"image" 			"../vgui/glyph_quit"
-			"imagewidth"		"18"
+			"depressedFgColor_override"		"MainMenuTextDepressed"
+			
+			"SubImage"
+			{
+				"image" 			"../vgui/glyph_quit"
+				"imagewidth"		"18"
+			}
 		}
 	}		
 	
@@ -428,33 +420,31 @@
 		"tall"				"20"
 		"visible"			"1"
 		"enabled"			"1"
-		"bordervisible"		"1"
 		"labelText" 		""
 		"command"			"newstats"
 		
 		"SubButton"
 		{
 			"labelText" 		""
-			"bordervisible"		"0"
 			"tooltip" 			"Stats"
 			"textAlignment"		"center"
 			"font"				"MenuSmallFont"
 			"border_default"	"AdvRoundedButtonDefault"
 			"border_armed"		"AdvRoundedButtonArmed"
-			"border_depressed"	"AdvRoundedButtonDepressed"	
-		}
-		
-		"SubImage"
-		{
-			"image" 			"../vgui/main_menu/glyph_stats"
-			"imagewidth"		"16"
+			"border_depressed"	"AdvRoundedButtonDepressed"
+
+			"SubImage"
+			{
+				"image" 			"../vgui/main_menu/glyph_stats"
+				"imagewidth"		"16"
+			}			
 		}
 	}	
 	
 
 	"MusicToggleCheck"
 	{
-		"ControlName"		"CTFAdvCheckButton"
+		"ControlName"		"CTFCvarToggleCheckButton"
 		"fieldName"			"MusicToggleCheck"
 		"xpos"				"64"		//+19
 		"ypos"				"340"
@@ -463,29 +453,26 @@
 		"tall"				"20"
 		"visible"			"1"
 		"enabled"			"1"
-		"bordervisible"		"1"
 		"labelText" 		""
-		"command"			"tf2c_mainmenu_music"	
-		"valuetrue"			"0"
-		"valuefalse"		"1"		
+		"cvar_name"			"tf2c_mainmenu_music"
+		"autochange"			"1"
 		
-		"SubButton"
-		{
-			"labelText" 		""
-			"bordervisible"		"0"
-			"tooltip" 			"Music Toggle"
-			"textAlignment"		"center"
-			"font"				"MenuSmallFont"
-			"border_default"	"AdvLeftButtonDefault"
-			"border_armed"		"AdvLeftButtonArmed"
-			"border_depressed"	"AdvLeftButtonDepressed"	
-		}
+		"labelText" 		""
+		"tooltip" 			"Music Toggle"
+		"textAlignment"		"center"
+		"font"				"MenuSmallFont"
+		"border_default"	"AdvLeftButtonDefault"
+		"border_armed"		"AdvLeftButtonArmed"
+		"border_depressed"	"AdvLeftButtonDepressed"
 		
 		"SubImage"
 		{
-			"image" 			"../vgui/main_menu/glyph_speaker"
-			"imagecheck" 		"../vgui/main_menu/glyph_disabled"	
+			"image" 		"../vgui/main_menu/glyph_speaker"
 			"imagewidth"		"16"
+		}
+		"SubCheckImage"
+		{
+			"image" 		"../vgui/main_menu/glyph_disabled"	
 		}
 	}	
 	
@@ -500,33 +487,31 @@
 		"tall"				"20"
 		"visible"			"1"
 		"enabled"			"1"
-		"bordervisible"		"1"
 		"labelText" 		""
 		"command"			"randommusic"			
 		
 		"SubButton"
 		{
 			"labelText" 		""
-			"bordervisible"		"0"
 			"tooltip" 			"Random music"
 			"textAlignment"		"center"
 			"font"				"MenuSmallFont"
 			"border_default"	"AdvRightButtonDefault"
 			"border_armed"		"AdvRightButtonArmed"
-			"border_depressed"	"AdvRightButtonDepressed"	
-		}
-		
-		"SubImage"
-		{
-			"image" 			"../vgui/main_menu/glyph_random"
-			"imagewidth"		"16"
+			"border_depressed"	"AdvRightButtonDepressed"
+			
+			"SubImage"
+			{
+				"image" 			"../vgui/main_menu/glyph_random"
+				"imagewidth"		"16"
+			}
 		}
 	}	
 	
 
 	"BlogToggleCheck"
 	{
-		"ControlName"		"CTFAdvCheckButton"
+		"ControlName"		"CTFCvarToggleCheckButton"
 		"fieldName"			"BlogToggleCheck"
 		"xpos"				"112"		//+19
 		"ypos"				"340"
@@ -535,29 +520,25 @@
 		"tall"				"20"
 		"visible"			"1"
 		"enabled"			"1"
-		"bordervisible"		"1"
 		"labelText" 		""
-		"command"			"tf2c_mainmenu_showblog"	
-		"valuetrue"			"0"
-		"valuefalse"		"1"		
-		
-		"SubButton"
-		{
-			"labelText" 		""
-			"bordervisible"		"0"
-			"tooltip" 			"Blog panel Toggle"
-			"textAlignment"		"center"
-			"font"				"MenuSmallFont"
-			"border_default"	"AdvRoundedButtonDefault"
-			"border_armed"		"AdvRoundedButtonArmed"
-			"border_depressed"	"AdvRoundedButtonDepressed"	
-		}
+		"cvar_name"			"tf2c_mainmenu_showblog"
+		"autochange"			"1"
+
+		"tooltip" 			"Blog panel Toggle"
+		"textAlignment"		"center"
+		"font"				"MenuSmallFont"
+		"border_default"		"AdvRoundedButtonDefault"
+		"border_armed"		"AdvRoundedButtonArmed"
+		"border_depressed"	"AdvRoundedButtonDepressed"
 		
 		"SubImage"
 		{
 			"image" 			"../vgui/glyph_tv"
-			"imagecheck" 		"../vgui/main_menu/glyph_disabled"	
 			"imagewidth"		"16"
+		}
+		"SubCheckImage"
+		{
+			"image" 		"../vgui/main_menu/glyph_disabled"
 		}
 	}	
 	
@@ -572,25 +553,23 @@
 		"tall"				"20"
 		"visible"			"0"
 		"enabled"			"1"
-		"bordervisible"		"1"	
 		"command"			"shownotification"	
 		
 		"SubButton"
 		{
 			"labelText" 		""
-			"bordervisible"		"0"
 			"tooltip" 			"Show notification"
 			"textAlignment"		"center"
 			"font"				"MenuSmallFont"
 			"border_default"	"AdvRoundedButtonDefault"
 			"border_armed"		"AdvRoundedButtonArmed"
-			"border_depressed"	"AdvRoundedButtonDepressed"	
-		}
-		
-		"SubImage"
-		{
-			"image" 			"../vgui/glyph_alert"
-			"imagewidth"		"18"
+			"border_depressed"	"AdvRoundedButtonDepressed"
+
+			"SubImage"
+			{
+				"image" 			"../vgui/glyph_alert"
+				"imagewidth"		"18"
+			}			
 		}
 	}		
 	
@@ -598,10 +577,10 @@
 	{
 		"ControlName"		"CExLabel"
 		"fieldName"			"VersionLabel"
-		"xpos"				"r525"
+		"xpos"				"r320"
 		"ypos"				"0"
 		"zpos"				"5"
-		"wide"				"520"
+		"wide"				"320"
 		"tall"				"40"
 		"autoResize"		"0"
 		"pinCorner"			"0"
@@ -626,7 +605,6 @@
 		"enabled"			"1"
 		"labelText" 		"Test"
 		"bgvisible"			"1"
-		"bordervisible"		"0"		
 		"textAlignment"		"center"
 		"command"			"testnotification"	
 		"DefaultTextColor"		"MainMenuTextDefault"

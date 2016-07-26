@@ -112,7 +112,7 @@ void CTFOptionsAudioPanel::CreateControls()
 	Label *pTitleVoice = new Label( this, "DescTextTitle", "Voice" );
 
 	m_pReceiveVolume = new CCvarSlider(this, "VoiceReceive", "#GameUI_ReceiveVolume", 0.0f, 1.0f, "voice_scale");
-	m_pVoiceEnableCheckButton = new CCvarToggleCheckButton(this, "voice_modenable", "#GameUI_EnableVoice", "voice_modenable");
+	m_pVoiceEnableCheckButton = new CTFCvarToggleCheckButton(this, "voice_modenable", "#GameUI_EnableVoice", "voice_modenable");
 
 	AddControl(pTitleVoice, O_CATEGORY);
 	AddControl(m_pVoiceEnableCheckButton, O_BOOL);
