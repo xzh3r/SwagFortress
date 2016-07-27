@@ -94,7 +94,7 @@
 	
 	"RedScrollBar"
 	{
-		"ControlName"		"CCvarSlider"
+		"ControlName"		"CTFCvarSlider"
 		"fieldName"			"RedScrollBar"
 		"xpos"				"16"
 		"ypos"				"40"
@@ -106,17 +106,20 @@
 		"minvalue" 			"0"
 		"maxvalue" 			"255"
 		"labelwidth" 		"25"
-		"bordervisible"		"0"
-		"command"			"tf2c_setmerccolor_r"
+		"cvar_name"			"tf2c_setmerccolor_r"
+		"autochange"			"1"
 		
-		"SubButton"
+		"BackgroundPanel"
 		{
-			"labelText" 		"R"
-			"textAlignment"		"west"
-			"font"				"FontStorePromotion"
-			"border_default"	"AdvSlider"
-			"border_armed"		"AdvSlider"	
-			"border_depressed"	"AdvSlider"	
+			"SubButton"
+			{
+				"labelText" 		"R"
+				"textAlignment"		"west"
+				"font"				"FontStorePromotion"
+				"border_default"		"AdvRoundedButtonDefault"
+				"border_armed"		"AdvRoundedButtonArmed"
+				"border_depressed"	"AdvRoundedButtonDepressed"
+			}
 		}
 		"TitleLabel"
 		{
@@ -126,7 +129,7 @@
 	
 	"GrnScrollBar"
 	{
-		"ControlName"		"CCvarSlider"
+		"ControlName"		"CTFCvarSlider"
 		"fieldName"			"GrnScrollBar"
 		"xpos"				"16"
 		"ypos"				"65"
@@ -138,18 +141,22 @@
 		"minvalue" 			"0"
 		"maxvalue" 			"255"
 		"labelwidth" 		"25"
-		"bordervisible"		"0"
-		"command"			"tf2c_setmerccolor_g"
+		"cvar_name"			"tf2c_setmerccolor_g"
+		"autochange"			"1"
 		
-		"SubButton"
+		"BackgroundPanel"
 		{
-			"labelText" 		"G"
-			"textAlignment"		"west"
-			"font"				"FontStorePromotion"
-			"border_default"	"AdvSlider"
-			"border_armed"		"AdvSlider"	
-			"border_depressed"	"AdvSlider"	
+			"SubButton"
+			{
+				"labelText" 		"G"
+				"textAlignment"		"west"
+				"font"				"FontStorePromotion"
+				"border_default"		"AdvRoundedButtonDefault"
+				"border_armed"		"AdvRoundedButtonArmed"
+				"border_depressed"	"AdvRoundedButtonDepressed"
+			}
 		}
+		
 		"TitleLabel"
 		{
 			"labelText"		"G"
@@ -158,7 +165,7 @@
 	
 	"BluScrollBar"
 	{
-		"ControlName"		"CCvarSlider"
+		"ControlName"		"CTFCvarSlider"
 		"fieldName"			"BluScrollBar"
 		"xpos"				"16"
 		"ypos"				"90"
@@ -170,17 +177,20 @@
 		"minvalue" 			"0"
 		"maxvalue" 			"255"
 		"labelwidth" 		"25"
-		"bordervisible"		"0"
-		"command"			"tf2c_setmerccolor_b"
+		"cvar_name"			"tf2c_setmerccolor_b"
+		"autochange"			"1"
 		
-		"SubButton"
+		"BackgroundPanel"
 		{
-			"labelText" 		"B"
-			"textAlignment"		"west"
-			"font"				"FontStorePromotion"
-			"border_default"	"AdvSlider"
-			"border_armed"		"AdvSlider"	
-			"border_depressed"	"AdvSlider"	
+			"SubButton"
+			{
+				"labelText" 		"B"
+				"textAlignment"		"west"
+				"font"				"FontStorePromotion"
+				"border_default"		"AdvRoundedButtonDefault"
+				"border_armed"		"AdvRoundedButtonArmed"
+				"border_depressed"	"AdvRoundedButtonDepressed"
+			}
 		}
 		"TitleLabel"
 		{

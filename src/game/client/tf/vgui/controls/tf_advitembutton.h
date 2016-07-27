@@ -11,7 +11,6 @@
 //-----------------------------------------------------------------------------
 class CTFItemButton : public CTFButton
 {
-	friend class CTFButton;
 public:
 	DECLARE_CLASS_SIMPLE( CTFItemButton, CTFButton );
 

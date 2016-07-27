@@ -9,7 +9,7 @@ class CAvatarImagePanel;
 class CTFButton;
 class CTFBlogPanel;
 class CTFServerlistPanel;
-class CTFAdvSlider;
+class CTFSlider;
 
 enum MusicStatus
 {
@@ -100,7 +100,7 @@ private:
 	static bool ServerSortFunc(vgui::SectionedListPanel *list, int itemID1, int itemID2);
 	vgui::SectionedListPanel	*m_pServerList;
 	CTFButton				*m_pConnectButton;
-	CTFAdvSlider				*m_pListSlider;
+	CTFSlider				*m_pListSlider;
 	CPanelAnimationVarAliasType(int, m_iServerWidth, "server_width", "35", "proportional_int");
 	CPanelAnimationVarAliasType(int, m_iPlayersWidth, "players_width", "35", "proportional_int");
 	CPanelAnimationVarAliasType(int, m_iPingWidth, "ping_width", "23", "proportional_int");

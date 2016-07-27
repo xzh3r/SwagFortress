@@ -16,7 +16,7 @@
 class CPanelListPanel;
 class CTFButton;
 class CTFCvarToggleCheckButton;
-class CCvarSlider;
+class CTFCvarSlider;
 
 namespace vgui
 {
@@ -47,11 +47,6 @@ protected:
 
 private:
 	MESSAGE_FUNC_PTR( OnControlModified, "ControlModified", panel );
-    MESSAGE_FUNC_PTR( OnTextChanged, "TextChanged", panel );
-	MESSAGE_FUNC_INT( OnCheckButtonChecked, "CheckButtonChecked", panel )
-	{
-		OnControlModified( NULL );
-	}
 
 	vgui::Label					*pTitleMouse;
 	vgui::Label					*pTitleJoystick;
@@ -59,20 +54,20 @@ private:
 	CTFCvarToggleCheckButton		*m_pRawInputCheckBox;
 	CTFCvarToggleCheckButton		*m_pMouseFilterCheckBox;
 
-	CCvarSlider					*m_pMouseSensitivitySlider;
+	CTFCvarSlider					*m_pMouseSensitivitySlider;
     vgui::TextEntry             *m_pMouseSensitivityLabel;
 
 	CTFCvarToggleCheckButton		*m_pMouseAccelCheckBox;
-	CCvarSlider					*m_pMouseAccelSlider;
+	CTFCvarSlider					*m_pMouseAccelSlider;
 
 	CTFCvarToggleCheckButton		*m_pJoystickCheckBox;
 	CTFCvarToggleCheckButton		*m_pJoystickSouthpawCheckBox;
 	CTFCvarToggleCheckButton		*m_pQuickInfoCheckBox;
 	CTFCvarToggleCheckButton		*m_pReverseJoystickCheckBox;
 
-	CCvarSlider					*m_pJoyYawSensitivitySlider;
+	CTFCvarSlider					*m_pJoyYawSensitivitySlider;
 	vgui::Label					*m_pJoyYawSensitivityPreLabel;
-	CCvarSlider					*m_pJoyPitchSensitivitySlider;
+	CTFCvarSlider					*m_pJoyPitchSensitivitySlider;
 	vgui::Label					*m_pJoyPitchSensitivityPreLabel;
 };
 

@@ -6,120 +6,9 @@
 
 using namespace vgui;
 
-DECLARE_BUILD_FACTORY_DEFAULT_TEXT( CTFAdvButtonBase, CTFAdvButtonBase );
 
 #define ADVBUTTON_DEFAULT_IMAGE		""
 
-//-----------------------------------------------------------------------------
-// Purpose: Constructor
-//-----------------------------------------------------------------------------
-CTFAdvButtonBase::CTFAdvButtonBase( Panel *parent, const char *panelName, const char *text ) : EditablePanel( parent, panelName )
-{
-	Init();
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: Destructor
-//-----------------------------------------------------------------------------
-CTFAdvButtonBase::~CTFAdvButtonBase()
-{
-}
-
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CTFAdvButtonBase::Init()
-{
-	SetTall( 50 );
-	SetWide( 100 );
-
-	m_szCommand[0] = '\0';
-	m_szToolTip[0] = '\0';
-	m_bAutoChange = false;
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CTFAdvButtonBase::ApplySettings( KeyValues *inResourceData )
-{
-	BaseClass::ApplySettings( inResourceData );
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CTFAdvButtonBase::ApplySchemeSettings( vgui::IScheme *pScheme )
-{
-	BaseClass::ApplySchemeSettings( pScheme );
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CTFAdvButtonBase::PerformLayout()
-{
-	BaseClass::PerformLayout();
-}
-
-void CTFAdvButtonBase::SetCommandString( const char *sCommand )
-{
-	Q_strncpy( m_szCommand, sCommand, sizeof( m_szCommand ) );
-}
-
-const char* CTFAdvButtonBase::GetCommandString()
-{
-	return m_szCommand;
-}
-
-void CTFAdvButtonBase::SetToolTip( const char *sText )
-{
-	V_strncpy( m_szToolTip, sText, sizeof( m_szToolTip ) );
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CTFAdvButtonBase::OnThink()
-{
-	BaseClass::OnThink();
-}
-
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CTFAdvButtonBase::SetDefaultAnimation()
-{
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CTFAdvButtonBase::SendAnimation( MouseState flag )
-{
-	switch ( flag )
-	{
-	case MOUSE_DEFAULT:
-		if ( m_szToolTip[0] != '\0' )
-			MAINMENU_ROOT->HideToolTip();
-
-		break;
-	case MOUSE_ENTERED:
-		if ( m_szToolTip[0] != '\0' )
-			MAINMENU_ROOT->ShowToolTip( m_szToolTip );
-
-		break;
-	case MOUSE_EXITED:
-		if ( m_szToolTip[0] != '\0' )
-			MAINMENU_ROOT->HideToolTip();
-
-		break;
-	}
-}
-
-///
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
@@ -306,6 +195,7 @@ void CTFButtonBase::SetMouseEnteredState( MouseState flag )
 	case MOUSE_ENTERED:
 		ShowToolTip( true );
 		break;
+	case MOUSE_PRESSED:
 	case MOUSE_EXITED:
 	case MOUSE_DEFAULT:
 		ShowToolTip( false );

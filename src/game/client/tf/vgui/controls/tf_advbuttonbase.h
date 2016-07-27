@@ -34,44 +34,8 @@ enum MouseState
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-class CTFAdvButtonBase : public vgui::EditablePanel
-{
-	friend class CTFButtonBase;
-public:
-	DECLARE_CLASS_SIMPLE( CTFAdvButtonBase, vgui::EditablePanel );
-
-	CTFAdvButtonBase( vgui::Panel *parent, const char *panelName, const char *text );
-	virtual ~CTFAdvButtonBase();
-	virtual void Init();
-	virtual void ApplySettings( KeyValues *inResourceData );
-	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
-	virtual void PerformLayout();
-
-	virtual void SendAnimation( MouseState flag );
-	virtual void SetDefaultAnimation();
-	virtual void SetCommandString( const char *sCommand );
-	virtual const char* GetCommandString();
-	virtual void SetAutoChange( bool bAutoChange ) { m_bAutoChange = bAutoChange; };
-	virtual bool IsAutoChange() { return m_bAutoChange; };
-
-	virtual void SetToolTip( const char *sText );
-
-	virtual void OnThink();
-
-protected:
-	bool			m_bAutoChange;
-
-	char			m_szCommand[64];
-
-	char			m_szToolTip[256];
-};
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
 class CTFButtonBase : public vgui::Button
 {
-	friend class CTFAdvButtonBase;
 public:
 	DECLARE_CLASS_SIMPLE( CTFButtonBase, vgui::Button );
 

@@ -370,7 +370,7 @@ CTFServerlistPanel::CTFServerlistPanel(vgui::Panel* parent, const char *panelNam
 	m_iSize = 0;
 	m_pServerList = new vgui::SectionedListPanel(this, "ServerList");
 	m_pConnectButton = new CTFButton(this, "ConnectButton", "Connect");
-	m_pListSlider = new CTFAdvSlider(this, "ListSlider", "");
+	m_pListSlider = new CTFSlider(this, "ListSlider", "");
 }
 
 //-----------------------------------------------------------------------------

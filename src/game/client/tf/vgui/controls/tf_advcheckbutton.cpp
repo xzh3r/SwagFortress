@@ -20,7 +20,7 @@ DECLARE_BUILD_FACTORY_DEFAULT_TEXT( CTFCheckButton, CTFCheckButton );
 CTFCheckButton::CTFCheckButton( Panel *parent, const char *panelName, const char *text ) : CTFButtonBase( parent, panelName, text )
 {
 	m_pCheckImage = new ImagePanel( this, "SubCheckImage" );
-	m_pBGBorder = new EditablePanel( this, "BackgroundPanel" );
+	m_pBGBorder = new Panel( this, "BackgroundPanel" );
 
 	m_bBorderVisible = false;
 	m_bChecked = false;
@@ -162,4 +162,6 @@ void CTFCheckButton::SetChecked( bool bState )
 	// send a message saying we've been checked
 	KeyValues *msg = new KeyValues( "CheckButtonChecked", "state", (int)bState );
 	PostActionSignal( msg );
+
+	InvalidateLayout();
 }

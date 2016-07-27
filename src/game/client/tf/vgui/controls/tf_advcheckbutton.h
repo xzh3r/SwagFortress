@@ -11,7 +11,6 @@
 //-----------------------------------------------------------------------------
 class CTFCheckButton : public CTFButtonBase
 {
-	friend class CTFAdvCheckButton;
 public:
 	DECLARE_CLASS_SIMPLE( CTFCheckButton, CTFButtonBase );
 
@@ -29,7 +28,7 @@ private:
 	MESSAGE_FUNC_PTR( OnCheckButtonChecked, "CheckButtonChecked", panel );
 
 	vgui::ImagePanel		*m_pCheckImage;
-	vgui::EditablePanel		*m_pBGBorder;
+	vgui::Panel				*m_pBGBorder;
 
 	bool					m_bChecked;
 	bool					m_bInverted;

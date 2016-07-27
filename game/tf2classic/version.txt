@@ -1,1 +1,2 @@
-version=2.0.0b3
+VersionTime=1473033600
+VersionName=2.0.0

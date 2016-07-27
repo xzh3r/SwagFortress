@@ -13,7 +13,6 @@
 //-----------------------------------------------------------------------------
 class CTFButton : public CTFButtonBase
 {
-	friend class CTFAdvButton;
 public:
 	DECLARE_CLASS_SIMPLE( CTFButton, CTFButtonBase );
 

@@ -11,7 +11,7 @@
 #include "tf_optionsadvancedpanel.h"
 #include "tf_mainmenu.h"
 #include "tf_menupanelbase.h"
-#include "controls/tf_advslider.h"
+#include "controls/tf_cvarslider.h"
 #include "controls/tf_advbutton.h"
 #include "controls/tf_advpanellistpanel.h"
 #include "controls/tf_cvartogglecheckbutton.h"
@@ -111,7 +111,7 @@ void CTFOptionsAdvancedPanel::GatherCurrentValues()
 	CTFCheckButton *pBox;
 	TextEntry *pEdit;
 	ComboBox *pCombo;
-	CTFAdvSlider *pScroll;
+	CTFSlider *pScroll;
 
 	mpcontrol_t *pList;
 
@@ -143,7 +143,7 @@ void CTFOptionsAdvancedPanel::GatherCurrentValues()
 			pEdit->GetText( szValue, sizeof( szValue ) );
 			break;
 		case O_SLIDER:
-			pScroll = (CTFAdvSlider *)pList->pControl;
+			pScroll = (CTFSlider *)pList->pControl;
 			V_strncpy( szValue, pScroll->GetFinalValue(), sizeof( szValue ) );
 			break;
 		case O_STRING:
@@ -204,7 +204,7 @@ void CTFOptionsAdvancedPanel::CreateControls()
 	CTFCvarToggleCheckButton *pBox;
 	TextEntry *pEdit;
 	ComboBox *pCombo;
-	CTFAdvSlider *pScroll;
+	CTFCvarSlider *pScroll;
 	Label *pTitle;
 	CScriptListItem *pListItem;
 	
@@ -245,14 +245,11 @@ void CTFOptionsAdvancedPanel::CreateControls()
 			pCtrl->pControl = pEdit;
 			break;
 		case O_SLIDER:
-			pScroll = new CTFAdvSlider(pCtrl, "DescScrollEntry", pObj->prompt);
+			pScroll = new CTFCvarSlider( pCtrl, "DescScrollEntry", pObj->prompt, pObj->fMin, pObj->fMax, pObj->cvarname );
 			pScroll->MakeReadyForUse();
 
-			pScroll->SetCommandString( pObj->cvarname );
-			pScroll->SetValue( pObj->fcurValue );
-			pScroll->SetMinMax( pObj->fMin, pObj->fMax );
 			pScroll->SetFont( hFont );
-			pScroll->SetToolTip( pObj->tooltip );
+			pScroll->GetButton()->SetToolTip( pObj->tooltip );
 
 			pCtrl->pControl = pScroll;
 			break;
@@ -370,6 +367,13 @@ void CTFOptionsAdvancedPanel::OnApplyChanges()
 	SaveValues();
 }
 
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFOptionsAdvancedPanel::OnControlModified( void )
+{
+	PostActionSignal( new KeyValues( "ApplyButtonEnable" ) );
+}
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor, load/save client settings object
@@ -445,5 +449,3 @@ void CInfoDescription::WriteFileHeader(FileHandle_t fp)
 	g_pFullFileSystem->FPrintf(fp, "// File generated:  %.19s %s\r\n", asctime(&newtime), am_pm);
 	g_pFullFileSystem->FPrintf(fp, "//\r\n//\r\n// Cvar\t-\tSetting\r\n\r\n");
 }
-
-//-----------------------------------------------------------------------------

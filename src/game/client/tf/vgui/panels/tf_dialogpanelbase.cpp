@@ -170,7 +170,7 @@ void CTFDialogPanelBase::AddControl( vgui::Panel* panel, int iType, const char* 
 	}
 	case O_SLIDER:
 	{
-		CTFAdvSlider *pScroll = assert_cast<CTFAdvSlider*>( panel );
+		CTFSlider *pScroll = assert_cast<CTFSlider*>( panel );
 		pScroll->MakeReadyForUse();
 
 		pScroll->SetFont( hFont );

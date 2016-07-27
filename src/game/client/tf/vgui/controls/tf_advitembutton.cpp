@@ -6,6 +6,11 @@
 
 using namespace vgui;
 
+
+#define ADVITEMBUTTON_DEFAULT_BG "AdvRoundedButtonDisabled"
+#define ADVITEMBUTTON_ARMED_BG "AdvRoundedButtonArmed"
+#define ADVITEMBUTTON_DEPRESSED_BG "AdvRoundedButtonDepressed"
+
 DECLARE_BUILD_FACTORY_DEFAULT_TEXT( CTFItemButton, CTFItemButton );
 
 //-----------------------------------------------------------------------------
@@ -30,6 +35,11 @@ void CTFItemButton::Init()
 {
 	m_pItemDefinition = NULL;
 	m_iLoadoutSlot = TF_LOADOUT_SLOT_PRIMARY;
+
+	// Set the borders.
+	V_strncpy( m_szDefaultBG, ADVITEMBUTTON_DEFAULT_BG, sizeof( m_szDefaultBG ) );
+	V_strncpy( m_szArmedBG, ADVITEMBUTTON_ARMED_BG, sizeof( m_szArmedBG ) );
+	V_strncpy( m_szDepressedBG, ADVITEMBUTTON_DEPRESSED_BG, sizeof( m_szDepressedBG ) );
 }
 
 void CTFItemButton::ApplySchemeSettings( IScheme *pScheme )
@@ -84,7 +94,16 @@ void CTFItemButton::SetItemDefinition( CEconItemDefinition *pItemData )
 
 	SetText( pItemData->GenerateLocalizedFullItemName() );
 
-	SetDepressedSound( pItemData->mouse_pressed_sound );
+	// Set the weapon sound from schema.
+	if ( pItemData->mouse_pressed_sound[0] != '\0' )
+	{
+		SetDepressedSound( pItemData->mouse_pressed_sound );
+	}
+	else
+	{
+		SetDepressedSound( NULL );
+	}
+
 	SetReleasedSound( NULL );
 }
 

@@ -22,7 +22,7 @@ public:
 		char const *cvarname = NULL, bool ignoreMissingCvar = false );
 	~CTFCvarToggleCheckButton();
 
-	virtual void	Paint();
+	virtual void	OnTick();
 
 	void			Reset();
 	void			ApplyChanges();

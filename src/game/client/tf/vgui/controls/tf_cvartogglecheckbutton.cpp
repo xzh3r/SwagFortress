@@ -29,11 +29,10 @@ CTFCvarToggleCheckButton::CTFCvarToggleCheckButton( Panel *parent, const char *p
 {
 	m_bAutoChange = false;
 
-	if ( m_cvar.IsValid() )
-	{
-		Reset();
-	}
+	Reset();
 	AddActionSignalTarget( this );
+
+	ivgui()->AddTickSignal( GetVPanel() );
 }
 
 CTFCvarToggleCheckButton::~CTFCvarToggleCheckButton()
@@ -43,15 +42,11 @@ CTFCvarToggleCheckButton::~CTFCvarToggleCheckButton()
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CTFCvarToggleCheckButton::Paint()
+void CTFCvarToggleCheckButton::OnTick()
 {
-	// Not sure why this is here.
-#if 0
+	// Check if cvar value was changed from under this.
 	if ( !m_cvar.IsValid() )
-	{
-		BaseClass::Paint();
 		return;
-	}
 
 	bool value = m_cvar.GetBool();
 
@@ -60,9 +55,6 @@ void CTFCvarToggleCheckButton::Paint()
 		SetChecked( value );
 		m_bStartValue = value;
 	}
-#endif
-
-	BaseClass::Paint();
 }
 
 //-----------------------------------------------------------------------------

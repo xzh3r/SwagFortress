@@ -16,9 +16,9 @@
 
 class CPanelListPanel;
 class CLabeledCommandComboBox;
-class CCvarSlider;
+class CTFCvarSlider;
 class CTFCvarToggleCheckButton;
-class CTFAdvSlider;
+class CTFSlider;
 class CTFAdvCheckButton;
 typedef struct IVoiceTweak_s IVoiceTweak;
 
@@ -45,17 +45,14 @@ protected:
 
 private:
 	MESSAGE_FUNC( OnControlModified, "ControlModified" );
-	MESSAGE_FUNC( OnTextChanged, "TextChanged" )
-	{
-		OnControlModified();
-	}
+	MESSAGE_FUNC( OnTextChanged, "TextChanged" );
 
 	MESSAGE_FUNC( RunTestSpeakers, "RunTestSpeakers" );
 
 	vgui::ComboBox				*m_pSpeakerSetupCombo;
 	vgui::ComboBox				*m_pSoundQualityCombo;
-	CCvarSlider					*m_pSFXSlider;
-	CCvarSlider					*m_pMusicSlider;
+	CTFCvarSlider					*m_pSFXSlider;
+	CTFCvarSlider					*m_pMusicSlider;
 	vgui::ComboBox				*m_pCloseCaptionCombo;
 	bool						   m_bRequireRestart;
    
@@ -73,9 +70,9 @@ private:
    vgui::ImagePanel        *m_pMicMeter2;
    vgui::Button            *m_pTestMicrophoneButton;
    vgui::Label             *m_pMicrophoneSliderLabel;
-   CTFAdvSlider			*m_pMicrophoneVolume;
+   CTFSlider			*m_pMicrophoneVolume;
    vgui::Label             *m_pReceiveSliderLabel;
-   CCvarSlider             *m_pReceiveVolume;
+   CTFCvarSlider             *m_pReceiveVolume;
    CTFCvarToggleCheckButton  *m_pVoiceEnableCheckButton;
    int                     m_nMicVolumeValue;
    bool                    m_bMicBoostSelected;

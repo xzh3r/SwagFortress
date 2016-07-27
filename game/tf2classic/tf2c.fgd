@@ -5,6 +5,35 @@
 // TF2 game definition file (.fgd)
 //
 
+@MaterialExclusion
+[
+	// Names of the sub-directories we don't want to load materials from
+	"autumnal/props"
+	"ambulance"
+	"backpack"
+	"cable"
+	"console"
+	"customcubemaps"
+	"detail"
+	"debug"
+	"effects"
+	"engine"
+	"environment maps"
+	"halflife"
+	"matsys_regressiontest"
+	"hlmv"
+	"hud"
+	"logo"
+	"maps"
+	"models"
+	"overviews"
+	"perftest"
+	"scripted"
+	"shadertest"
+	"vgui"
+	"voice"
+]
+
 //
 // Base Classes
 //
@@ -382,11 +411,12 @@
 ]
 
 @PointClass base(Item) studio("models/items/medkit_large.mdl") = item_healthkit_full : "Health Kit Full" []
-@PointClass base(Item) studio("models/items/medkit_small.mdl") = item_healthkit_small :	"Health Kit Small" []
+@PointClass base(Item) studio("models/items/medkit_small.mdl") = item_healthkit_small : "Health Kit Small" []
 @PointClass base(Item) studio("models/items/medkit_medium.mdl") = item_healthkit_medium : "Health Kit Medium" []
-@PointClass base(Item) studio("models/items/medkit_overheal.mdl") = item_healthkit_tiny :	"Health Kit Tiny" []
+@PointClass base(Item) studio("models/items/medkit_overheal.mdl") = item_healthkit_tiny : "Health Kit Tiny" []
+@PointClass base(Item) studio("models/items/medkit_large.mdl") = item_healthkit_mega : "Health Kit Mega" []
 
-@PointClass base(Item) studio("models/items/ammopack_large.mdl") = item_ammopack_full :	"Ammo Pack Full" []
+@PointClass base(Item) studio("models/items/ammopack_large.mdl") = item_ammopack_full : "Ammo Pack Full" []
 @PointClass base(Item) studio("models/items/ammopack_small.mdl") = item_ammopack_small : "Ammo Pack Small" []
 @PointClass base(Item) studio("models/items/ammopack_medium.mdl") = item_ammopack_medium : "Ammo Pack Medium" []
 
@@ -1029,6 +1059,22 @@
 @PointClass base(Targetname) = tf_logic_deathmatch :
 	"Deathmatch mode entity. Use this to set the map to DM mode" []
 	
+@PointClass base(Targetname) = tf_logic_classlimits :
+	"Class limits entity. Use this to set class limits for the map."
+[
+	Team(integer) : "Team" : 2 : "Team ID (2=RED, 3=BLU, 4=GRN, 5=YLW)"
+	ScoutLimit(integer) : "Scout" : 1 : "Scout class limit. -1 for no limit."
+	SoldierLimit(integer) : "Soldier" : 1 : "Soldier class limit. -1 for no limit."
+	PyroLimit(integer) : "Pyro" : 1 : "Pyro class limit. -1 for no limit."
+	DemomanLimit(integer) : "Demoman" : 1 : "Demoman class limit. -1 for no limit."
+	HeavyLimit(integer) : "Heavy" : 1 : "Heavy class limit. -1 for no limit."
+	EngineerLimit(integer) : "Engineer" : 1 : "Engineer class limit. -1 for no limit."
+	MedicLimit(integer) : "Medic" : 1 : "Medic class limit. -1 for no limit."
+	SniperLimit(integer) : "Sniper" : 1 : "Sniper class limit. -1 for no limit."
+	SpyLimit(integer) : "Spy" : 1 : "Spy class limit. -1 for no limit."
+	MercenaryLimit(integer) : "Mercenary" : 1 : "Spy class limit. -1 for no limit."
+]
+	
 	
 @PointClass base(Targetname,Parentname,BaseObject) iconsprite("editor/bullseye.vmt") = mapobj_cart_dispenser : 
 	"TF2 Dispenser" 
@@ -1199,39 +1245,32 @@
 [
 	WeaponNumber(Choices) : "Weapon (OBSOLETE)" : 0 =
 	[
-		15 : "Scattergun ( Primary )"
-		16 : "Sniper rifle ( Primary )"
-		17 : "Minigun ( Primary )"
-		21 : "Rocket launcher ( Primary )"
-		22 : "Pipebomb launcher ( Primary )"
-		24 : "Flamethrower ( Primary )"
-		67 : "Sten Gun ( Primary )"
-		71 : "Heavy Artillery ( Primary )"
-		68 : "Double barrel shotgun ( Primary )"
-		12 : "Shotgun ( Secondary )"
-		18 : "SMG ( Secondary )"
-		37 : "Pistol ( Secondary )"
-		69 : "Six Shooter ( Secondary )"
-		5 : "Crowbar ( Melee )"
-
+		0 : "None"
+	]
 	itemid(Choices) : "Weapon" : 0 =
 	[
-		14 : "Sniper rifle ( Primary )"
-		15 : "Minigun ( Primary )"
-		18 : "Rocket launcher ( Primary )"
-		19 : "Pipebomb launcher ( Primary )"
-		21 : "Flamethrower ( Primary )"
-		9011 : "Sten Gun ( Primary )"
-		9014 : "Heavy Artillery ( Primary )"
-		9012 : "Double barrel shotgun ( Primary )"
 		10 : "Shotgun ( Secondary )"
+		14 : "Sniper Rifle ( Primary )"
+		15 : "Minigun ( Primary )"
 		16 : "SMG ( Secondary )"
+		18 : "Rocket Launcher ( Primary )"
+		19 : "Grenade Launcher ( Primary )"	
+		21 : "Flamethrower ( Primary )"
 		22 : "Pistol ( Secondary )"
-		9013 : "Six Shooter ( Secondary )"
+		39 : "Flare Gun ( Secondary )"
+		9002 : "Nail Gun ( Primary )"
+		9004 : "RPG ( Primary )"
 		9010 : "Crowbar ( Melee )"
+		9011 : "Sten Gun ( Secondary )"
+		9012 : "Super Shotgun ( Primary )"
+		9013 : "Six Shooter ( Secondary )"
+		9014 : "Tommy Gun ( Primary )"
+		9016 : "Assault Rifle ( Primary )"
 	]
 	
-	RespawnTime(integer) : "Respawn delay (in seconds)" : 10
+	RespawnTime(float) : "Respawn delay (in seconds)" : 10
+	StaticSpawner(integer) : "Disable spinning/rotating weapon effect" : 0
+	DisableWeaponOutline(integer) : "Disable weapon outline glows" : 0
 ]
 
 @PointClass base(Targetname) size(-8 -8 -8, 8 8 8) = tf_player_equip : 
@@ -1306,25 +1345,27 @@
 	//input EquipWeapons(void) : "Equips all of the players on the current server with the specified weapons."
 ]
 
-@PointClass base(Item) studio("models/items/powerup_crit.mdl") = item_powerup_critdamage : "Powerup Crit" 
+@BaseClass base(Item,Parentname) = Powerup
 [
-	ModelName(string)    : "Model override" : "models/items/powerup_crit.mdl"
-	PickupSound(sound)  : "Pickup sound" : "HealthKit.Touch"
-	RespawnTime(integer) : "Respawn delay (in seconds)" : 30
+	model(studio) : "Model override"
+	PickupSound(sound) : "Pickup sound override"
+	RespawnTime(float) : "Respawn delay (in seconds)" : 30
 ]
 
-@PointClass base(Item) studio("models/items/powerup_uber.mdl") = item_powerup_shortuber : "Powerup uber" 
+@PointClass base(Powerup) studio( "models/items/powerup_crit.mdl" ) = item_powerup_critdamage : "Crit Power-up" 
 [
-	ModelName(string)    : "Model override" : "models/items/powerup_uber.mdl"
-	PickupSound(sound)  : "Pickup sound" : "HealthKit.Touch"
-	RespawnTime(integer) : "Respawn delay (in seconds)" : 30
 ]
 
-@PointClass base(Item) studio("models/class_menu/random_class_icon.mdl") = item_powerup_ragemode : "Berserk mode" 
+@PointClass base(Powerup) studio( "models/items/powerup_uber.mdl" ) = item_powerup_shield : "Shield Power-up" 
 [
-	ModelName(string)    : "Model override" : "models/class_menu/random_class_icon.mdl"
-	PickupSound(sound)  : "Pickup sound" : "HealthKit.Touch"
-	RespawnTime(integer) : "Respawn delay (in seconds)" : 30
+]
+
+@PointClass base(Powerup) studio( "models/class_menu/random_class_icon.mdl" ) = item_powerup_ragemode : "Berserk Mode Power-up" 
+[	
+]
+
+@PointClass base(Powerup) studio( "models/items/random_class_icon.mdl" ) = item_powerup_cloak : "Cloak Power-up" 
+[
 ]
 
 @PointClass color(0 0 255) size(-1 -1 -64, 1 1 -8) sidelist(sides) iconsprite("editor/env_cubemap.vmt") = env_cubemap : 
