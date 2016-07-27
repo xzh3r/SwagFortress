@@ -46,7 +46,8 @@ protected:
 	void UpdatePanels();
 
 private:
-	MESSAGE_FUNC_PTR( OnControlModified, "ControlModified", panel );
+	MESSAGE_FUNC( OnControlModified, "ControlModified" );
+	MESSAGE_FUNC_PTR( OnCheckButtonChecked, "CheckButtonChecked", panel );
 
 	vgui::Label					*pTitleMouse;
 	vgui::Label					*pTitleJoystick;

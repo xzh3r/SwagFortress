@@ -153,10 +153,16 @@ void CTFOptionsMousePanel::OnApplyChanges()
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CTFOptionsMousePanel::OnControlModified(Panel *panel)
+void CTFOptionsMousePanel::OnControlModified( void )
 {
-	PostActionSignal(new KeyValues("ApplyButtonEnable"));
+	PostActionSignal( new KeyValues( "ApplyButtonEnable" ) );
+}
 
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFOptionsMousePanel::OnCheckButtonChecked( Panel *panel )
+{
 	if ( IsVisible() )
 	{
 		if ( panel == m_pJoystickCheckBox || panel == m_pMouseAccelCheckBox )
