@@ -20,7 +20,7 @@
 #define TF_CLASS_PYRO_FILE				"scripts/playerclasses/pyro"
 #define TF_CLASS_SPY_FILE				"scripts/playerclasses/spy"
 #define TF_CLASS_ENGINEER_FILE			"scripts/playerclasses/engineer"
-#define TF_CLASS_CIVILIAN_FILE			"scripts/playerclasses/civilian"
+#define TF_CLASS_POSTALDUDE_FILE			"scripts/playerclasses/pdude"
 #define TF_CLASS_MERCENARY_FILE			"scripts/playerclasses/mercenary"
 
 #ifdef CLIENT_DLL
