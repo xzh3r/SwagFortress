@@ -1,10 +1,10 @@
 "GameInfo"
 {
-	game		"Team Fortress 2 Classic" 
+	game		"Swag Fortress" 
 	gamelogo 	1 
 	type 		multiplayer_only 
 	icon		"resource/game"		
-	developer 	"Team Fortress 2 Classic Team"
+	developer 	"fiergo"
 	developer_url 	"http://tf2classic.com/"
 	nomodels 	1 
 	nohimodel 	1	
