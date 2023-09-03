@@ -5,8 +5,8 @@ PlayerClass
 {
 	// Attributes.
 	"name"			"pdude"
-	"model"			"models/player/civilian.mdl"
-	"model_hwm"		"models/player/hwm/civilian.mdl"
+	"model"			"models/player/postal_dude.mdl"
+	"model_hwm"		"models/player/postal_dude.mdl"
 	"model_hands"		"models/weapons/v_models/v_civilian_arms.mdl"
 	"localize_name"		"Postal Dude"
 	"speed_max"		"250"
@@ -35,8 +35,8 @@ PlayerClass
 	}	
 
 	// Death Sounds
-	"sound_death"				"Civilian.Death"
-	"sound_crit_death"			"Civilian.CritDeath"
-	"sound_melee_death"			"Civilian.MeleeDeath"
-	"sound_explosion_death"			"Civilian.ExplosionDeath"	
+	"sound_death"				"none"
+	"sound_crit_death"			"none"
+	"sound_melee_death"			"none"
+	"sound_explosion_death"			"none"
 }
