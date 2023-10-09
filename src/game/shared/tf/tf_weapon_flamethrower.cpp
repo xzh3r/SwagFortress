@@ -448,7 +448,9 @@ void CTFFlameThrower::PrimaryAttack()
 		int iDamagePerSec = m_pWeaponInfo->GetWeaponData( m_iWeaponMode ).m_nDamage;
 		float flDamage = (float)iDamagePerSec * flFiringInterval;
 		CALL_ATTRIB_HOOK_FLOAT( flDamage, mult_dmg );
-		CTFFlameEntity::Create( GetFlameOriginPos(), pOwner->EyeAngles(), this, iDmgType, flDamage );
+		int nCritFromBehind = 0;
+		CALL_ATTRIB_HOOK_INT( nCritFromBehind, set_flamethrower_back_crit );
+		CTFFlameEntity::Create( GetFlameOriginPos(), pOwner->EyeAngles(), this, iDmgType, flDamage, nCritFromBehind == 1 );
 #endif
 	}
 
@@ -1085,7 +1087,7 @@ void CTFFlameEntity::Spawn( void )
 //-----------------------------------------------------------------------------
 // Purpose: Creates an instance of this entity
 //-----------------------------------------------------------------------------
-CTFFlameEntity *CTFFlameEntity::Create( const Vector &vecOrigin, const QAngle &vecAngles, CBaseEntity *pOwner, int iDmgType, float flDmgAmount )
+CTFFlameEntity *CTFFlameEntity::Create( const Vector &vecOrigin, const QAngle &vecAngles, CBaseEntity *pOwner, int iDmgType, float flDmgAmount, bool bCritFromBehind )
 {
 	CTFFlameEntity *pFlame = static_cast<CTFFlameEntity*>( CBaseEntity::Create( "tf_flame", vecOrigin, vecAngles, pOwner ) );
 	if ( !pFlame )
@@ -1104,6 +1106,7 @@ CTFFlameEntity *CTFFlameEntity::Create( const Vector &vecOrigin, const QAngle &v
 	pFlame->ChangeTeam( pOwner->GetTeamNumber() );
 	pFlame->m_iDmgType = iDmgType;
 	pFlame->m_flDmgAmount = flDmgAmount;
+	pFlame->m_bCritFromBehind = bCritFromBehind;
 
 	// Setup the initial velocity.
 	Vector vecForward, vecRight, vecUp;
@@ -1309,6 +1312,9 @@ void CTFFlameEntity::OnCollide( CBaseEntity *pOther )
 		return;
 
 	SetHitTarget();
+
+	if ( pOther->IsPlayer() && IsBehindTarget( pOther ) && m_bCritFromBehind )
+		m_iDmgType |= DMG_CRITICAL;
 
 	CTakeDamageInfo info( GetOwnerEntity(), pAttacker, GetOwnerEntity(), flDamage, m_iDmgType, TF_DMG_CUSTOM_BURNING );
 	info.SetReportedPosition( pAttacker->GetAbsOrigin() );

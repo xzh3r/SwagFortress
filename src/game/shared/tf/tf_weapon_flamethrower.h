@@ -161,7 +161,7 @@ public:
 	virtual void Spawn( void );
 
 public:
-	static CTFFlameEntity *Create( const Vector &vecOrigin, const QAngle &vecAngles, CBaseEntity *pOwner, int iDmgType, float m_flDmgAmount );
+	static CTFFlameEntity *Create( const Vector &vecOrigin, const QAngle &vecAngles, CBaseEntity *pOwner, int iDmgType, float m_flDmgAmount, bool bCritFromBehind );
 
 	void FlameThink( void );
 	void CheckCollision( CBaseEntity *pOther, bool *pbHitWorld );
@@ -181,6 +181,7 @@ private:
 	EHANDLE						m_hAttacker;			// attacking player
 	int							m_iAttackerTeam;		// team of attacking player
 	CHandle<CTFFlameThrower>	m_hLauncher;			// weapon that fired this flame
+	bool						m_bCritFromBehind;
 };
 
 #endif // GAME_DLL
